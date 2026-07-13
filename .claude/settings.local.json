@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"e:/PROJECTS/Client Projects/WEB PROJECTS/queso-pizza\" && mv -f CLAUDE_v2.md CLAUDE.md && echo \"Renamed. Root .md files now:\" && ls -1 *.md && echo \"\" && echo \"First line of CLAUDE.md:\" && head -1 CLAUDE.md)",
+      "Bash(npx --yes create-next-app@latest _scaffold --ts --eslint --tailwind --app --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(npx --yes create-next-app@latest scaffold-tmp --ts --eslint --tailwind --app --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(node -e \"const p=require\\('./package.json'\\);console.log\\(JSON.stringify\\({deps:p.dependencies,dev:p.devDependencies},null,1\\)\\)\")",
+      "Bash(rm -rf scaffold-tmp)",
+      "Bash(cmd //c \"rmdir /s /q scaffold-tmp\")",
+      "Bash(npx tsc *)",
+      "Bash(curl -s http://localhost:3111 -o .devpage.html)"
+    ]
+  }
+}

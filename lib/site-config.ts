@@ -1,0 +1,46 @@
+// lib/site-config.ts
+// SINGLE SOURCE OF TRUTH for site constants (phones, address, hours, meta).
+// Menu items/prices live in lib/menu-data.ts — never here.
+// Fields marked UNCONFIRMED block launch until verified (see CLAUDE.md design deltas).
+
+export const SITE = {
+  name: "Queso Pizza",
+  tagline: "The taste that stays with you.",
+  domain: "quesopizza.com",
+  footerYear: 2026, // per CLAUDE.md: 2026, not the mockup's 2024
+
+  phones: {
+    // Confirmed delivery lines (shown on Home hero delivery badge + Contact)
+    delivery1: "+260976056200", // displayed as (+260) 97 6056 200
+    delivery2: "+260979818919", // displayed as (+260) 97 9818 919
+    // UNCONFIRMED — verify with Dalitso which number receives WhatsApp orders
+    // (his WA Business), and that he knows pre-filled orders will start arriving.
+    whatsappOrder: "+260976056200",
+    // UNCONFIRMED — direct on-site line for the paired "call to confirm" action.
+    callToConfirm: "+260976056200",
+  },
+
+  address: {
+    plusCode: "MMFH+7WQ",
+    area: "Chongwe Central",
+    road: "Great East Road",
+    city: "Chongwe, Lusaka Province, Zambia",
+    // UNCONFIRMED — verify with Arthur: "next to" vs "opposite" Access Bank.
+    // Render with the italic/placeholder styling from the design until confirmed.
+    landmark: "near Access Bank",
+  },
+
+  // UNCONFIRMED — verify real trading hours with Arthur before launch.
+  // (Mockup hours were contradictory: "Mon–Fri / Sun–Sat".)
+  // Displayed as two rows: Mon–Fri and Sat–Sun.
+  hours: {
+    weekdays: { label: "Mon – Fri", open: "08:00", close: "21:00" },
+    weekend: { label: "Sat – Sun", open: "08:00", close: "19:00" },
+  },
+} as const;
+
+/** Formats an E.164 number like +260976056200 as "(+260) 97 6056 200" for display. */
+export function formatPhone(e164: string): string {
+  const m = e164.match(/^\+260(\d{2})(\d{4})(\d{3})$/);
+  return m ? `(+260) ${m[1]} ${m[2]} ${m[3]}` : e164;
+}

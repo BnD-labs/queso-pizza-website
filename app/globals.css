@@ -1,0 +1,48 @@
+/*
+ * Queso Pizza — brand token system (CLAUDE.md v2, design-locked).
+ * Colors are consumed ONLY via these Tailwind theme tokens — never raw hex in JSX.
+ *
+ * BANNED COLORS — do not reintroduce (old Stitch M3 palette drift from the Figma export):
+ *   #FFB4A9 / #E7BDB7 (salmon/rose)  → use queso-cream at ~65% opacity for muted labels,
+ *                                       queso-red for accents/active states
+ *   #EBEA00 (lime)                   → use queso-yellow
+ */
+@import "tailwindcss";
+
+@theme {
+  /* ——— Locked brand ——— */
+  --color-queso-red: #cc1010;
+  --color-queso-black: #0f0f0f;
+  --color-queso-yellow: #fdfc00;
+  --color-queso-cream: #fff8f0;
+
+  /* ——— Dark surface scale (from the final design) ——— */
+  --color-surface-base: #131313; /* page-section base */
+  --color-surface-low: #1c1b1b; /* low-elevation panels */
+  --color-surface: #201f1f; /* default surface */
+  --color-surface-high: #2a2a2a; /* high-elevation cards */
+  --color-surface-footer: #0e0e0e; /* footer / lowest */
+
+  /* ——— About page light background (approved design override of queso-cream) ——— */
+  --color-about-bg: #e8e1da;
+
+  /* ——— APPROVED EXCEPTION: WhatsApp action buttons ONLY (platform recognition). ———
+     Never use for any other element. */
+  --color-whatsapp-green: #29d51a;
+
+  /* ——— Shape: zero roundedness. ———
+     The entire radius scale is removed so no rounded-* utility can ship a corner.
+     `rounded-full` (a fixed value, not a theme token) remains available — permitted
+     ONLY for the map pin dot and the cart count badge. */
+  --radius-*: initial;
+
+  /* ——— Typography (wired to next/font variables set in app/layout.tsx) ——— */
+  --font-display: var(--font-epilogue); /* headlines, 700–800 */
+  --font-body: var(--font-inter); /* body / labels */
+}
+
+body {
+  background: var(--color-queso-black);
+  color: var(--color-queso-cream);
+  font-family: var(--font-body);
+}
