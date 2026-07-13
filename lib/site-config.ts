@@ -44,3 +44,11 @@ export function formatPhone(e164: string): string {
   const m = e164.match(/^\+260(\d{2})(\d{4})(\d{3})$/);
   return m ? `(+260) ${m[1]} ${m[2]} ${m[3]}` : e164;
 }
+
+/** Formats a 24h "HH:MM" time as "08:00 AM" / "9:00 PM" for display. */
+export function formatTime(hhmm: string): string {
+  const [h, m] = hhmm.split(":").map(Number);
+  const suffix = h >= 12 ? "PM" : "AM";
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  return `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${suffix}`;
+}
