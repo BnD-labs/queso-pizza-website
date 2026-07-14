@@ -27,6 +27,7 @@ export function MostOrderedCard() {
               src={image}
               alt={`${pizza.name} pizza`}
               fill
+              sizes="64px"
               className="object-cover"
             />
           </div>

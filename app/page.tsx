@@ -31,6 +31,7 @@ export default function Home() {
             alt="Wood-fired pizza fresh from the oven"
             fill
             priority
+            sizes="100vw"
             className="object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-queso-black via-queso-black/50 to-transparent" />
@@ -104,6 +105,7 @@ export default function Home() {
               src="/images/store-front.jpg"
               alt="The Queso Pizza storefront in Chongwe"
               fill
+              sizes="(min-width: 768px) 704px, 100vw"
               className="object-cover grayscale"
             />
           </div>
@@ -127,6 +129,7 @@ export default function Home() {
                   src={card.image}
                   alt={card.title}
                   fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   className="object-cover opacity-60 transition-opacity group-hover:opacity-75"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-queso-black/90 via-transparent to-transparent" />
@@ -180,7 +183,11 @@ export default function Home() {
       {/* ——— Social proof — GBP reviews placeholder (no fabricated quotes) ——— */}
       <section className="border-y border-queso-cream/10 px-5 py-24">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6">
-          <div className="flex gap-1" aria-label="Five star rating placeholder">
+          <div
+            className="flex gap-1"
+            role="img"
+            aria-label="Five star rating placeholder"
+          >
             {Array.from({ length: 5 }).map((_, i) => (
               <StarIcon key={i} className="h-5 w-5 text-queso-yellow" />
             ))}

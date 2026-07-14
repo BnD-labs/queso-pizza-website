@@ -26,7 +26,13 @@ export function FlatItemRow({
       {showThumb ? (
         <div className="relative h-16 w-16 shrink-0">
           {image ? (
-            <Image src={image} alt={item.name} fill className="object-cover" />
+            <Image
+              src={image}
+              alt={item.name}
+              fill
+              sizes="64px"
+              className="object-cover"
+            />
           ) : (
             <div className="flex h-full w-full items-center justify-center border border-dashed border-queso-cream/25">
               <CameraIcon className="h-5 w-5 text-queso-cream/40" />

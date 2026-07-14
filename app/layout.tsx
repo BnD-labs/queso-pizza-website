@@ -42,8 +42,8 @@ export const metadata: Metadata = {
       {
         // Real photography only — the hero shot doubles as the OG card.
         url: "/images/pizza-cheese-pull.jpeg",
-        width: 2400,
-        height: 1792,
+        width: 2000,
+        height: 1493,
         alt: "Wood-fired Queso Pizza fresh from the oven",
       },
     ],

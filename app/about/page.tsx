@@ -45,6 +45,7 @@ export default function AboutPage() {
             src="/images/kitchen-prep.jpeg"
             alt="Prepping fresh shawarma, fries, and salads in the Queso Pizza kitchen"
             fill
+            sizes="(min-width: 768px) 704px, 100vw"
             className="object-cover"
           />
         </div>
@@ -74,6 +75,7 @@ export default function AboutPage() {
             src="/images/pizza-top-down.jpeg"
             alt="A wood-fired Queso pizza straight from the oven"
             fill
+            sizes="(min-width: 768px) 704px, 100vw"
             className="object-cover"
           />
         </div>

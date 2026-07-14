@@ -40,6 +40,7 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
                     src={item.image}
                     alt=""
                     fill
+                    sizes="64px"
                     className="rounded-full object-cover"
                   />
                 ) : (

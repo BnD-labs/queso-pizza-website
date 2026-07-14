@@ -43,6 +43,7 @@ export default function ContactPage() {
             src="/images/store-front.jpg"
             alt="The red-and-white Queso Pizza storefront on Great East Road"
             fill
+            sizes="(min-width: 448px) 448px, 100vw"
             className="object-cover"
           />
         </div>
@@ -107,7 +108,11 @@ export default function ContactPage() {
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream">
             Customer Voice
           </h2>
-          <div className="flex gap-0.5" aria-label="Five star rating placeholder">
+          <div
+            className="flex gap-0.5"
+            role="img"
+            aria-label="Five star rating placeholder"
+          >
             {Array.from({ length: 5 }).map((_, i) => (
               <StarIcon key={i} className="h-3.5 w-3.5 text-queso-yellow" />
             ))}

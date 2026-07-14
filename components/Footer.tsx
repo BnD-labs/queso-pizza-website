@@ -61,7 +61,7 @@ export function Footer() {
           </nav>
 
           <div className="border-t border-queso-cream/10 pt-8 text-center">
-            <p className="font-body text-base text-queso-cream/40">
+            <p className="font-body text-base text-queso-cream/60">
               © {SITE.footerYear} {SITE.name.toUpperCase()}. LOCAL. ROOTED.
             </p>
           </div>
