@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE, formatPhone, formatTime } from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
+import { MostOrderedCard } from "@/components/MostOrderedCard";
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
@@ -55,6 +56,9 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* ——— Floating Most Ordered quick-add (overlaps the hero) ——— */}
+      <MostOrderedCard />
 
       {/* ——— Direct delivery hotline ——— */}
       <section className="border-b border-queso-cream/10 bg-surface-low px-5 py-6">

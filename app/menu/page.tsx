@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import {
-  PIZZAS,
-  SHAWARMA,
-  FRIES,
-  EXTRA_CHEESE,
-  type PizzaSize,
-} from "@/lib/menu-data";
+import { Suspense } from "react";
+import { PIZZAS, SHAWARMA, FRIES, EXTRA_CHEESE } from "@/lib/menu-data";
 import { ITEM_DESCRIPTIONS, ITEM_IMAGES } from "@/lib/menu-content";
 import { Placeholder } from "@/components/Placeholder";
-import { CameraIcon, PlusIcon } from "@/components/icons";
+import { CameraIcon } from "@/components/icons";
+import { PizzaCard } from "@/components/order/PizzaCard";
+import { FlatItemRow } from "@/components/order/FlatItemRow";
+import { PerfectPairings } from "@/components/order/PerfectPairings";
+import { OrderSummarySection } from "@/components/order/OrderSummarySection";
+import { MenuAddHandler } from "@/components/order/MenuAddHandler";
 
 export const metadata: Metadata = {
   title: "Menu & Order — Queso Pizza",
@@ -17,20 +16,28 @@ export const metadata: Metadata = {
     "Wood-fired pizza, shawarma, and fries in Chongwe. Build your order and send it on WhatsApp.",
 };
 
-const SIZES: PizzaSize[] = ["S", "M", "L", "XL"];
-
 const CATEGORIES = [
   { id: "pizza", label: "Pizza" },
   { id: "shawarma", label: "Shawarma" },
   { id: "fries", label: "Fries" },
 ];
 
-// Phase 2 is the static shell: size chips and add buttons are presentational.
-// The order builder (state, quantities, WhatsApp compile) lands in Phase 3
-// per .claude/skills/whatsapp-order-builder.
+// Cross-sell strip content: fries + a shawarma as sides. Beverages are
+// excluded — no verified drink data exists (CLAUDE.md: never invent it).
+const PAIRINGS = [...FRIES, SHAWARMA[0]].map((item) => ({
+  id: item.id,
+  name: item.name,
+  price: item.price,
+  image: ITEM_IMAGES[item.id],
+}));
+
 export default function MenuPage() {
   return (
     <div className="px-5">
+      <Suspense fallback={null}>
+        <MenuAddHandler />
+      </Suspense>
+
       {/* ——— Intro ——— */}
       <section className="mx-auto flex max-w-7xl flex-col items-center gap-6 py-16 text-center">
         <h1 className="max-w-md font-display text-4xl font-extrabold leading-tight tracking-tight text-queso-cream">
@@ -53,6 +60,9 @@ export default function MenuPage() {
         </nav>
       </section>
 
+      {/* ——— Perfect Pairings (appears once the order has items) ——— */}
+      <PerfectPairings items={PAIRINGS} />
+
       {/* ——— Pizza ——— */}
       <section id="pizza" className="mx-auto max-w-7xl scroll-mt-20 pb-16">
         <div className="flex items-baseline gap-3 pb-8">
@@ -64,73 +74,14 @@ export default function MenuPage() {
           </span>
         </div>
         <div className="flex flex-col gap-8 md:grid md:grid-cols-2 lg:grid-cols-3">
-          {PIZZAS.map((pizza) => {
-            const image = ITEM_IMAGES[pizza.id];
-            const description = ITEM_DESCRIPTIONS[pizza.id];
-            return (
-              <article
-                key={pizza.id}
-                className="flex flex-col border border-queso-cream/10 bg-surface-low"
-              >
-                <div className="relative aspect-[4/3]">
-                  {pizza.tier === "special" ? (
-                    <span className="absolute left-0 top-0 z-10 bg-queso-yellow px-2 py-1 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-black">
-                      Special
-                    </span>
-                  ) : null}
-                  {image ? (
-                    <Image
-                      src={image}
-                      alt={`${pizza.name} pizza`}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <Placeholder
-                      icon={<CameraIcon className="h-7 w-7" />}
-                      body="Photography pending"
-                      className="h-full"
-                    />
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col gap-3 p-5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="font-display text-xl font-bold text-queso-cream">
-                      {pizza.name}
-                    </h3>
-                    {/* Card default price = Small (per CLAUDE.md) */}
-                    <span className="font-body text-base font-bold text-queso-red">
-                      K{pizza.prices.S}
-                    </span>
-                  </div>
-                  {description ? (
-                    <p className="font-body text-sm leading-relaxed text-queso-cream/65">
-                      {description}
-                    </p>
-                  ) : null}
-                  <div className="flex gap-2 pt-1">
-                    {SIZES.map((size, i) => (
-                      <span
-                        key={size}
-                        className={`flex h-9 w-9 items-center justify-center border font-body text-xs font-bold ${
-                          i === 0
-                            ? "border-queso-red text-queso-red"
-                            : "border-queso-cream/20 text-queso-cream/60"
-                        }`}
-                        title={`K${pizza.prices[size]}`}
-                      >
-                        {size}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-auto flex items-center justify-center gap-2 border border-queso-cream/25 py-3 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80">
-                    Add to Order
-                    <PlusIcon className="h-3 w-3" />
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+          {PIZZAS.map((pizza) => (
+            <PizzaCard
+              key={pizza.id}
+              pizza={pizza}
+              description={ITEM_DESCRIPTIONS[pizza.id]}
+              image={ITEM_IMAGES[pizza.id]}
+            />
+          ))}
         </div>
 
         {/* ——— Extras ——— */}
@@ -172,47 +123,14 @@ export default function MenuPage() {
           Shawarma
         </h2>
         <div className="flex flex-col gap-4">
-          {SHAWARMA.map((item) => {
-            const image = ITEM_IMAGES[item.id];
-            const description = ITEM_DESCRIPTIONS[item.id];
-            return (
-              <article
-                key={item.id}
-                className="flex items-center gap-4 border border-queso-cream/10 bg-surface-low p-4"
-              >
-                <div className="relative h-16 w-16 shrink-0">
-                  {image ? (
-                    <Image
-                      src={image}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center border border-dashed border-queso-cream/25">
-                      <CameraIcon className="h-5 w-5 text-queso-cream/40" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col gap-1">
-                  <h3 className="font-display text-base font-bold text-queso-cream">
-                    {item.name}
-                  </h3>
-                  {description ? (
-                    <p className="font-body text-xs leading-relaxed text-queso-cream/65">
-                      {description}
-                    </p>
-                  ) : null}
-                  <span className="font-body text-sm font-bold text-queso-red">
-                    K{item.price}
-                  </span>
-                </div>
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-queso-cream/25 text-queso-cream/80">
-                  <PlusIcon className="h-4 w-4" />
-                </span>
-              </article>
-            );
-          })}
+          {SHAWARMA.map((item) => (
+            <FlatItemRow
+              key={item.id}
+              item={item}
+              description={ITEM_DESCRIPTIONS[item.id]}
+              image={ITEM_IMAGES[item.id]}
+            />
+          ))}
         </div>
       </section>
 
@@ -223,22 +141,7 @@ export default function MenuPage() {
         </h2>
         <div className="flex flex-col gap-2">
           {FRIES.map((item) => (
-            <article
-              key={item.id}
-              className="flex items-center justify-between gap-4 border border-queso-cream/10 bg-surface-low px-5 py-4"
-            >
-              <div className="flex flex-col">
-                <h3 className="font-body text-sm font-bold text-queso-cream">
-                  {item.name}
-                </h3>
-                <span className="font-body text-sm font-bold text-queso-red">
-                  K{item.price}
-                </span>
-              </div>
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-queso-cream/25 text-queso-cream/80">
-                <PlusIcon className="h-4 w-4" />
-              </span>
-            </article>
+            <FlatItemRow key={item.id} item={item} showThumb={false} />
           ))}
         </div>
       </section>
@@ -259,6 +162,9 @@ export default function MenuPage() {
           className="w-full"
         />
       </section>
+
+      {/* ——— Order Ready! Send and Call to Confirm ——— */}
+      <OrderSummarySection />
     </div>
   );
 }

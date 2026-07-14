@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site-config";
 import { BagIcon, MenuIcon } from "./icons";
+import { useOrder } from "./order/OrderProvider";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -15,6 +16,7 @@ const NAV_LINKS = [
 
 export function TopAppBar() {
   const [open, setOpen] = useState(false);
+  const { count } = useOrder();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-queso-cream/10 bg-queso-black">
@@ -46,13 +48,18 @@ export function TopAppBar() {
           </span>
         </Link>
 
-        {/* Static in Phase 2 — order count badge arrives with the order builder (Phase 3) */}
         <Link
           href="/menu"
-          aria-label="Menu & Order"
-          className="flex h-12 w-12 items-center justify-center text-queso-cream"
+          aria-label={count > 0 ? `Menu & Order — ${count} items in order` : "Menu & Order"}
+          className="relative flex h-12 w-12 items-center justify-center text-queso-cream"
         >
           <BagIcon className="h-5 w-5" />
+          {count > 0 ? (
+            /* cart count badge: one of the two approved circular exceptions */
+            <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-queso-red px-1 font-body text-[10px] font-bold text-white">
+              {count}
+            </span>
+          ) : null}
         </Link>
       </div>
 
