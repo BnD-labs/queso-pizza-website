@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SITE, formatPhone, formatTime } from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
+import { MapEmbed } from "@/components/MapEmbed";
 import {
-  CameraIcon,
   ClockIcon,
-  MapPinIcon,
   PhoneIcon,
   ReviewsIcon,
   StarIcon,
@@ -97,14 +96,9 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ——— Map — live embed lands in Phase 4 ——— */}
+      {/* ——— Map ——— */}
       <section className="mx-auto max-w-7xl pb-16">
-        <Placeholder
-          icon={<MapPinIcon className="h-8 w-8" />}
-          title="Map"
-          body={`Live map embed lands in Phase 4 (Google Maps, plus code ${SITE.address.plusCode}).`}
-          className="aspect-square w-full max-w-md"
-        />
+        <MapEmbed className="aspect-square w-full max-w-md" />
       </section>
 
       {/* ——— Customer Voice — GBP reviews placeholder ——— */}

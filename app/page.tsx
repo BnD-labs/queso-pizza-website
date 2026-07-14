@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, formatPhone, formatTime } from "@/lib/site-config";
+import { SITE, MAPS_SEARCH_URL, formatPhone, formatTime } from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
 import { MostOrderedCard } from "@/components/MostOrderedCard";
+import { MapEmbed } from "@/components/MapEmbed";
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
@@ -12,10 +13,6 @@ import {
   ReviewsIcon,
   StarIcon,
 } from "@/components/icons";
-
-const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  `${SITE.address.plusCode} ${SITE.address.city}`,
-)}`;
 
 const BENTO_CARDS = [
   { title: "Oven baked Pizzas", image: "/images/pizza-cheese-pull.jpeg" },
@@ -200,12 +197,7 @@ export default function Home() {
       {/* ——— Location & hours ——— */}
       <section className="px-5 py-24">
         <div className="mx-auto flex max-w-7xl flex-col gap-8">
-          <Placeholder
-            icon={<CameraIcon className="h-8 w-8" />}
-            title="Map"
-            body="Live map embed lands in Phase 4 (Google Maps, plus code MMFH+7WQ)."
-            className="aspect-square w-full max-w-md"
-          />
+          <MapEmbed className="aspect-square w-full max-w-md" />
           <div className="flex flex-col gap-2">
             <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
               Visit Us
@@ -237,7 +229,7 @@ export default function Home() {
             ))}
           </div>
           <a
-            href={MAPS_URL}
+            href={MAPS_SEARCH_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex w-fit items-center gap-2 border border-queso-cream/20 px-6 py-3 font-body text-sm font-bold uppercase tracking-wide text-white"

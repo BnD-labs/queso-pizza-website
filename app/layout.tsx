@@ -21,9 +21,39 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_TITLE = `${SITE.name} — ${SITE.tagline.replace(/\.$/, "")}`;
+const SITE_DESCRIPTION = `Premium wood-fired pizza and shawarma in ${SITE.address.area}, ${SITE.address.city}. Order on WhatsApp or call to confirm.`;
+
 export const metadata: Metadata = {
-  title: `${SITE.name} — ${SITE.tagline.replace(/\.$/, "")}`,
-  description: `Premium wood-fired pizza and shawarma in ${SITE.address.area}, ${SITE.address.city}. Order on WhatsApp or call to confirm.`,
+  metadataBase: new URL(`https://${SITE.domain}`),
+  title: {
+    default: SITE_TITLE,
+    template: "%s",
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    locale: "en_ZM",
+    images: [
+      {
+        // Real photography only — the hero shot doubles as the OG card.
+        url: "/images/pizza-cheese-pull.jpeg",
+        width: 2400,
+        height: 1792,
+        alt: "Wood-fired Queso Pizza fresh from the oven",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/images/pizza-cheese-pull.jpeg"],
+  },
 };
 
 export default function RootLayout({

@@ -39,6 +39,16 @@ export const SITE = {
   },
 } as const;
 
+const MAPS_QUERY = encodeURIComponent(
+  `${SITE.address.plusCode} ${SITE.address.city}`,
+);
+
+/** Opens Google Maps at the store's plus code (directions / "Get Directions"). */
+export const MAPS_SEARCH_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
+
+/** Keyless Google Maps iframe embed centered on the store's plus code. */
+export const MAPS_EMBED_URL = `https://maps.google.com/maps?q=${MAPS_QUERY}&z=16&output=embed`;
+
 /** Formats an E.164 number like +260976056200 as "(+260) 97 6056 200" for display. */
 export function formatPhone(e164: string): string {
   const m = e164.match(/^\+260(\d{2})(\d{4})(\d{3})$/);
