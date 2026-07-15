@@ -30,11 +30,10 @@ export const SITE = {
     landmark: "near Access Bank",
   },
 
-  // UNCONFIRMED — verify real trading hours with Arthur before launch.
-  // (Mockup hours were contradictory: "Mon–Fri / Sun–Sat".)
+  // CONFIRMED by Brandon, 2026-07-14: Mon–Fri 8am–8pm, Sat–Sun 8am–7pm.
   // Displayed as two rows: Mon–Fri and Sat–Sun.
   hours: {
-    weekdays: { label: "Mon – Fri", open: "08:00", close: "21:00" },
+    weekdays: { label: "Mon – Fri", open: "08:00", close: "20:00" },
     weekend: { label: "Sat – Sun", open: "08:00", close: "19:00" },
   },
 } as const;

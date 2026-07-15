@@ -8,7 +8,7 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 ## Tech stack
 - Next.js (App Router) + TypeScript + TailwindCSS + React
 - No database. Fully static/client-rendered. Do not add Supabase/Firebase/any backend.
-- Hosting: Vercel. DNS: Cloudflare. Domain: `quesopizza.com`.
+- Hosting: Cloudflare Pages (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`.
 - Mobile-first (390px design frames). Desktop = responsive Tailwind breakpoints applied sensibly to the same layouts; no bespoke desktop design exists.
 
 ## Brand system — locked

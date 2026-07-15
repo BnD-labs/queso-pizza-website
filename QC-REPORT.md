@@ -23,8 +23,10 @@ Date: 2026-07-14 · Runner: Claude Code (technical items) · Sign-off items rema
 
 - ✅ `npm run build` — zero errors, all routes static
 - ✅ No fabricated content (reviews/prices/landmarks all placeholder-marked or data-driven)
-- ⚠️ **UNCONFIRMED markers still open** (launch blockers per SOP):
-  hours, address landmark ("near Access Bank"), WhatsApp order number — verify with Arthur/Dalitso
+- ⚠️ **UNCONFIRMED markers** (launch blockers per SOP):
+  - ✅ Hours — CONFIRMED by Brandon 2026-07-14: Mon–Fri 8am–8pm, Sat–Sun 8am–7pm
+  - 🔲 Address landmark ("near Access Bank") — still to verify with Arthur
+  - 🔲 WhatsApp order number — still to confirm with Dalitso
 - ⚠️ Lighthouse mobile (localhost, throttled): **Perf 73 · A11y 96 · BP 100 · SEO 100.**
   Target is ≥85 **on the deployed preview** — localhost under-reports (no CDN/AVIF/HTTP2).
   Re-measure on the preview URL. If it still misses: the dark-map CSS filter on the
@@ -49,6 +51,6 @@ Date: 2026-07-14 · Runner: Claude Code (technical items) · Sign-off items rema
 - Photo-to-item mapping (`lib/menu-content.ts`) — which photo is which dish
 - "Most Ordered" featured item = Queso Original (assumed, not data-backed)
 - Footer "Locations" and "Contact" both link to /contact
-- Hosting decision per SOP §3: **Vercel Hobby is contractually unsafe for a paid
-  client site** — either client-paid Vercel Pro or Cloudflare Pages static export
-  (this build is a static-export candidate by design: no server routes)
+- ~~Hosting decision~~ **DECIDED 2026-07-14: Cloudflare Pages static export**
+  (`output: "export"`, images unoptimized — sources pre-downscaled in QC pass).
+  Repo: github.com/BnD-labs/queso-pizza-website · build `npm run build` · output `out/`
