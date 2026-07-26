@@ -1,11 +1,11 @@
 {
-  "name": "scaffold-tmp",
+  "name": "queso-pizza",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "preview": "npx serve out",
     "lint": "eslint"
   },
   "dependencies": {
