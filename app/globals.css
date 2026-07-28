@@ -46,3 +46,81 @@ body {
   color: var(--color-queso-cream);
   font-family: var(--font-body);
 }
+
+/* ═══ Motion system ═══════════════════════════════════════════════════════
+ * Shared durations/easings so every transition in the build feels related.
+ * Interaction states are written inline with Tailwind (matching the rest of
+ * the codebase); only the reusable entrance choreography lives here.
+ * ═════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --dur-fast: 150ms; /* press feedback */
+  --dur-base: 260ms; /* hover / color shifts */
+  --dur-slow: 700ms; /* entrances */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Keyboard focus. Yellow reads clearly on both the dark surfaces and the
+   cream story card, and it is brand rather than the browser default blue. */
+:focus-visible {
+  outline: 2px solid var(--color-queso-yellow);
+  outline-offset: 3px;
+}
+
+@keyframes queso-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* On-load entrance, used for above-the-fold hero content only. */
+.queso-enter {
+  animation: queso-rise var(--dur-slow) var(--ease-out-expo) both;
+}
+
+.queso-stagger-1 {
+  animation-delay: 90ms;
+}
+.queso-stagger-2 {
+  animation-delay: 180ms;
+}
+.queso-stagger-3 {
+  animation-delay: 270ms;
+}
+
+/* Scroll-triggered reveal, CSS-only via scroll-driven animations — no JS and
+ * no IntersectionObserver, which keeps these server components static.
+ *
+ * Content is visible by DEFAULT and the animation is layered on only where
+ * supported. Done the other way round (hidden by default, revealed by script)
+ * a browser without support would render a blank page — unacceptable on the
+ * mid-range Android hardware this site targets. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .queso-reveal {
+      animation: queso-rise var(--dur-slow) var(--ease-out-expo) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/* Honour the OS-level reduced-motion preference everywhere, including the
+   inline Tailwind transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
