@@ -20,7 +20,11 @@ export function OrderCtas({ stacked = false }: { stacked?: boolean }) {
           Order sent! Tap to call and confirm.
         </p>
       ) : null}
-      <div className={`flex gap-2 ${stacked ? "flex-col" : "items-center"}`}>
+      {/* `stacked` means stacked on a phone only — from sm up the pair sits
+          side by side so neither button spans the whole panel. */}
+      <div
+        className={`flex gap-2 ${stacked ? "flex-col sm:flex-row sm:items-center" : "items-center"}`}
+      >
         {/* whatsapp-green: approved exception, WhatsApp action buttons ONLY */}
         <a
           href={waOrderUrl(SITE.phones.whatsappOrder, lines)}

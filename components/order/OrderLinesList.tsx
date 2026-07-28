@@ -22,12 +22,12 @@ export function OrderLinesList() {
             </span>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <div className="flex items-center border border-queso-cream/25">
+            <div className="flex items-center border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
               <button
                 type="button"
                 aria-label={`Remove one ${lineLabel(line)}`}
                 onClick={() => decrement(line.key)}
-                className="flex h-8 w-8 items-center justify-center text-queso-cream/80"
+                className="flex h-8 w-8 items-center justify-center text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
               >
                 <MinusIcon className="h-3.5 w-3.5" />
               </button>
@@ -38,7 +38,7 @@ export function OrderLinesList() {
                 type="button"
                 aria-label={`Add one ${lineLabel(line)}`}
                 onClick={() => increment(line.key)}
-                className="flex h-8 w-8 items-center justify-center text-queso-cream/80"
+                className="flex h-8 w-8 items-center justify-center text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
               >
                 <PlusIcon className="h-3.5 w-3.5" />
               </button>
