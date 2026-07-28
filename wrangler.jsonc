@@ -1,0 +1,21 @@
+{
+  // Static-asset Worker for the Next.js static export (output: "export").
+  //
+  // This file exists to STOP `wrangler deploy` from running its auto-config.
+  // Without it, wrangler detects "Next.js", assumes output dir ".next", and
+  // runs the @opennextjs/cloudflare SSR migration — which then fails looking
+  // for .next/standalone/.next/server/pages-manifest.json, a file that only
+  // exists for output: "standalone". We ship static HTML; there is no server.
+  //
+  // Deliberately NO "main" field: this is an assets-only Worker. Cloudflare
+  // serves out/ straight from the edge, no runtime and no bundling step.
+  "name": "queso-pizza-website",
+  "compatibility_date": "2026-07-26",
+  "assets": {
+    "directory": "./out",
+    // Serves the exported out/404.html on unmatched paths. Do NOT switch this
+    // to "single-page-application" — that returns index.html with a 200 for
+    // every bad URL, putting the homepage on bogus paths and misleading crawlers.
+    "not_found_handling": "404-page"
+  }
+}

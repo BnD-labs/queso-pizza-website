@@ -6,24 +6,34 @@ Created 2026-07-26. **This file is the current source of truth for remaining wor
 
 > **Supersedes:** the Vercel deploy instructions in `queso_implementation_plan.md`
 > (Phase 5, line 33 + Trello line 46) and `queso_pizza_claude_code_plan.md` §2.
-> Hosting was changed to **Cloudflare Pages static export** on 2026-07-14
-> (`output: "export"` in `next.config.ts`). There is no Vercel project.
+> Hosting moved off Vercel on 2026-07-14 (`output: "export"` in `next.config.ts`).
+> There is no Vercel project.
+>
+> **Corrected 2026-07-26:** deployment is a **Cloudflare Worker serving static
+> assets**, not Cloudflare Pages. The client's account (`Quesofoods22@gmail.com`)
+> no longer surfaces a Pages creation flow — the dashboard routes everything to
+> Workers. Ignore any "Pages" wording elsewhere in this repo's older docs.
 
 Build phases 1–5 are complete and committed. Everything below is launch work.
 
 ---
 
-## Step 1 — Deploy a Cloudflare Pages preview (do this first)
+## Step 1 — Get the preview deploy green (do this first)
 
 Everything else verifies against a real URL, so this unblocks the rest.
 
+- **Account:** `Quesofoods22@gmail.com` (client-owned, correct per SOP handover)
 - **Repo:** `github.com/BnD-labs/queso-pizza-website` · **Branch:** `main`
-- **Framework preset:** Next.js (Static HTML Export) — *not* the default Next.js preset,
-  which expects a server runtime
-- **Build command:** `npm run build` · **Output directory:** `out`
-- **Node version:** set `NODE_VERSION = 22` in Pages env vars (Next 16 requires ≥20;
-  the Pages default is older)
-- Result: a `*.pages.dev` preview URL. Do **not** attach `quesopizza.com` yet.
+- **Build command:** `npm run build` · **Deploy command:** `npx wrangler deploy`
+- **Node:** the build image already provides Node 22 — no `NODE_VERSION` var needed
+- Result: a `*.workers.dev` preview URL. Do **not** attach `quesopizza.com` yet.
+
+**`wrangler.jsonc` is load-bearing — do not delete it.** It is the only thing
+stopping `wrangler deploy` from running its auto-config, which misdetects this
+project as server-rendered Next.js, runs the `@opennextjs/cloudflare` SSR
+migration, and fails on a missing `pages-manifest.json`. That was the 2026-07-26
+build failure. The config pins `assets.directory` to `./out` and declares no
+`main`, i.e. an assets-only Worker with no server runtime.
 
 Local sanity check before pushing: `npm run build`, then `npm run preview` to serve
 the export from `out/`. (`next start` does not work under `output: "export"`, so the
@@ -70,8 +80,11 @@ numbers. Ask once, then close them out either way.
 
 ## Step 5 — Production
 
-- [ ] Attach `quesopizza.com` as a custom domain in Cloudflare Pages
-- [ ] DNS is already on Cloudflare — add the apex + `www` records Pages generates
+- [ ] Attach `quesopizza.com` to the Worker (**Settings → Domains & Routes**)
+- [ ] **First check the `quesopizza.com` DNS zone for an orphaned record.** The domain
+      was briefly attached to a placeholder "Hello world" Worker on 2026-07-26 and
+      then detached; a proxied DNS record for the apex/`www` can outlive the binding
+      and will cause a confusing conflict here. Delete any leftover before attaching.
 - [ ] Verify HTTPS, then re-check the four routes and the order flow on production
 - [ ] Confirm the repo is the handover artifact and is pushed current
 
@@ -93,7 +106,7 @@ widget stays a placeholder until that decision is made — it is not a launch bl
 
 ## Trello — replaces the stale checklist
 
-- [ ] Cloudflare Pages preview deployed (`out/`, Node 22)
+- [ ] Cloudflare Worker preview deployed green (`wrangler.jsonc`, assets from `out/`)
 - [ ] Address landmark confirmed with Arthur
 - [ ] WhatsApp order + call-to-confirm numbers confirmed with Dalitso
 - [ ] Photo mapping + "Most Ordered" item confirmed
