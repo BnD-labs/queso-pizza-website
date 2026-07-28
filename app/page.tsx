@@ -196,7 +196,7 @@ export default function Home() {
           </div>
           <Link
             href="/menu"
-            className="flex items-center justify-center border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-red transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
+            className="flex items-center justify-center border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-cream transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
           >
             View Full Menu
           </Link>
@@ -230,7 +230,7 @@ export default function Home() {
           <MapEmbed className="aspect-square w-full" />
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-              <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
+              <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream/70">
                 Visit Us
               </p>
               <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl lg:text-5xl">

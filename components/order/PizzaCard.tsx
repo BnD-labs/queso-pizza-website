@@ -42,8 +42,8 @@ export function PizzaCard({
   };
 
   return (
-    <article className="flex flex-col border border-queso-cream/10 bg-surface-low">
-      <div className="relative aspect-[4/3]">
+    <article className="group flex flex-col border border-queso-cream/10 bg-surface-low transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30">
+      <div className="relative aspect-[4/3] overflow-hidden">
         {pizza.tier === "special" ? (
           <span className="absolute left-0 top-0 z-10 bg-queso-yellow px-2 py-1 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-black">
             Special
@@ -55,7 +55,7 @@ export function PizzaCard({
             alt={`${pizza.name} pizza`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.05]"
           />
         ) : (
           <Placeholder
@@ -70,7 +70,10 @@ export function PizzaCard({
           <h3 className="font-display text-xl font-bold text-queso-cream">
             {pizza.name}
           </h3>
-          <span className="font-body text-base font-bold text-queso-red">
+          {/* Cream, not queso-red: red on this dark surface measures ≈2.9:1,
+              under the 4.5:1 needed at 16px bold, and the brand's approved
+              pairings put red in fills rather than in text. */}
+          <span className="font-body text-base font-bold text-queso-cream">
             K{displayPrice}
           </span>
         </div>
@@ -91,10 +94,10 @@ export function PizzaCard({
                   setSelectedSize(size);
                   setSizeHint(false);
                 }}
-                className={`flex h-9 w-9 items-center justify-center border font-body text-xs font-bold ${
+                className={`flex h-9 w-9 items-center justify-center border font-body text-xs font-bold transition-[background-color,border-color,color,transform] duration-[var(--dur-fast)] active:scale-90 ${
                   selected
                     ? "border-queso-red bg-queso-red text-white"
-                    : "border-queso-cream/20 text-queso-cream/60"
+                    : "border-queso-cream/20 text-queso-cream/70 hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
                 }`}
                 title={`K${pizza.prices[size]}`}
               >
@@ -104,22 +107,22 @@ export function PizzaCard({
           })}
         </div>
         {sizeHint ? (
-          <p className="font-body text-xs font-bold text-queso-yellow">
+          <p className="queso-enter font-body text-xs font-bold text-queso-yellow">
             Choose a size to add this pizza.
           </p>
         ) : null}
         {qty > 0 && selectedSize ? (
           <div className="mt-auto flex items-stretch gap-2">
-            <div className="flex flex-1 items-center justify-center gap-2 bg-queso-red py-3 font-body text-xs font-bold uppercase tracking-wide text-white">
+            <div className="queso-enter flex flex-1 items-center justify-center gap-2 bg-queso-red py-3 font-body text-xs font-bold uppercase tracking-wide text-white">
               Added ({qty})
               <CheckIcon className="h-3 w-3" />
             </div>
-            <div className="flex items-center border border-queso-cream/25">
+            <div className="flex items-center border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
               <button
                 type="button"
                 aria-label={`Remove one ${pizza.name} (${selectedSize})`}
                 onClick={() => decrement(lineKey(pizza.id, selectedSize))}
-                className="flex h-full w-10 items-center justify-center text-queso-cream/80"
+                className="flex h-full w-10 items-center justify-center text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
               >
                 <MinusIcon className="h-3.5 w-3.5" />
               </button>
@@ -127,7 +130,7 @@ export function PizzaCard({
                 type="button"
                 aria-label={`Add one ${pizza.name} (${selectedSize})`}
                 onClick={() => increment(lineKey(pizza.id, selectedSize))}
-                className="flex h-full w-10 items-center justify-center border-l border-queso-cream/25 text-queso-cream/80"
+                className="flex h-full w-10 items-center justify-center border-l border-queso-cream/25 text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
               >
                 <PlusIcon className="h-3.5 w-3.5" />
               </button>
@@ -137,10 +140,10 @@ export function PizzaCard({
           <button
             type="button"
             onClick={handleAdd}
-            className="mt-auto flex items-center justify-center gap-2 border border-queso-cream/25 py-3 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80"
+            className="group/add mt-auto flex items-center justify-center gap-2 border border-queso-cream/25 py-3 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-[0.98]"
           >
             Add to Order
-            <PlusIcon className="h-3 w-3" />
+            <PlusIcon className="h-3 w-3 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover/add:rotate-90" />
           </button>
         )}
       </div>

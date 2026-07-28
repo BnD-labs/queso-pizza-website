@@ -28,7 +28,10 @@ export function OrderSummarySection() {
             <span className="font-body text-sm font-bold uppercase tracking-wide text-queso-cream/65">
               Total
             </span>
-            <span className="font-body text-xl font-bold text-queso-red">
+            {/* Totals in yellow: the strongest contrast in the palette on a
+                dark surface, and it separates the order total from line
+                prices, which sit in cream. */}
+            <span className="font-body text-xl font-bold text-queso-yellow">
               K{total}
             </span>
           </div>

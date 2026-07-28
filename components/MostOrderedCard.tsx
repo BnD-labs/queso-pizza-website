@@ -39,7 +39,7 @@ export function MostOrderedCard() {
           <span className="truncate font-display text-base font-bold text-queso-cream">
             {pizza.name}
           </span>
-          <span className="font-body text-sm font-bold text-queso-red">
+          <span className="font-body text-sm font-bold text-queso-cream">
             from K{pizza.prices.S}
           </span>
         </div>

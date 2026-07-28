@@ -91,7 +91,7 @@ export default function MenuPage() {
               <h3 className="font-body text-sm font-bold uppercase tracking-wide text-queso-cream">
                 Extra Cheese
               </h3>
-              <span className="font-body text-sm font-bold text-queso-red">
+              <span className="font-body text-sm font-bold text-queso-cream">
                 K{EXTRA_CHEESE.S} / K{EXTRA_CHEESE.M}
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function MenuPage() {
               <p className="font-body text-sm text-queso-cream/65">
                 Small / Medium · Large / XL
               </p>
-              <span className="font-body text-sm font-bold text-queso-red">
+              <span className="font-body text-sm font-bold text-queso-cream">
                 K{EXTRA_CHEESE.L} / K{EXTRA_CHEESE.XL}
               </span>
             </div>
