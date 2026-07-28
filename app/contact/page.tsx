@@ -19,15 +19,15 @@ export default function ContactPage() {
   return (
     <div className="px-5">
       {/* ——— Intro ——— */}
-      <section className="mx-auto flex max-w-7xl flex-col gap-6 py-16">
-        <h1 className="font-display text-5xl font-extrabold tracking-tight text-queso-cream">
+      <section className="mx-auto flex max-w-7xl flex-col gap-6 py-20 md:py-28">
+        <h1 className="queso-enter font-display text-5xl font-extrabold tracking-tight text-queso-cream lg:text-6xl">
           Find Us
         </h1>
-        <p className="max-w-xl font-body text-base leading-relaxed text-queso-cream/65">
+        <p className="queso-enter queso-stagger-1 max-w-xl font-body text-base leading-relaxed text-queso-cream/65">
           Experience artisanal oven baked pizza right in the heart of the city.
           We craft our heritage-driven pizzas locally, zero mass production.
         </p>
-        <div className="flex items-center gap-3 bg-queso-red px-4 py-3">
+        <div className="queso-enter queso-stagger-2 flex w-fit items-center gap-3 bg-queso-red px-4 py-3">
           <PhoneIcon className="h-4 w-4 shrink-0 text-white" />
           <p className="font-body text-sm font-bold text-white">
             Delivery Available — {formatPhone(SITE.phones.delivery1)} /{" "}
@@ -36,74 +36,76 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ——— Storefront ——— */}
-      <section className="mx-auto max-w-7xl pb-16">
-        <div className="relative aspect-[4/5] w-full max-w-md border border-queso-cream/10">
+      {/* ——— Storefront + practical details ———
+             Paired into one two-column band on desktop. Stacked full-width,
+             each of these was a narrow max-w-md block stranded against a
+             mostly empty 1280px row. */}
+      <section className="queso-reveal mx-auto grid max-w-7xl gap-10 pb-20 md:grid-cols-2 md:items-start md:gap-14 md:pb-28">
+        <div className="relative aspect-[4/5] w-full border border-queso-cream/10">
           <Image
             src="/images/store-front.jpg"
             alt="The red-and-white Queso Pizza storefront on Great East Road"
             fill
-            sizes="(min-width: 448px) 448px, 100vw"
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
         </div>
-      </section>
 
-      {/* ——— Location ——— */}
-      <section className="mx-auto flex max-w-7xl flex-col gap-4 pb-16">
-        <div className="flex items-center gap-2">
-          {/* map pin dot: one of the two approved circular exceptions */}
-          <span className="flex h-2.5 w-2.5 rounded-full bg-queso-red" />
-          <h2 className="font-display text-2xl font-bold text-queso-cream">
-            Location
-          </h2>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-body text-base font-bold text-queso-cream">
-            {SITE.address.area}
-          </p>
-          <p className="font-body text-base text-queso-cream/65">
-            {SITE.address.road}
-          </p>
-          {/* UNCONFIRMED landmark — italic placeholder styling per design delta 4 */}
-          <p className="pt-2 font-body text-sm italic text-queso-cream/50">
-            {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
-          </p>
-        </div>
-      </section>
-
-      {/* ——— Hours ——— */}
-      <section className="mx-auto flex max-w-7xl flex-col gap-4 pb-16">
-        <div className="flex items-center gap-2">
-          <ClockIcon className="h-4 w-4 text-queso-red" />
-          <h2 className="font-display text-2xl font-bold text-queso-cream">
-            Hours
-          </h2>
-        </div>
-        <div className="flex flex-col gap-4">
-          {[SITE.hours.weekdays, SITE.hours.weekend].map((row) => (
-            <div
-              key={row.label}
-              className="flex flex-col gap-1 border-b border-queso-cream/10 pb-4"
-            >
-              <p className="font-body text-base text-queso-cream/65">
-                {row.label}
-              </p>
+        <div className="flex flex-col gap-10">
+          {/* ——— Location ——— */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              {/* map pin dot: one of the two approved circular exceptions */}
+              <span className="flex h-2.5 w-2.5 rounded-full bg-queso-red" />
+              <h2 className="font-display text-2xl font-bold text-queso-cream">
+                Location
+              </h2>
+            </div>
+            <div className="flex flex-col gap-1">
               <p className="font-body text-base font-bold text-queso-cream">
-                {formatTime(row.open)} - {formatTime(row.close)}
+                {SITE.address.area}
+              </p>
+              <p className="font-body text-base text-queso-cream/65">
+                {SITE.address.road}
+              </p>
+              {/* UNCONFIRMED landmark — italic placeholder styling per design delta 4 */}
+              <p className="pt-2 font-body text-sm italic text-queso-cream/50">
+                {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
               </p>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
 
-      {/* ——— Map ——— */}
-      <section className="mx-auto max-w-7xl pb-16">
-        <MapEmbed className="aspect-square w-full max-w-md" />
+          {/* ——— Hours ——— */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <ClockIcon className="h-4 w-4 text-queso-red" />
+              <h2 className="font-display text-2xl font-bold text-queso-cream">
+                Hours
+              </h2>
+            </div>
+            <div className="flex flex-col gap-4">
+              {[SITE.hours.weekdays, SITE.hours.weekend].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-baseline justify-between gap-4 border-b border-queso-cream/10 pb-4"
+                >
+                  <p className="font-body text-base text-queso-cream/65">
+                    {row.label}
+                  </p>
+                  <p className="font-body text-base font-bold text-queso-cream">
+                    {formatTime(row.open)} - {formatTime(row.close)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <MapEmbed className="aspect-[4/3] w-full" />
+        </div>
       </section>
 
       {/* ——— Customer Voice — GBP reviews placeholder ——— */}
-      <section className="mx-auto flex max-w-7xl flex-col gap-6 pb-24">
+      <section className="queso-reveal mx-auto flex max-w-7xl flex-col gap-6 pb-28 md:pb-36">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream">
             Customer Voice
