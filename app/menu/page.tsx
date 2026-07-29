@@ -52,7 +52,7 @@ export default function MenuPage() {
             <a
               key={cat.id}
               href={`#${cat.id}`}
-              className="border border-queso-cream/20 px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
+              className="rounded-control border border-queso-cream/20 px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
             >
               {cat.label}
             </a>

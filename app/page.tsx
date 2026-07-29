@@ -66,7 +66,7 @@ export default function Home() {
           </h1>
           <Link
             href="/menu"
-            className="queso-enter queso-stagger-2 bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-white transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
+            className="queso-enter queso-stagger-2 rounded-control bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-white transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
           >
             Order Now
           </Link>
@@ -196,7 +196,7 @@ export default function Home() {
           </div>
           <Link
             href="/menu"
-            className="flex items-center justify-center border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-cream transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
+            className="flex items-center justify-center rounded-control border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-cream transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
           >
             View Full Menu
           </Link>
@@ -263,7 +263,7 @@ export default function Home() {
               href={MAPS_SEARCH_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex w-fit items-center gap-2 border border-queso-cream/20 px-6 py-3 font-body text-sm font-bold uppercase tracking-wide text-white transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10"
+              className="group flex w-fit items-center gap-2 rounded-control border border-queso-cream/20 px-6 py-3 font-body text-sm font-bold uppercase tracking-wide text-white transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10"
             >
               Get Directions
               <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

@@ -22,7 +22,7 @@ export function OrderLinesList() {
             </span>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <div className="flex items-center border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
+            <div className="flex items-center overflow-hidden rounded-control border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
               <button
                 type="button"
                 aria-label={`Remove one ${lineLabel(line)}`}

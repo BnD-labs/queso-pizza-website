@@ -28,7 +28,7 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 - `queso-yellow`: `#FDFC00`
 - `queso-cream`: `#FFF8F0`
 - Supporting dark surfaces from the design: `#131313` (base), `#1C1B1B` (surface-low), `#201F1F` (surface), `#2A2A2A` (surface-high), `#0E0E0E` (footer/lowest)
-- `whatsapp-green`: `#29D51A` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never use for any other element.
+- `whatsapp-green`: `#25D366` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never use for any other element. (Corrected 2026-07-29 from the Figma export's `#29D51A`, which was brighter and more lime than WhatsApp's real brand green — self-defeating for a token whose only job is to be recognised as WhatsApp.)
 
 **Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette appear throughout the Figma CSS export — these are token drift, NOT brand. Wherever the design shows salmon (labels like "VISIT US", icons, active footer links), use cream at 60-70% opacity for muted labels. Wherever lime yellow appears (star icons), use `queso-yellow`.
 
@@ -41,7 +41,12 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 
 If Brandon wants more red presence back, add red *fills*, not red text. This closed the "known exception 1" logged in `QC-REPORT.md`.
 
-**Shape: zero roundedness.** The Figma export contains border-radius values (4/5/8/10/12px) — these are tool artifacts, not design intent. Every button, card, badge, input, and image container ships with sharp 90° corners (`rounded-none`). The ONLY exceptions: the map pin dot and the cart count badge may stay circular.
+**Shape: sharp surfaces, softened controls.** (Revised 2026-07-29; v2 was "zero roundedness" everywhere.) The Figma export's assorted radius values (4/5/8/10/12px) are still tool artifacts, not design intent — the radius scale stays deleted from the theme so no `rounded-*` utility ships a corner by accident.
+
+- **Surfaces stay sharp 90°:** cards, image containers, bento tiles, panels, the app bar, the footer, badges. This is the brand's architectural feel.
+- **Controls get `rounded-control` (6px):** buttons, CTAs, size selectors, quantity steppers, category pills, inputs. Things you press are softened; things you read stay sharp.
+- **Do not add a second radius token.** One value is a system; two is what makes a mixed treatment read as accidental.
+- Circular (`rounded-full`) remains permitted ONLY for the map pin dot and the Perfect Pairings chips.
 
 **Typography:** Epilogue (display/headlines, 700-800), Inter (body/labels). Google Fonts via next/font. NOTE: `.claude/skills/queso-brand-tokens/SKILL.md` names Garet / Helvetica World / Helvetica Now — those are the brand-book families, and no license has been confirmed. Epilogue/Inter are the shipped web substitutes and remain correct until someone confirms a Garet license. Do not swap on the skill's say-so alone.
 

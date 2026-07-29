@@ -94,7 +94,7 @@ export function PizzaCard({
                   setSelectedSize(size);
                   setSizeHint(false);
                 }}
-                className={`flex h-9 w-9 items-center justify-center border font-body text-xs font-bold transition-[background-color,border-color,color,transform] duration-[var(--dur-fast)] active:scale-90 ${
+                className={`flex h-9 w-9 items-center justify-center rounded-control border font-body text-xs font-bold transition-[background-color,border-color,color,transform] duration-[var(--dur-fast)] active:scale-90 ${
                   selected
                     ? "border-queso-red bg-queso-red text-white"
                     : "border-queso-cream/20 text-queso-cream/70 hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
@@ -113,11 +113,11 @@ export function PizzaCard({
         ) : null}
         {qty > 0 && selectedSize ? (
           <div className="mt-auto flex items-stretch gap-2">
-            <div className="queso-enter flex flex-1 items-center justify-center gap-2 bg-queso-red py-3 font-body text-xs font-bold uppercase tracking-wide text-white">
+            <div className="queso-enter flex flex-1 items-center justify-center gap-2 rounded-control bg-queso-red py-3 font-body text-xs font-bold uppercase tracking-wide text-white">
               Added ({qty})
               <CheckIcon className="h-3 w-3" />
             </div>
-            <div className="flex items-center border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
+            <div className="flex items-center overflow-hidden rounded-control border border-queso-cream/25 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/45">
               <button
                 type="button"
                 aria-label={`Remove one ${pizza.name} (${selectedSize})`}
@@ -140,7 +140,7 @@ export function PizzaCard({
           <button
             type="button"
             onClick={handleAdd}
-            className="group/add mt-auto flex items-center justify-center gap-2 border border-queso-cream/25 py-3 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-[0.98]"
+            className="group/add mt-auto flex items-center justify-center gap-2 rounded-control border border-queso-cream/25 py-3 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-[0.98]"
           >
             Add to Order
             <PlusIcon className="h-3 w-3 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover/add:rotate-90" />

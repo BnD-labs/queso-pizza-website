@@ -54,7 +54,7 @@ export function FlatItemRow({
         </span>
       </div>
       {qty > 0 ? (
-        <div className="flex shrink-0 items-center border border-queso-cream/25">
+        <div className="flex shrink-0 items-center overflow-hidden rounded-control border border-queso-cream/25">
           <button
             type="button"
             aria-label={`Remove one ${item.name}`}
@@ -80,7 +80,7 @@ export function FlatItemRow({
           type="button"
           aria-label={`Add ${item.name} to order`}
           onClick={() => add(item.id, item.name, item.price)}
-          className="flex h-9 w-9 shrink-0 items-center justify-center border border-queso-cream/25 text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-90"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control border border-queso-cream/25 text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-90"
         >
           <PlusIcon className="h-4 w-4" />
         </button>

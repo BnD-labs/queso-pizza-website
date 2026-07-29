@@ -13,10 +13,11 @@ export const SITE = {
     // Confirmed delivery lines (shown on Home hero delivery badge + Contact)
     delivery1: "+260976056200", // displayed as (+260) 97 6056 200
     delivery2: "+260979818919", // displayed as (+260) 97 9818 919
-    // UNCONFIRMED — verify with Dalitso which number receives WhatsApp orders
-    // (his WA Business), and that he knows pre-filled orders will start arriving.
+    // CONFIRMED 2026-07-29 by Brandon: this is the correct WhatsApp order line,
+    // verified by a real-device end-to-end order test (pre-filled message
+    // arrived correctly formatted; paired tel: dial reached staff).
     whatsappOrder: "+260976056200",
-    // UNCONFIRMED — direct on-site line for the paired "call to confirm" action.
+    // CONFIRMED 2026-07-29 — same line, exercised by the same device test.
     callToConfirm: "+260976056200",
   },
 

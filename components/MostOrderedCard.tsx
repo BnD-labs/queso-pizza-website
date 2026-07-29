@@ -44,7 +44,7 @@ export function MostOrderedCard() {
           </span>
         </div>
         <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center bg-queso-red text-white"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-control bg-queso-red text-white"
           aria-hidden
         >
           <PlusIcon className="h-4 w-4" />

@@ -31,14 +31,14 @@ export function OrderCtas({ stacked = false }: { stacked?: boolean }) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setSent(true)}
-          className="flex h-12 flex-1 items-center justify-center gap-2 bg-whatsapp-green font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-whatsapp-green font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
         >
           <WhatsAppIcon className="h-4 w-4" />
           {lines.length > 0 ? "Send via WhatsApp" : "Order on WhatsApp"}
         </a>
         <a
           href={`tel:${SITE.phones.callToConfirm}`}
-          className="flex h-12 flex-1 items-center justify-center gap-2 bg-queso-red font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-queso-red font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
         >
           <PhoneIcon className="h-4 w-4" />
           Call to Confirm
