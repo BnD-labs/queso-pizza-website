@@ -39,12 +39,12 @@ export function MostOrderedCard() {
           <span className="truncate font-display text-base font-bold text-queso-cream">
             {pizza.name}
           </span>
-          <span className="font-body text-sm font-bold text-queso-red">
+          <span className="font-body text-sm font-bold text-queso-cream">
             from K{pizza.prices.S}
           </span>
         </div>
         <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center bg-queso-red text-white"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-control bg-queso-red text-white"
           aria-hidden
         >
           <PlusIcon className="h-4 w-4" />

@@ -49,17 +49,17 @@ export function FlatItemRow({
             {description}
           </p>
         ) : null}
-        <span className="font-body text-sm font-bold text-queso-red">
+        <span className="font-body text-sm font-bold text-queso-cream">
           K{item.price}
         </span>
       </div>
       {qty > 0 ? (
-        <div className="flex shrink-0 items-center border border-queso-cream/25">
+        <div className="flex shrink-0 items-center overflow-hidden rounded-control border border-queso-cream/25">
           <button
             type="button"
             aria-label={`Remove one ${item.name}`}
             onClick={() => decrement(lineKey(item.id))}
-            className="flex h-9 w-9 items-center justify-center text-queso-cream/80"
+            className="flex h-9 w-9 items-center justify-center text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
           >
             <MinusIcon className="h-4 w-4" />
           </button>
@@ -70,7 +70,7 @@ export function FlatItemRow({
             type="button"
             aria-label={`Add one ${item.name}`}
             onClick={() => increment(lineKey(item.id))}
-            className="flex h-9 w-9 items-center justify-center text-queso-cream/80"
+            className="flex h-9 w-9 items-center justify-center text-queso-cream/80 transition-[background-color,color,transform] duration-[var(--dur-fast)] hover:bg-queso-cream/10 hover:text-queso-cream active:scale-90"
           >
             <PlusIcon className="h-4 w-4" />
           </button>
@@ -80,7 +80,7 @@ export function FlatItemRow({
           type="button"
           aria-label={`Add ${item.name} to order`}
           onClick={() => add(item.id, item.name, item.price)}
-          className="flex h-9 w-9 shrink-0 items-center justify-center border border-queso-cream/25 text-queso-cream/80"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control border border-queso-cream/25 text-queso-cream/80 transition-[background-color,border-color,color,transform] duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white active:scale-90"
         >
           <PlusIcon className="h-4 w-4" />
         </button>

@@ -19,8 +19,8 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
   if (count === 0) return null;
 
   return (
-    <section className="mx-auto max-w-7xl pb-16">
-      <p className="pb-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
+    <section className="queso-enter mx-auto max-w-7xl pb-16">
+      <p className="pb-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream/70">
         Perfect Pairings
       </p>
       <div className="flex gap-5 overflow-x-auto pb-2">
@@ -31,7 +31,7 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
               key={item.id}
               type="button"
               onClick={() => add(item.id, item.name, item.price)}
-              className="flex w-20 shrink-0 flex-col items-center gap-2 text-center"
+              className="group flex w-20 shrink-0 flex-col items-center gap-2 text-center transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:-translate-y-1 active:scale-95"
               aria-label={`Add ${item.name} (K${item.price}) to order`}
             >
               <span className="relative block h-16 w-16">
@@ -61,7 +61,7 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
               <span className="font-body text-[11px] leading-tight text-queso-cream/80">
                 {item.name}
                 <br />
-                <span className="font-bold text-queso-red">K{item.price}</span>
+                <span className="font-bold text-queso-cream">K{item.price}</span>
               </span>
             </button>
           );

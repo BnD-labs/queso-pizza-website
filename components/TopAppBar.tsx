@@ -26,7 +26,7 @@ export function TopAppBar() {
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-12 w-12 items-center justify-center text-queso-cream"
+          className="flex h-12 w-12 items-center justify-center rounded-control text-queso-cream transition-colors duration-[var(--dur-base)] hover:bg-queso-cream/10"
         >
           <MenuIcon className="h-5 w-5" />
         </button>
@@ -51,7 +51,7 @@ export function TopAppBar() {
         <Link
           href="/menu"
           aria-label={count > 0 ? `Menu & Order — ${count} items in order` : "Menu & Order"}
-          className="relative flex h-12 w-12 items-center justify-center text-queso-cream"
+          className="relative flex h-12 w-12 items-center justify-center rounded-control text-queso-cream transition-colors duration-[var(--dur-base)] hover:bg-queso-cream/10"
         >
           <BagIcon className="h-5 w-5" />
           {count > 0 ? (

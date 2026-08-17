@@ -46,9 +46,9 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className={`font-body text-base ${
+                      className={`font-body text-base transition-colors duration-[var(--dur-base)] ${
                         active
-                          ? "text-queso-red"
+                          ? "font-bold text-queso-yellow"
                           : "text-queso-cream/65 hover:text-queso-cream"
                       }`}
                     >

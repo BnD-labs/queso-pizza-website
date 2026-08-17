@@ -27,14 +27,27 @@
   --color-about-bg: #e8e1da;
 
   /* ——— APPROVED EXCEPTION: WhatsApp action buttons ONLY (platform recognition). ———
-     Never use for any other element. */
-  --color-whatsapp-green: #29d51a;
+     Never use for any other element.
+     #25D366 is WhatsApp's actual brand green. The previous #29D51A came from
+     the Figma export and sat noticeably brighter and more lime — which worked
+     against the whole point of the exception, since the colour is here to be
+     recognised as WhatsApp rather than to be a green. Corrected 2026-07-29. */
+  --color-whatsapp-green: #25d366;
 
-  /* ——— Shape: zero roundedness. ———
-     The entire radius scale is removed so no rounded-* utility can ship a corner.
+  /* ——— Shape ———
+     The entire radius scale is removed so no rounded-* utility can ship a corner
+     by accident. Surfaces — cards, image containers, bento tiles, panels, the app
+     bar, the footer — stay sharp 90°; that is the brand.
+
+     ONE exception, added 2026-07-29 (Brandon): interactive controls get a small
+     radius via `rounded-control`. Things you press are softened; things you read
+     stay architectural. Do not introduce further radius tokens — a second value
+     is what makes a mixed system read as accidental rather than designed.
+
      `rounded-full` (a fixed value, not a theme token) remains available — permitted
-     ONLY for the map pin dot and the cart count badge. */
+     ONLY for the map pin dot and the Perfect Pairings chips. */
   --radius-*: initial;
+  --radius-control: 0.375rem; /* 6px — buttons, selectors, steppers, pills */
 
   /* ——— Typography (wired to next/font variables set in app/layout.tsx) ——— */
   --font-display: var(--font-epilogue); /* headlines, 700–800 */
@@ -45,4 +58,86 @@ body {
   background: var(--color-queso-black);
   color: var(--color-queso-cream);
   font-family: var(--font-body);
+}
+
+/* ═══ Motion system ═══════════════════════════════════════════════════════
+ * Shared durations/easings so every transition in the build feels related.
+ * Interaction states are written inline with Tailwind (matching the rest of
+ * the codebase); only the reusable entrance choreography lives here.
+ * ═════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --dur-fast: 150ms; /* press feedback — stays snappy, it answers a tap */
+  --dur-base: 300ms; /* hover / color shifts */
+  --dur-slow: 950ms; /* entrances — long enough to read as deliberate */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Keyboard focus. Yellow reads clearly on both the dark surfaces and the
+   cream story card, and it is brand rather than the browser default blue. */
+:focus-visible {
+  outline: 2px solid var(--color-queso-yellow);
+  outline-offset: 3px;
+}
+
+@keyframes queso-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* On-load entrance, used for above-the-fold hero content only. */
+.queso-enter {
+  animation: queso-rise var(--dur-slow) var(--ease-out-expo) both;
+}
+
+.queso-stagger-1 {
+  animation-delay: 160ms;
+}
+.queso-stagger-2 {
+  animation-delay: 320ms;
+}
+.queso-stagger-3 {
+  animation-delay: 480ms;
+}
+
+/* Scroll-triggered reveal, CSS-only via scroll-driven animations — no JS and
+ * no IntersectionObserver, which keeps these server components static.
+ *
+ * Content is visible by DEFAULT and the animation is layered on only where
+ * supported. Done the other way round (hidden by default, revealed by script)
+ * a browser without support would render a blank page — unacceptable on the
+ * mid-range Android hardware this site targets. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .queso-reveal {
+      animation: queso-rise var(--dur-slow) var(--ease-out-expo) both;
+      animation-timeline: view();
+      /* Stretched range: the reveal plays across more of the element's travel
+         through the viewport, so it reads as a considered move rather than a
+         flicker. Scroll-driven animations are progress-based, so this range —
+         not --dur-slow — is what actually governs how long it appears to take. */
+      animation-range: entry 0% entry 75%;
+    }
+  }
+}
+
+/* Honour the OS-level reduced-motion preference everywhere, including the
+   inline Tailwind transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
