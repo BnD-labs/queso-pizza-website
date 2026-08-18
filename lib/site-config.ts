@@ -26,6 +26,12 @@ export const SITE = {
     area: "Chongwe Central",
     road: "Great East Road",
     city: "Chongwe, Lusaka Province, Zambia",
+    // The same address split into schema.org PostalAddress components. These
+    // restate the confirmed line above — no new facts, and no landmark, which
+    // is still UNCONFIRMED and must not be asserted to search engines.
+    locality: "Chongwe",
+    region: "Lusaka Province",
+    country: "ZM",
     // UNCONFIRMED — verify with Arthur: "next to" vs "opposite" Access Bank.
     // Render with the italic/placeholder styling from the design until confirmed.
     landmark: "near Access Bank",

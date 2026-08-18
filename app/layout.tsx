@@ -5,6 +5,7 @@ import { SITE } from "@/lib/site-config";
 import { TopAppBar } from "@/components/TopAppBar";
 import { Footer } from "@/components/Footer";
 import { BottomNavBar } from "@/components/BottomNavBar";
+import { StructuredData } from "@/components/StructuredData";
 import { OrderProvider } from "@/components/order/OrderProvider";
 
 const epilogue = Epilogue({
@@ -67,6 +68,7 @@ export default function RootLayout({
       className={`${epilogue.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <StructuredData />
         <OrderProvider>
           <TopAppBar />
           <div className="flex flex-1 flex-col pb-20 pt-16">
