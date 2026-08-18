@@ -18,7 +18,29 @@ Build phases 1–5 are complete and committed. Everything below is launch work.
 
 ---
 
-## Step 1 — Get the preview deploy green (do this first)
+## Step 1 — DONE (2026-08-18): production deployed, CI wired
+
+Production was serving a build from **2026-07-28** — three weeks and the entire
+design-polish pass behind `main`. There were only ever three deployments, all hand-run
+on 26–28 July, and no CI existed despite a commit message claiming "deploys on push".
+
+Resolved 2026-08-18:
+- `main` (incl. the post-launch improvements) deployed to `queso-pizza-website`,
+  version `813b9857-8a03-42ae-a6e4-df382d435514`. Apex, `www`, all four routes,
+  `sitemap.xml` and `robots.txt` verified 200; unknown paths correctly 404.
+- `.github/workflows/deploy.yml` deploys on push to `main`, with a guard that fails
+  the build if placeholder scaffolding reaches the export (constitution v4).
+- `account_id` pinned in `wrangler.jsonc` so a multi-account token cannot deploy to
+  the wrong account.
+- `npm run deploy` added for the manual path.
+
+**Access note:** BnD Labs briefly lost access to the client Cloudflare account when the
+client changed their Google password. `bndlabs.023@gmail.com` is now an Administrator
+*member* of `Quesofoods22@gmail.com`'s account — keep that membership, it is what makes
+deploys possible without holding the client's mailbox. The domain is on **Cloudflare
+Registrar** in the client account, so it cannot be moved or re-delegated without them.
+
+### Original Step 1 (historical)
 
 Everything else verifies against a real URL, so this unblocks the rest.
 

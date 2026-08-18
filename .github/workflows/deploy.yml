@@ -1,0 +1,52 @@
+# Deploy the static export to the Cloudflare Worker on push to main.
+#
+# This exists because production silently fell three weeks behind main: the
+# site was deployed by hand on 2026-07-28 and nothing shipped after, including
+# the entire design-polish pass. "Deploys on push" was claimed in a commit
+# message but was never true in this repo.
+#
+# Requires ONE repo secret: CLOUDFLARE_API_TOKEN, issued from the client
+# account (Quesofoods22@gmail.com) with the "Edit Cloudflare Workers" template.
+# The account is pinned in wrangler.jsonc, so no account secret is needed.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # lets you re-deploy from the Actions tab without a commit
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false # never interrupt a half-finished asset upload
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Fail the deploy on a type error rather than shipping a broken export.
+      - run: npm run build
+
+      # Guard the v4 constitution rule: placeholder scaffolding must never
+      # reach a customer. Cheap here, and it fails loudly if someone reverts
+      # the SHOW_PLACEHOLDERS gating by accident.
+      - name: Assert no placeholder scaffolding in the export
+        run: |
+          if grep -rl --include='*.html' --include='*.txt' -e 'PLACEHOLDER' -e 'Photography pending' out/; then
+            echo "::error::Placeholder scaffolding found in the production export"
+            exit 1
+          fi
+          echo "clean"
+
+      - name: Deploy to Cloudflare
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

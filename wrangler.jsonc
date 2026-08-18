@@ -9,6 +9,10 @@
   //
   // Deliberately NO "main" field: this is an assets-only Worker. Cloudflare
   // serves out/ straight from the edge, no runtime and no bundling step.
+  // Pinned so a token with access to more than one account cannot deploy to
+  // the wrong one. This is the client account (Quesofoods22@gmail.com);
+  // account IDs are not secrets, they appear in every dashboard URL.
+  "account_id": "95655eb34cf0e2367f3adbc9e10f9b34",
   "name": "queso-pizza-website",
   "compatibility_date": "2026-07-26",
   "assets": {
