@@ -14,6 +14,12 @@ const NAV_LINKS = [
   { href: "/contact", label: "Find Us" },
 ];
 
+// prefetch={false} on every internal Link is deliberate, not an oversight.
+// Next 16 writes the RSC payload to out/menu/__next.menu/__PAGE__.txt but asks
+// for __next.menu.__PAGE__.txt, so under output: "export" every prefetch 404s
+// and logs a console error. Four static pages behind a CDN gain almost nothing
+// from prefetching, and a wasted 404 per link costs more on the mobile
+// connections this site targets.
 export function TopAppBar() {
   const [open, setOpen] = useState(false);
   const { count } = useOrder();
@@ -33,6 +39,7 @@ export function TopAppBar() {
 
         <Link
           href="/"
+          prefetch={false}
           className="flex items-center gap-2"
           onClick={() => setOpen(false)}
         >
@@ -50,6 +57,7 @@ export function TopAppBar() {
 
         <Link
           href="/menu"
+          prefetch={false}
           aria-label={count > 0 ? `Menu & Order — ${count} items in order` : "Menu & Order"}
           className="relative flex h-12 w-12 items-center justify-center rounded-control text-queso-cream transition-colors duration-[var(--dur-base)] hover:bg-queso-cream/10"
         >
@@ -70,6 +78,7 @@ export function TopAppBar() {
               <li key={link.href} className="border-b border-queso-cream/5">
                 <Link
                   href={link.href}
+                  prefetch={false}
                   onClick={() => setOpen(false)}
                   className="block px-5 py-4 font-body text-base text-queso-cream/80 hover:text-queso-cream"
                 >

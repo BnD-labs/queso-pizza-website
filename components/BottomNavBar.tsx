@@ -18,10 +18,12 @@ function useOrderPanelInView() {
 
   useEffect(() => {
     const panel = document.getElementById("order");
-    if (!panel) {
-      setInView(false);
-      return;
-    }
+    // Nothing to observe on Home/About/Contact. Bailing out here rather than
+    // setting state keeps this effect free of a synchronous setState, which
+    // React flags as a cascading-render risk; the reset instead happens in the
+    // cleanup below, which is what actually needs to run when navigating away
+    // from the one page that has #order.
+    if (!panel) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
@@ -31,7 +33,12 @@ function useOrderPanelInView() {
       { rootMargin: "0px 0px -140px 0px" },
     );
     observer.observe(panel);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      // Leaving /menu: the bar must come back, or it stays hidden on a page
+      // that has no order panel to hand over to.
+      setInView(false);
+    };
   }, [pathname]);
 
   return inView;

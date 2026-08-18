@@ -72,6 +72,7 @@ export default function Home() {
           </h1>
           <Link
             href="/menu"
+            prefetch={false}
             className="queso-enter queso-stagger-2 rounded-control bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-white transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
           >
             Order Now
@@ -118,6 +119,7 @@ export default function Home() {
             </p>
             <Link
               href="/about"
+              prefetch={false}
               className="group flex w-fit items-center gap-2 border-b-2 border-queso-black pb-1 font-body text-sm font-bold uppercase tracking-wide text-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:text-queso-red"
             >
               Discover Our Story
@@ -150,11 +152,14 @@ export default function Home() {
               <Link
                 key={card.title}
                 href="/menu"
+                prefetch={false}
                 className={`group relative block overflow-hidden border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 ${card.tile}`}
               >
                 <Image
                   src={card.image}
-                  alt={card.title}
+                  // Decorative: the tile's own <h3> already announces it, so
+                  // repeating the title here just makes screen readers say it twice.
+                  alt=""
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover opacity-60 transition-[opacity,transform] duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.04] group-hover:opacity-80"
@@ -177,6 +182,7 @@ export default function Home() {
                 the 4+2 / 2+2+2 grid balanced. */}
             <Link
               href="/menu"
+              prefetch={false}
               className="relative flex h-[250px] flex-col justify-end border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 md:col-span-2"
             >
               {SHOW_PLACEHOLDERS ? (
@@ -203,6 +209,7 @@ export default function Home() {
             {/* Extras & Add-ons */}
             <Link
               href="/menu"
+              prefetch={false}
               className="group flex h-[250px] flex-col items-center justify-center gap-2 border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 md:col-span-2"
             >
               <PlusIcon className="h-8 w-8 text-queso-red transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover:rotate-90" />
@@ -213,6 +220,7 @@ export default function Home() {
           </div>
           <Link
             href="/menu"
+            prefetch={false}
             className="flex items-center justify-center rounded-control border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-cream transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
           >
             View Full Menu

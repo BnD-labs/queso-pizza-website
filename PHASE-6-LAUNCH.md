@@ -83,10 +83,38 @@ numbers. Ask once, then close them out either way.
 
 ## Step 3 — Verify on the preview URL
 
-- [ ] **Lighthouse mobile on the preview** — target ≥85. Localhost measured Perf 73,
-      but under-reports (no CDN/HTTP2). If it still misses, the fallback is dropping
-      the dark-map filter (`grayscale invert-[0.92] hue-rotate-180`) in
-      `components/MapEmbed.tsx` — worth ~2s throttled.
+- [x] **Lighthouse mobile, measured on production 2026-08-18** (first real run — the
+      old "Perf 73 on localhost" was never a real measurement):
+
+      | Category | Score |
+      |---|---|
+      | Performance | **48** — below the ≥85 gate |
+      | Accessibility | 96 |
+      | Best Practices | 100 |
+      | SEO | 100 |
+
+      Zero console errors, zero 404s, CLS 0.022. Fixed in this pass: image weight
+      3.19 MB → 915 KB, favicons 93 KB → 30 KB, a 404 prefetch on every internal
+      link, redundant alt text.
+
+      **Performance is still blocked on three structural items, none of which
+      re-encoding can fix:**
+      1. **No responsive images — 331 KB wasted.** `images.unoptimized` is required
+         by `output: "export"`, so `next/image` emits no `srcset`: a 390 px phone
+         downloads the 1400 px hero, and the 64 px "Most Ordered" thumbnail
+         downloads the full 1060 px menu photo (119 KB to paint 64 px). Fixing this
+         means generating sized variants and hand-rolling `srcset`/`<picture>`.
+      2. **Google Maps embed ships ~192 KB of third-party JS on Home** and drives
+         most of the 1,290 ms Total Blocking Time. A click-to-load facade would
+         remove it from first paint entirely.
+      3. **LCP is the hero image at 5.6 s.** Falls out of (1).
+
+- [ ] **WhatsApp button contrast fails WCAG.** White on `#25D366` measures
+      **1.98:1** — far below 4.5:1, and the worst contrast on the site. The green is
+      a locked brand exception for platform recognition, but the *text colour* on it
+      is not specified anywhere. `queso-black` on that same green measures ≈9.5:1 and
+      keeps the WhatsApp recognition intact. Needs Brandon's sign-off since it changes
+      the most-used button on the site.
 - [ ] **Real-device test on a mid-range Android** (per QC checklist item 2) — layout,
       sticky bottom nav, order builder
 - [ ] **Full WhatsApp order flow on a real phone** — build an order, confirm the
@@ -103,13 +131,15 @@ numbers. Ask once, then close them out either way.
 
 ## Step 5 — Production
 
-- [ ] Attach `quesopizza.com` to the Worker (**Settings → Domains & Routes**)
+- [x] ~~Attach `quesopizza.com` to the Worker~~ — already bound; apex and `www` both
+      map to `queso-pizza-website` in the client account
 - [ ] **First check the `quesopizza.com` DNS zone for an orphaned record.** The domain
       was briefly attached to a placeholder "Hello world" Worker on 2026-07-26 and
       then detached; a proxied DNS record for the apex/`www` can outlive the binding
       and will cause a confusing conflict here. Delete any leftover before attaching.
-- [ ] Verify HTTPS, then re-check the four routes and the order flow on production
-- [ ] Confirm the repo is the handover artifact and is pushed current
+- [x] HTTPS verified; all four routes + `sitemap.xml` + `robots.txt` return 200, unknown
+      paths 404 correctly, and the order flow was smoke-tested on production
+- [x] Repo pushed current
 
 ---
 
@@ -129,12 +159,12 @@ widget stays a placeholder until that decision is made — it is not a launch bl
 
 ## Trello — replaces the stale checklist
 
-- [ ] Cloudflare Worker preview deployed green (`wrangler.jsonc`, assets from `out/`)
+- [x] Cloudflare Worker deployed green
 - [ ] Address landmark confirmed with Arthur
 - [ ] WhatsApp order + call-to-confirm numbers confirmed with Dalitso
 - [ ] Photo mapping + "Most Ordered" item confirmed
-- [ ] Lighthouse mobile ≥85 on preview URL
+- [ ] Lighthouse mobile ≥85 — **measured 48 on production**, see Step 3
 - [ ] Real-device test: layout + full WhatsApp order flow
 - [ ] Brandon copy review & approval
 - [ ] Dalitso sign-off on preview
-- [ ] Production deploy + `quesopizza.com` custom domain live
+- [x] Production deploy + `quesopizza.com` custom domain live
