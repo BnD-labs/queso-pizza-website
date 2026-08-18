@@ -71,7 +71,8 @@ These are the `UNCONFIRMED` markers still live in the code. Each one blocks laun
 | 2 | WhatsApp order number — which line receives orders (WA Business), and that he expects pre-filled messages to start arriving | `lib/site-config.ts:16` | Dalitso |
 | 3 | Call-to-confirm number — the on-site line staff actually answer | `lib/site-config.ts:19` | Dalitso |
 | 4 | Photo-to-dish mapping — confirm each photo is the dish it's labelled as | `lib/menu-content.ts` | Brandon |
-| 5 | "Most Ordered" item — currently assumes Queso Original, not data-backed | `components/MostOrderedCard.tsx` | Dalitso |
+| 4b | **Item descriptions — 7 of 10 pizzas have none.** Drafts prepared for approval, none wired in (constitution bans invented ingredients). One (`all-in-one`) is written from the name alone and must not ship until Dalitso lists its toppings | `lib/menu-content.ts` | Brandon / Dalitso |
+| 5 | ~~"Most Ordered" item~~ **CONFIRMED 2026-08-18 (Brandon): Flavorful Chicken.** Was showing Queso Original, a provisional stand-in — the card asserted "MOST ORDERED" about an item nobody had checked | `components/MostOrderedCard.tsx` | ~~Dalitso~~ done |
 
 Items 2 and 3 currently both default to `+260976056200`. They are separate fields
 by design — confirm whether they are genuinely the same number.

@@ -5,10 +5,16 @@ import { ITEM_IMAGES } from "@/lib/menu-content";
 import { PlusIcon } from "./icons";
 
 // Floating "Most Ordered" card overlapping the Home hero (CLAUDE.md delta 7).
-// Featured item: Queso Original (the namesake special) — PROVISIONAL pick,
-// confirm the actual best-seller with Brandon. Quick-add deep-links to /menu
-// with the item pre-added at the card-default Small size.
-const FEATURED_ID = "queso-original";
+//
+// Featured item CONFIRMED 2026-08-18 (Brandon): Flavorful Chicken is the actual
+// best-seller. It previously showed Queso Original, which was only ever a
+// provisional stand-in picked because it is the namesake special — the card was
+// asserting "MOST ORDERED" about an item nobody had checked. This closes the
+// open item in PHASE-6-LAUNCH.md Step 2.
+//
+// Quick-add deep-links to /menu with the item pre-added at the card-default
+// Small size.
+const FEATURED_ID = "flavorful-chicken";
 
 export function MostOrderedCard() {
   const pizza = PIZZAS.find((p) => p.id === FEATURED_ID);

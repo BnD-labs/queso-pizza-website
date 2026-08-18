@@ -100,7 +100,7 @@ See `.claude/skills/whatsapp-order-builder/` before touching this component.
 
 **v4 amendment (2026-08-18, Brandon): placeholders are an internal-review tool, not a production state.**
 The dashed-border convention exists to tell the team what content is still outstanding. It was never
-meant to be read by a customer, and on the live site it was: 6 of 10 pizza cards showed "Photography
+meant to be read by a customer, and on the live site it was: 7 of 10 pizza cards showed "Photography
 pending", and both Home and Contact rendered the literal string
 `[PLACEHOLDER: This section is reserved for the live Google Business Profile reviews embed module.]`
 under five stars attached to no real rating. That is the single clearest reason the build read
