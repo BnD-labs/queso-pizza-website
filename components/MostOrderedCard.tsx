@@ -25,6 +25,11 @@ export function MostOrderedCard() {
     <div className="relative z-10 -mt-14 px-5">
       <Link
         href={`/menu?add=${pizza.id}&size=S`}
+        // Next prefetches the RSC payload for this route on hover/viewport, but
+        // output: "export" emits payloads at fixed paths only -- the query string
+        // produces /menu/__next.menu.__PAGE__.txt?add=... which 404s and logs a
+        // console error on every homepage visit. Nothing to prefetch here.
+        prefetch={false}
         className="mx-auto flex max-w-md items-center gap-4 border border-queso-cream/15 bg-surface-high p-3 shadow-lg shadow-queso-black/60"
       >
         {image ? (

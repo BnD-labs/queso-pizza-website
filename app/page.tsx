@@ -154,7 +154,9 @@ export default function Home() {
               >
                 <Image
                   src={card.image}
-                  alt={card.title}
+                  // Decorative: the tile's own <h3> already announces it, so
+                  // repeating the title here just makes screen readers say it twice.
+                  alt=""
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover opacity-60 transition-[opacity,transform] duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.04] group-hover:opacity-80"
