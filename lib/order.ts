@@ -2,9 +2,19 @@
 // Order-builder core: line-item state, reducer, and WhatsApp message
 // compilation. Pure functions — React wiring lives in components/order.
 // Pattern spec: .claude/skills/whatsapp-order-builder/SKILL.md
-// (single-visit flow: no persistence, no payments, no tracking).
+//
+// PERSISTENCE NOTE (2026-08-18). The skill lists "no cart persistence across
+// sessions" as an explicit non-goal, and that still holds: nothing here uses
+// localStorage or cookies, and closing the tab discards the order.
+//
+// What this DOES restore is an in-progress order across a reload of the same
+// tab, via sessionStorage. That is not a cross-session cart — it is the fix for
+// a real defect in the flow the skill itself describes: submitting sends the
+// customer off-site to WhatsApp, and on the mid-range Android this site targets
+// Chrome frequently discards the backgrounded tab. Returning "to finish the
+// order" then found it empty. Single-visit stays single-visit.
 
-import type { PizzaSize } from "./menu-data";
+import { PIZZAS, SHAWARMA, FRIES, type PizzaSize } from "./menu-data";
 
 export interface OrderLine {
   /** Unique line key: flat items use the item id, pizzas use `id:size`. */
@@ -26,6 +36,7 @@ export type OrderAction =
     }
   | { type: "increment"; key: string }
   | { type: "decrement"; key: string }
+  | { type: "hydrate"; lines: OrderLine[] }
   | { type: "clear" };
 
 export function lineKey(id: string, size?: PizzaSize): string {
@@ -66,6 +77,12 @@ export function orderReducer(
       return lines
         .map((l) => (l.key === action.key ? { ...l, qty: l.qty - 1 } : l))
         .filter((l) => l.qty > 0);
+    // Restores a revived order. Guarded here rather than in the effect: a deep
+    // link (MenuAddHandler) is a child of the provider, so its add dispatches
+    // before the provider's own mount effect. Refusing to overwrite a non-empty
+    // order makes the restore correct no matter which lands first.
+    case "hydrate":
+      return lines.length > 0 ? lines : action.lines;
     case "clear":
       return [];
   }
@@ -99,4 +116,85 @@ export function waOrderUrl(e164Phone: string, lines: OrderLine[]): string {
   const number = e164Phone.replace(/\D/g, "");
   if (lines.length === 0) return `https://wa.me/${number}`;
   return `https://wa.me/${number}?text=${encodeURIComponent(compileOrderMessage(lines))}`;
+}
+
+/* ─── In-visit restore ────────────────────────────────────────────────────── */
+
+/** sessionStorage key. Versioned so a shape change can't revive as garbage. */
+export const ORDER_STORAGE_KEY = "queso.order.v1";
+
+const SIZES: readonly PizzaSize[] = ["S", "M", "L", "XL"];
+const PIZZA_BY_ID = new Map(PIZZAS.map((p) => [p.id, p]));
+const FLAT_BY_ID = new Map([...SHAWARMA, ...FRIES].map((i) => [i.id, i]));
+
+/** Guards against a hand-edited payload turning into an absurd order. */
+const MAX_QTY = 99;
+const MAX_LINES = 50;
+
+/**
+ * Rebuilds order lines from stored JSON, re-deriving every name and price from
+ * lib/menu-data.ts rather than trusting what was written.
+ *
+ * The data file is the single source of truth (CLAUDE.md), and a stored order
+ * can outlive a price change by hours. Trusting the stored unitPrice would let
+ * a customer send yesterday's prices to the kitchen — the order text is what
+ * staff work from, so that is a money bug, not a display bug. Unknown ids are
+ * dropped rather than guessed.
+ */
+export function reviveOrder(raw: string | null): OrderLine[] {
+  if (!raw) return [];
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(parsed)) return [];
+
+  const byKey = new Map<string, OrderLine>();
+
+  for (const entry of parsed.slice(0, MAX_LINES)) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const { id, size, qty } = entry as Record<string, unknown>;
+    if (typeof id !== "string") continue;
+    if (typeof qty !== "number" || !Number.isInteger(qty) || qty < 1) continue;
+
+    let line: Omit<OrderLine, "qty"> | null = null;
+
+    if (size === undefined || size === null) {
+      const item = FLAT_BY_ID.get(id);
+      if (item) {
+        line = { key: lineKey(item.id), id: item.id, name: item.name, unitPrice: item.price };
+      }
+    } else if (typeof size === "string" && SIZES.includes(size as PizzaSize)) {
+      const pizza = PIZZA_BY_ID.get(id);
+      if (pizza) {
+        const s = size as PizzaSize;
+        line = {
+          key: lineKey(pizza.id, s),
+          id: pizza.id,
+          name: pizza.name,
+          size: s,
+          unitPrice: pizza.prices[s],
+        };
+      }
+    }
+    if (!line) continue;
+
+    const existing = byKey.get(line.key);
+    byKey.set(line.key, {
+      ...line,
+      qty: Math.min((existing?.qty ?? 0) + qty, MAX_QTY),
+    });
+  }
+
+  return [...byKey.values()];
+}
+
+/** Stores only identity + quantity; prices are re-derived on revive. */
+export function serializeOrder(lines: OrderLine[]): string {
+  return JSON.stringify(
+    lines.map((l) => ({ id: l.id, size: l.size, qty: l.qty })),
+  );
 }
