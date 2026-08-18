@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { SITE, formatPhone, formatTime } from "@/lib/site-config";
+import {
+  SITE,
+  SHOW_PLACEHOLDERS,
+  formatPhone,
+  formatTime,
+} from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
 import { MapEmbed } from "@/components/MapEmbed";
 import {
@@ -104,7 +109,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ——— Customer Voice — GBP reviews placeholder ——— */}
+      {/* ——— Customer Voice — GBP reviews placeholder. Hidden in production for
+             the same reason as the Home block: there is no approved copy behind
+             it, and the stars imply a rating that does not exist yet. ——— */}
+      {SHOW_PLACEHOLDERS ? (
       <section className="queso-reveal mx-auto flex max-w-7xl flex-col gap-6 pb-28 md:pb-36">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream">
@@ -127,6 +135,7 @@ export default function ContactPage() {
           className="w-full"
         />
       </section>
+      ) : null}
     </div>
   );
 }

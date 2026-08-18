@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, MAPS_SEARCH_URL, formatPhone, formatTime } from "@/lib/site-config";
+import {
+  SITE,
+  MAPS_SEARCH_URL,
+  SHOW_PLACEHOLDERS,
+  formatPhone,
+  formatTime,
+} from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
 import { MostOrderedCard } from "@/components/MostOrderedCard";
 import { MapEmbed } from "@/components/MapEmbed";
@@ -165,21 +171,32 @@ export default function Home() {
             ))}
 
             {/* Refreshments — no verified beverage photography; placeholder convention */}
+            {/* Kept in production, unlike the reviews block: the shop really
+                does sell drinks, and the in-store line is approved copy. Only
+                the dashed scaffolding is internal — and keeping the tile keeps
+                the 4+2 / 2+2+2 grid balanced. */}
             <Link
               href="/menu"
               className="relative flex h-[250px] flex-col justify-end border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 md:col-span-2"
             >
-              <div className="absolute inset-2">
-                <Placeholder
-                  icon={<CameraIcon className="h-7 w-7" />}
-                  body="Beverage photography pending"
-                  className="h-full"
-                />
-              </div>
+              {SHOW_PLACEHOLDERS ? (
+                <div className="absolute inset-2">
+                  <Placeholder
+                    icon={<CameraIcon className="h-7 w-7" />}
+                    body="Beverage photography pending"
+                    className="h-full"
+                  />
+                </div>
+              ) : null}
               <div className="relative p-6">
                 <h3 className="font-display text-lg font-bold text-queso-cream">
                   Refreshments
                 </h3>
+                {SHOW_PLACEHOLDERS ? null : (
+                  <p className="pt-1 font-body text-sm text-queso-cream/60">
+                    Available in-store
+                  </p>
+                )}
               </div>
             </Link>
 
@@ -203,7 +220,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ——— Social proof — GBP reviews placeholder (no fabricated quotes) ——— */}
+      {/* ——— Social proof — GBP reviews placeholder (no fabricated quotes).
+             Hidden in production: unlike Beverages there is no approved copy
+             behind this, so there is nothing honest to show a customer yet.
+             The five stars go with it — stars imply a rating we do not have. ——— */}
+      {SHOW_PLACEHOLDERS ? (
       <section className="border-y border-queso-cream/10 px-5 py-20 md:py-24">
         <div className="queso-reveal mx-auto flex max-w-3xl flex-col items-center gap-6">
           <div
@@ -223,6 +244,7 @@ export default function Home() {
           />
         </div>
       </section>
+      ) : null}
 
       {/* ——— Location & hours ——— */}
       <section className="px-5 py-24 md:py-32">

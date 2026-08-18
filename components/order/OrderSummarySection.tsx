@@ -3,6 +3,7 @@
 import { useOrder } from "./OrderProvider";
 import { OrderLinesList } from "./OrderLinesList";
 import { OrderCtas } from "./OrderCtas";
+import { OrderNextSteps } from "./OrderNextSteps";
 
 // The "Order Ready! Send and Call to Confirm" section at the bottom of /menu
 // (per the final design). Renders the live order — never sample data.
@@ -36,6 +37,7 @@ export function OrderSummarySection() {
             </span>
           </div>
           <OrderCtas stacked />
+          <OrderNextSteps />
         </div>
       )}
     </section>

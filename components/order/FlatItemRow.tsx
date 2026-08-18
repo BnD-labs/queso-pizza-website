@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { FlatItem } from "@/lib/menu-data";
 import { lineKey } from "@/lib/order";
+import { SHOW_PLACEHOLDERS } from "@/lib/site-config";
 import { CameraIcon, MinusIcon, PlusIcon } from "@/components/icons";
 import { useOrder } from "./OrderProvider";
 
@@ -20,10 +21,12 @@ export function FlatItemRow({
 }) {
   const { add, increment, decrement, qtyOf } = useOrder();
   const qty = qtyOf(item.id);
+  // Same reasoning as PizzaCard: an empty dashed square is worse than no square.
+  const showImage = showThumb && (Boolean(image) || SHOW_PLACEHOLDERS);
 
   return (
     <article className="flex items-center gap-4 border border-queso-cream/10 bg-surface-low p-4">
-      {showThumb ? (
+      {showImage ? (
         <div className="relative h-16 w-16 shrink-0">
           {image ? (
             <Image
