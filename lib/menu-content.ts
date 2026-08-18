@@ -26,3 +26,15 @@ export const ITEM_IMAGES: Record<string, string> = {
   "queso-original": "/images/pizza-cheese-pull.jpeg",
   "shawarma-platter": "/images/shawarma-box.jpeg",
 };
+
+/**
+ * Menu section jump targets. Shared by the in-page intro pills (mobile) and
+ * the sticky MenuCategoryNav (md+) so the two can never drift apart — the
+ * previous list omitted Beverages even though <section id="beverages"> exists.
+ */
+export const MENU_CATEGORIES = [
+  { id: "pizza", label: "Pizza" },
+  { id: "shawarma", label: "Shawarma" },
+  { id: "fries", label: "Fries" },
+  { id: "beverages", label: "Beverages" },
+] as const;

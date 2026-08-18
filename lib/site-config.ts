@@ -68,3 +68,16 @@ export function formatTime(hhmm: string): string {
   const hour12 = h % 12 === 0 ? 12 : h % 12;
   return `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${suffix}`;
 }
+
+/**
+ * Whether to render placeholder scaffolding (dashed "photography pending"
+ * boxes, the [PLACEHOLDER] reviews module, the beverages "Placeholder" badge).
+ *
+ * The dashed-placeholder convention is an internal-review tool — it tells the
+ * team what content is still outstanding. It is not a production state: a
+ * paying customer reading "[PLACEHOLDER: This section is reserved for the live
+ * Google Business Profile reviews embed module.]" learns only that the site is
+ * unfinished. NODE_ENV is set by next build/next dev, so this is resolved and
+ * tree-shaken at build time. See CLAUDE.md v4 amendment.
+ */
+export const SHOW_PLACEHOLDERS = process.env.NODE_ENV !== "production";

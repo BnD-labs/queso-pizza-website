@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import type { PizzaItem, PizzaSize } from "@/lib/menu-data";
 import { lineKey } from "@/lib/order";
+import { SITE, SHOW_PLACEHOLDERS } from "@/lib/site-config";
 import { Placeholder } from "@/components/Placeholder";
 import {
   CameraIcon,
@@ -30,6 +31,10 @@ export function PizzaCard({
   const [selectedSize, setSelectedSize] = useState<PizzaSize | null>(null);
   const [sizeHint, setSizeHint] = useState(false);
 
+  // With no photo, production renders a text-forward card rather than a dashed
+  // "Photography pending" hole — 6 of 10 pizzas have no photo, and a grid full
+  // of empty boxes is what made the build read as unfinished.
+  const showImageBox = Boolean(image) || SHOW_PLACEHOLDERS;
   const displayPrice = pizza.prices[selectedSize ?? "S"];
   const qty = selectedSize ? qtyOf(pizza.id, selectedSize) : 0;
 
@@ -43,29 +48,38 @@ export function PizzaCard({
 
   return (
     <article className="group flex flex-col border border-queso-cream/10 bg-surface-low transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        {pizza.tier === "special" ? (
-          <span className="absolute left-0 top-0 z-10 bg-queso-yellow px-2 py-1 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-black">
+      {showImageBox ? (
+        <div className="relative aspect-[4/3] overflow-hidden">
+          {pizza.tier === "special" ? (
+            <span className="absolute left-0 top-0 z-10 bg-queso-yellow px-2 py-1 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-black">
+              Special
+            </span>
+          ) : null}
+          {image ? (
+            <Image
+              src={image}
+              alt={`${pizza.name} pizza from Queso Pizza in ${SITE.address.locality}`}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="object-cover transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.05]"
+            />
+          ) : (
+            <Placeholder
+              icon={<CameraIcon className="h-7 w-7" />}
+              body="Photography pending"
+              className="h-full"
+            />
+          )}
+        </div>
+      ) : null}
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        {/* The badge lives on the photo when there is one; without it, it needs
+            its own slot or the tier is invisible. */}
+        {!showImageBox && pizza.tier === "special" ? (
+          <span className="w-fit bg-queso-yellow px-2 py-1 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-black">
             Special
           </span>
         ) : null}
-        {image ? (
-          <Image
-            src={image}
-            alt={`${pizza.name} pizza`}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-            className="object-cover transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.05]"
-          />
-        ) : (
-          <Placeholder
-            icon={<CameraIcon className="h-7 w-7" />}
-            body="Photography pending"
-            className="h-full"
-          />
-        )}
-      </div>
-      <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-baseline justify-between gap-3">
           <h3 className="font-display text-xl font-bold text-queso-cream">
             {pizza.name}

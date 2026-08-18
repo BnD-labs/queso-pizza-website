@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PIZZAS, SHAWARMA, FRIES, EXTRA_CHEESE } from "@/lib/menu-data";
-import { ITEM_DESCRIPTIONS, ITEM_IMAGES } from "@/lib/menu-content";
+import { ITEM_DESCRIPTIONS, ITEM_IMAGES, MENU_CATEGORIES } from "@/lib/menu-content";
+import { SHOW_PLACEHOLDERS } from "@/lib/site-config";
+import { MenuCategoryNav } from "@/components/MenuCategoryNav";
 import { Placeholder } from "@/components/Placeholder";
 import { CameraIcon } from "@/components/icons";
 import { PizzaCard } from "@/components/order/PizzaCard";
@@ -15,12 +17,6 @@ export const metadata: Metadata = {
   description:
     "Wood-fired pizza, shawarma, and fries in Chongwe. Build your order and send it on WhatsApp.",
 };
-
-const CATEGORIES = [
-  { id: "pizza", label: "Pizza" },
-  { id: "shawarma", label: "Shawarma" },
-  { id: "fries", label: "Fries" },
-];
 
 // Cross-sell strip content: fries + a shawarma as sides. Beverages are
 // excluded — no verified drink data exists (CLAUDE.md: never invent it).
@@ -47,8 +43,9 @@ export default function MenuPage() {
           Premium wood-fired pizza and shawarma. Authentic flavors, local
           roots.
         </p>
-        <nav className="queso-enter queso-stagger-2 flex gap-2">
-          {CATEGORIES.map((cat) => (
+        {/* md+ gets the sticky bar below instead — don't show both. */}
+        <nav className="queso-enter queso-stagger-2 flex flex-wrap justify-center gap-2 md:hidden">
+          {MENU_CATEGORIES.map((cat) => (
             <a
               key={cat.id}
               href={`#${cat.id}`}
@@ -59,6 +56,8 @@ export default function MenuPage() {
           ))}
         </nav>
       </section>
+
+      <MenuCategoryNav />
 
       {/* ——— Perfect Pairings (appears once the order has items) ——— */}
       <PerfectPairings items={PAIRINGS} />
@@ -73,7 +72,11 @@ export default function MenuPage() {
             Wood-Fired
           </span>
         </div>
-        <div className="queso-reveal flex flex-col gap-8 md:grid md:grid-cols-2 lg:grid-cols-3">
+        {/* items-start, not the default stretch: a text-forward card (no photo)
+            stretched to a photo card's height leaves a dead void between the
+            size selector and the mt-auto Add button. Natural heights read as a
+            deliberate mixed grid instead. */}
+        <div className="queso-reveal flex flex-col gap-8 md:grid md:grid-cols-2 md:items-start lg:grid-cols-3">
           {PIZZAS.map((pizza) => (
             <PizzaCard
               key={pizza.id}
@@ -152,15 +155,26 @@ export default function MenuPage() {
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
             Beverages
           </h2>
-          <span className="border border-queso-cream/25 px-2 py-0.5 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-cream/50">
-            Placeholder
-          </span>
+          {SHOW_PLACEHOLDERS ? (
+            <span className="border border-queso-cream/25 px-2 py-0.5 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-cream/50">
+              Placeholder
+            </span>
+          ) : null}
         </div>
-        <Placeholder
-          icon={<CameraIcon className="h-8 w-8" />}
-          body="Variety of sodas, juices and water available in-store."
-          className="w-full"
-        />
+        {/* The category is real and the copy is approved — only the dashed
+            scaffolding is internal. Hiding the section outright would hide a
+            product the shop actually sells. */}
+        {SHOW_PLACEHOLDERS ? (
+          <Placeholder
+            icon={<CameraIcon className="h-8 w-8" />}
+            body="Variety of sodas, juices and water available in-store."
+            className="w-full"
+          />
+        ) : (
+          <p className="queso-reveal border border-queso-cream/10 bg-surface-low p-5 font-body text-sm text-queso-cream/65">
+            Variety of sodas, juices and water available in-store.
+          </p>
+        )}
       </section>
 
       {/* ——— Order Ready! Send and Call to Confirm ——— */}

@@ -1,6 +1,6 @@
-# Queso Pizza — Project Constitution (v3)
+# Queso Pizza — Project Constitution (v4)
 
-Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1/v2 constitutions — this is how *this* project works.
+Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1/v2/v3 constitutions — this is how *this* project works.
 
 **The Figma design-lock was lifted on 2026-07-26 (Brandon's call).** v2 declared the July 2026 Figma FINAL and instructed matching it section-for-section. That is no longer the standard. The Figma is now **reference, not contract**: the client judged the built result "incomplete, not premium," and granted full design latitude to rework layout, composition, spacing, hierarchy, and motion.
 
@@ -95,8 +95,32 @@ See `.claude/skills/whatsapp-order-builder/` before touching this component.
 
 ## Content & placeholder conventions
 - Real photography only (assets exported from Figma/provided by Brandon). No stock.
-- Missing photography (beverages, reviews) → dashed-border + icon placeholder convention, exactly as the design shows
+- Missing photography (beverages, reviews) → dashed-border + icon placeholder convention, exactly as the design shows — **in development only.** See the v4 amendment below.
 - Menu data only from `lib/menu-data.ts`; site constants (phones, address, hours, socials) only from `lib/site-config.ts`
+
+**v4 amendment (2026-08-18, Brandon): placeholders are an internal-review tool, not a production state.**
+The dashed-border convention exists to tell the team what content is still outstanding. It was never
+meant to be read by a customer, and on the live site it was: 6 of 10 pizza cards showed "Photography
+pending", and both Home and Contact rendered the literal string
+`[PLACEHOLDER: This section is reserved for the live Google Business Profile reviews embed module.]`
+under five stars attached to no real rating. That is the single clearest reason the build read
+"incomplete, not premium."
+
+Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), which is
+`process.env.NODE_ENV !== "production"`. The rules:
+- **Nothing real to say → hide the whole module in production.** The GBP reviews blocks on Home and
+  Contact, including their stars. Stars imply a rating that does not exist.
+- **Something real to say → keep the content, drop only the scaffolding.** Beverages and the Home
+  "Refreshments" tile keep their approved "available in-store" copy without the dashed box or the
+  "Placeholder" badge. Hiding them would hide a product the shop actually sells, and dropping the
+  Refreshments tile would also unbalance the bento grid.
+- **Missing item photography → render a text-forward card**, not an empty box. The pizza grid uses
+  `md:items-start` so a photoless card sizes to its content; stretched to a photo card's height it
+  leaves a dead void, which is worse than the placeholder it replaced.
+- The convention still applies in full during `next dev`, so the team keeps seeing what is outstanding.
+
+This does not license inventing content. Missing descriptions, photography and review data remain
+content blockers on Brandon/Dalitso — see `PHASE-6-LAUNCH.md`.
 
 ## Explicit boundaries — never build unless instructed
 No cart/checkout, no payments, no login, no CMS, no extra pages, no backend, no analytics yet (GA4 was old-scope; add only if asked).
