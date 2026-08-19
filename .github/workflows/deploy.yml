@@ -38,6 +38,12 @@ jobs:
       # Guard the v4 constitution rule: placeholder scaffolding must never
       # reach a customer. Cheap here, and it fails loudly if someone reverts
       # the SHOW_PLACEHOLDERS gating by accident.
+      # CLAUDE.md v5 inverted the contrast rules when the ground moved from
+      # near-black to cream: red became usable as text, yellow became unusable.
+      # A human reviewing a diff will not spot a 1.1:1 pairing; this will.
+      - name: Assert colour contrast meets WCAG AA
+        run: npm run check:contrast
+
       - name: Assert no placeholder scaffolding in the export
         run: |
           if grep -rl --include='*.html' --include='*.txt' -e 'PLACEHOLDER' -e 'Photography pending' out/; then

@@ -1,16 +1,18 @@
-# Queso Pizza — Project Constitution (v4)
+# Queso Pizza — Project Constitution (v5)
 
-Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1/v2/v3 constitutions — this is how *this* project works.
+Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1–v4 constitutions — this is how *this* project works.
 
-**The Figma design-lock was lifted on 2026-07-26 (Brandon's call).** v2 declared the July 2026 Figma FINAL and instructed matching it section-for-section. That is no longer the standard. The Figma is now **reference, not contract**: the client judged the built result "incomplete, not premium," and granted full design latitude to rework layout, composition, spacing, hierarchy, and motion.
+**The founder lifted the dark-ground and sharp-corner locks on 2026-08-19.** Asked directly whether the problem was the execution or the look itself, he said **the look itself**, and gave full permission to change it. He objected specifically to *how the four brand colours and the hard square corners were being used*, said the reference sites "scream pizza restaurant" in a way ours did not, and wants a visitor to feel they have opened a **premium pizza restaurant that is easy to navigate, very clear, easy to find meals in, and unmistakably local**.
+
+**The four colours themselves did not change — only their roles.** See the Brand system section; the contrast rules invert, and getting that wrong ships unreadable text.
+
+The Figma has been reference-not-contract since 2026-07-26 and is now two design generations stale. Do not restore layouts from it.
 
 What remains genuinely locked, and must not be changed without a new explicit decision:
-- The brand system — the four colors, the WhatsApp-green exception, sharp corners, Epilogue/Inter
+- The four colour values, the WhatsApp-green exception, Epilogue/Inter
 - The four-page structure
 - `lib/menu-data.ts` values and the WhatsApp + call-to-confirm order flow
-- Every content rule below (no fabricated reviews, prices, or landmarks)
-
-Do not "restore" the Figma layouts over the current build. The polish work on `design-polish` (2026-07-26) is deliberate and supersedes them.
+- Every content rule below (no fabricated reviews, ratings, stats, prices, or landmarks)
 
 ## What this is
 A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food restaurant in Chongwe, Lusaka, Zambia. No cart, no payment gateway, no accounts, no CMS. The site's job: look premium, show the menu well, route orders to WhatsApp and a confirmation phone call.
@@ -21,37 +23,52 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 - Hosting: **Cloudflare Worker serving static assets** (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`. NOT Cloudflare Pages — the client account no longer exposes a Pages creation flow. `wrangler.jsonc` is load-bearing: without it `wrangler deploy` auto-detects Next.js, assumes an SSR build, and fails. See `PHASE-6-LAUNCH.md`.
 - Mobile-first (390px design frames). Desktop = responsive Tailwind breakpoints applied sensibly to the same layouts; no bespoke desktop design exists.
 
-## Brand system — locked
-**Colors** (Tailwind theme tokens, never raw hex in JSX):
+## Brand system — v5 (rebranded 2026-08-19)
+
+**Colors** (Tailwind theme tokens, never raw hex in JSX) — values unchanged from v4:
 - `queso-red`: `#CC1010`
 - `queso-black`: `#0F0F0F`
 - `queso-yellow`: `#FDFC00`
 - `queso-cream`: `#FFF8F0`
-- Supporting dark surfaces from the design: `#131313` (base), `#1C1B1B` (surface-low), `#201F1F` (surface), `#2A2A2A` (surface-high), `#0E0E0E` (footer/lowest)
-- `whatsapp-green`: `#25D366` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never use for any other element. (Corrected 2026-07-29 from the Figma export's `#29D51A`, which was brighter and more lime than WhatsApp's real brand green — self-defeating for a token whose only job is to be recognised as WhatsApp.)
+- `whatsapp-green`: `#25D366` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never any other element.
 
-**Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette appear throughout the Figma CSS export — these are token drift, NOT brand. Wherever the design shows salmon (labels like "VISIT US", icons, active footer links), use cream at 60-70% opacity for muted labels. Wherever lime yellow appears (star icons), use `queso-yellow`.
+**Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette are token drift from the Figma export, NOT brand. Never reintroduce.
 
-**Red belongs in fills, not in text on dark surfaces.** (Decided 2026-07-26; supersedes v2's "use `queso-red` for accents/active states".) `queso-red` on the dark surface scale measures ≈2.9:1 — below the 4.5:1 WCAG AA threshold at the sizes this site uses it, and the brand book's approved pairings list only three: off-white on `queso-black`, `queso-black` on `queso-red`, white on `queso-red`. Note that all three put red *behind* text, never in it. So:
+**The ground is cream, not black.** This is the whole rebrand in one line. v4 built a near-black site with cream text; `queso-cream` is now the page ground and `queso-black` is the ink. Dark surfaces are demoted from *default* to *accent* — the footer, a hero scrim, the order panel. Used everywhere they made the site read cold, and they are what the founder was reacting to.
 
-- **Red as a background/fill** with white or `queso-black` on top — correct, use freely (primary CTAs, selected states, badges, the delivery bar)
-- **Red as text on a dark surface** — do not. Assignments in use: item prices → `queso-cream`; order totals → `queso-yellow`; eyebrow/muted labels → `queso-cream/70`; active nav and key affordances → `queso-yellow`
-- **Red as text on a light surface** — fine, it measures ≈5.9:1. The About page eyebrows and the Home story-card hover are correct as-is
-- **Red icons** — acceptable; they are graphics, not body text
+**CONTRAST RULES INVERT FROM v4. Read this before writing a single class.**
 
-If Brandon wants more red presence back, add red *fills*, not red text. This closed the "known exception 1" logged in `QC-REPORT.md`.
+| Colour | v4 (dark ground) | v5 (cream ground) |
+|---|---|---|
+| `queso-red` as text | **Banned** — ≈2.9:1 on dark | **Encouraged** — **5.46:1** on cream. Headings, eyebrows, prices, links |
+| `queso-yellow` as text | Totals, active nav | **Banned** — **1.04:1** on cream, effectively invisible |
+| `queso-yellow` as fill | Badges | Correct, with `queso-black` on top (**17.43:1**) |
+| `queso-black` as text | Only on light cards | The default ink |
+| `queso-cream` as text | The default | Only on dark accents and on red fills |
 
-**Shape: sharp surfaces, softened controls.** (Revised 2026-07-29; v2 was "zero roundedness" everywhere.) The Figma export's assorted radius values (4/5/8/10/12px) are still tool artifacts, not design intent — the radius scale stays deleted from the theme so no `rounded-*` utility ships a corner by accident.
+Red is finally usable as text — that is the expressive unlock the founder was asking for, and it is why the palette did not need to change. Yellow now carries the opposite constraint: it is a fill colour only.
 
-- **Surfaces stay sharp 90°:** cards, image containers, bento tiles, panels, the app bar, the footer, badges. This is the brand's architectural feel.
-- **Controls get `rounded-control` (6px):** buttons, CTAs, size selectors, quantity steppers, category pills, inputs. Things you press are softened; things you read stay sharp.
-- **Do not add a second radius token.** One value is a system; two is what makes a mixed treatment read as accidental.
-- Circular (`rounded-full`) remains permitted ONLY for the map pin dot and the Perfect Pairings chips.
+These figures are measured, not estimated, and are enforced in CI by
+`scripts/check-contrast.mjs`, which parses the tokens straight out of `app/globals.css` so the
+check can never drift from what actually ships. It also asserts the *banned* pairings stay
+banned - if yellow-on-cream ever starts passing, a token drifted.
+
+**Warm neutrals, never grey.** Every supporting tone is derived from cream, not from a neutral grey ramp. A mid-grey on a cream page reads as unconsidered and fights the warmth the whole rebrand is chasing.
+
+**Shape: softened, on a real scale.** v4 shipped one 6px control token on the reasoning that "two is what makes a mixed system read as accidental." That held for an architectural sharp-cornered brand. The founder rejected that brand, so the reasoning goes with it. v5 uses a deliberate scale — chosen once, applied consistently:
+
+- `rounded-sm` (8px) — inputs, small chips, size selectors
+- `rounded-md` (14px) — cards, panels, image containers
+- `rounded-lg` (24px) — hero cards, feature tiles
+- `rounded-full` — pills, category chips, icon buttons, avatars
+- `rounded-control` (12px) — retained so existing pressables soften without touching every file; migrate to the scale as pages are reworked
+
+**"Screams local brand"** is the founder's phrase and the easiest thing to fake. It means the real Chongwe storefront photography used properly, Kwacha pricing shown with confidence, Great East Road and the Access Bank landmark as genuine wayfinding, and WhatsApp-first ordering presented as the feature it is rather than apologised for. It does **not** mean decorative pattern pastiche.
 
 **Typography:** Epilogue (display/headlines, 700-800), Inter (body/labels). Google Fonts via next/font. NOTE: `.claude/skills/queso-brand-tokens/SKILL.md` names Garet / Helvetica World / Helvetica Now — those are the brand-book families, and no license has been confirmed. Epilogue/Inter are the shipped web substitutes and remain correct until someone confirms a Garet license. Do not swap on the skill's say-so alone.
 
 **Motion** (added 2026-07-26, defined in `app/globals.css`): shared `--dur-*` / `--ease-*` tokens; `.queso-enter` (+ `.queso-stagger-1/2/3`) for above-the-fold entrances; `.queso-reveal` for scroll reveals. Reveals use CSS scroll-driven animations (`animation-timeline: view()`) so pages stay static with no JS. Content is **visible by default** and animation layers on only inside `@supports` — never invert this, or unsupporting browsers render blank pages on the low-end Android hardware this site targets. Perceived reveal length is governed by `animation-range`, not `--dur-slow`. A global `prefers-reduced-motion` guard covers the inline Tailwind transitions too.
-**Logo:** dark-version lockup (white mark on black). No literal pizza imagery in iconography.
+**Logo:** `public/images/logo-mark.png` — a red disc with a yellow ring and a black mark, on a **transparent** background (verified alpha, 2026-08-19). It sits on any ground, dark or cream. v4 described this as a "dark-version lockup (white mark on black)", which was simply wrong. No literal pizza imagery elsewhere in iconography.
 **Voice:** confident, warm, local, direct. Tagline: "The taste that stays with you."
 **Footer year:** 2026, not 2024.
 
