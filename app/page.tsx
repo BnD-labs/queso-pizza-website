@@ -26,8 +26,11 @@ import {
  * three 2-col tiles. Class strings stay literal so Tailwind can scan them. */
 const BENTO_CARDS = [
   {
+    // Not pizza-cheese-pull: that is the hero image directly above, and the
+    // same photograph twice on one page reads as a thin library rather than a
+    // deliberate choice.
     title: "Oven baked Pizzas",
-    image: "/images/pizza-cheese-pull.jpeg",
+    image: "/images/pizza-whole-steam.jpeg",
     tile: "md:col-span-4 h-[280px] md:h-[400px]",
     heading: "text-xl md:text-3xl",
   },
