@@ -23,7 +23,7 @@ const inter = Inter({
 });
 
 const SITE_TITLE = `${SITE.name} — ${SITE.tagline.replace(/\.$/, "")}`;
-const SITE_DESCRIPTION = `Premium wood-fired pizza and shawarma in ${SITE.address.area}, ${SITE.address.city}. Order on WhatsApp or call to confirm.`;
+const SITE_DESCRIPTION = `Premium oven-baked pizza and shawarma in ${SITE.address.area}, ${SITE.address.city}. Order on WhatsApp or call to confirm.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${SITE.domain}`),
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         url: "/images/pizza-cheese-pull.jpeg",
         width: 2000,
         height: 1493,
-        alt: "Wood-fired Queso Pizza fresh from the oven",
+        alt: "A Queso Pizza fresh from the oven, with a melted cheese pull",
       },
     ],
   },

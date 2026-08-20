@@ -67,7 +67,7 @@ export default function Home() {
         <div className="absolute inset-0">
           <Image
             src="/images/pizza-cheese-pull.jpeg"
-            alt="Wood-fired pizza fresh from the oven"
+            alt="A Queso pizza fresh from the oven, with a melted cheese pull"
             fill
             priority
             sizes="100vw"

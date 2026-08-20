@@ -13,7 +13,7 @@ import { MenuAddHandler } from "@/components/order/MenuAddHandler";
 export const metadata: Metadata = {
   title: "Menu & Order — Queso Pizza",
   description:
-    "Wood-fired pizza, shawarma, and fries in Chongwe. Build your order and send it on WhatsApp.",
+    "Oven-baked pizza, shawarma, and fries in Chongwe. Build your order and send it on WhatsApp.",
 };
 
 // Cross-sell strip content: fries + a shawarma as sides. Beverages are
@@ -38,7 +38,7 @@ export default function MenuPage() {
           Crafted in the heat. Enjoyed in the moment.
         </h1>
         <p className="queso-enter queso-stagger-1 max-w-sm font-body text-base leading-relaxed text-ink-soft">
-          Premium wood-fired pizza and shawarma. Authentic flavors, local
+          Premium oven-baked pizza and shawarma. Authentic flavors, local
           roots.
         </p>
         {/* md+ gets the sticky bar below instead — don't show both. */}
@@ -67,7 +67,7 @@ export default function MenuPage() {
             Artisanal Pizza
           </h2>
           <span className="font-body text-[10px] font-bold uppercase tracking-[0.15em] text-ink-soft">
-            Wood-Fired
+            Oven-Baked
           </span>
         </div>
         {/* items-start, not the default stretch: a text-forward card (no photo)
