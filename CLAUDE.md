@@ -55,6 +55,27 @@ banned - if yellow-on-cream ever starts passing, a token drifted.
 
 **Warm neutrals, never grey.** Every supporting tone is derived from cream, not from a neutral grey ramp. A mid-grey on a cream page reads as unconsidered and fights the warmth the whole rebrand is chasing.
 
+**The surface tokens, and a trap worth knowing about.** The available surfaces are
+`surface` (white), `surface-warm`, `surface-sunk`, `line` (borders), `ink-soft` (muted
+copy), and `dark` / `dark-soft` (accents). The v4 names `surface-low`, `surface-high`
+and `surface-footer` **no longer exist.**
+
+They were renamed in the v5 token rewrite (3331a78) without the 14 usages being updated,
+and the failure mode is nastier than it sounds: Tailwind emits **no CSS rule at all** for
+an undefined token, so `bg-surface-low` is not a wrong colour, it is a silent no-op. Every
+one of those surfaces rendered fully transparent and dropped cream text onto the cream
+body. That single mistake was most of the 73 sub-3:1 text elements found afterwards — not
+73 independent errors. Neither `tsc` nor `eslint` nor `next build` says a word about it.
+
+If text is invisible and the classes look right, check that the token is actually defined
+in `app/globals.css` before assuming the colour is wrong.
+
+**Only four surfaces stay dark**, and the list is exhaustive: the **footer**, a **hero
+scrim**, the **order panel**, and the **Most Ordered card**. Yellow as text remains correct
+*inside* those — the v5 ban is specifically yellow on cream. Everything else is cream or a
+white card. The TopAppBar is deliberately not on this list: a black band pinned across the
+top of every cream page is not an accent, it is a second ground.
+
 **Shape: softened, on a real scale.** v4 shipped one 6px control token on the reasoning that "two is what makes a mixed system read as accidental." That held for an architectural sharp-cornered brand. The founder rejected that brand, so the reasoning goes with it. v5 uses a deliberate scale — chosen once, applied consistently:
 
 - `rounded-sm` (8px) — inputs, small chips, size selectors
