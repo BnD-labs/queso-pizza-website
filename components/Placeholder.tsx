@@ -2,11 +2,16 @@ import type { ReactNode } from "react";
 
 // Placeholder convention per CLAUDE.md: missing photography/embeds render as a
 // dashed-border + icon module — never invented content, never stock imagery.
+//
+// Default tone flipped dark -> light on 2026-08-20 with the v5 ground. Dark is
+// still available for the sanctioned dark accents (the order panel, the Most
+// Ordered card). Development-only either way — SHOW_PLACEHOLDERS gates every
+// caller, and CI asserts none of this reaches the export.
 export function Placeholder({
   icon,
   title,
   body,
-  tone = "dark",
+  tone = "light",
   className = "",
 }: {
   icon: ReactNode;

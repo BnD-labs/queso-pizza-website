@@ -42,7 +42,7 @@ export function OrderCtas({ stacked = false }: { stacked?: boolean }) {
         </a>
         <a
           href={`tel:${SITE.phones.callToConfirm}`}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-queso-red font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-queso-red font-body text-sm font-bold tracking-wide text-queso-cream transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
         >
           <PhoneIcon className="h-4 w-4" />
           Call to Confirm

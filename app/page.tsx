@@ -71,7 +71,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-queso-black via-queso-black/50 to-transparent" />
         </div>
         <div className="relative mx-auto flex w-full max-w-7xl flex-col items-start gap-7 px-5">
-          <span className="queso-enter flex items-center gap-2 bg-queso-red/35 px-3 py-1.5 font-body text-xs font-medium uppercase tracking-[0.1em] text-queso-cream backdrop-blur-sm">
+          {/* Solid red, not red/35. A 35% fill over a photograph gives a contrast
+              ratio that depends on whatever is behind it — here it composited to
+              a muddy 1.87:1 against the crust. Solid red is a fixed 5.46:1 and
+              reads as a badge rather than a stain. */}
+          <span className="queso-enter flex items-center gap-2 rounded-full bg-queso-red px-3.5 py-1.5 font-body text-xs font-bold uppercase tracking-[0.1em] text-queso-cream">
             <PhoneIcon className="h-3 w-3" />
             Delivery Available
           </span>
@@ -83,7 +87,7 @@ export default function Home() {
           <Link
             href="/menu"
             prefetch={false}
-            className="queso-enter queso-stagger-2 rounded-control bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-white transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
+            className="queso-enter queso-stagger-2 rounded-control bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
           >
             Order Now
           </Link>
@@ -95,9 +99,9 @@ export default function Home() {
 
       {/* ——— Direct delivery hotline — deliberately compact band, so the
              generous sections either side read as the important ones ——— */}
-      <section className="border-b border-queso-cream/10 bg-surface-low px-5 py-8">
+      <section className="border-y border-line bg-surface-warm px-5 py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-4">
-          <p className="font-body text-xs font-medium uppercase tracking-[0.1em] text-queso-cream/65">
+          <p className="font-body text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
             Direct Delivery Hotline
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-10">
@@ -105,7 +109,7 @@ export default function Home() {
               <a
                 key={phone}
                 href={`tel:${phone}`}
-                className="font-display text-lg text-queso-cream underline decoration-queso-red decoration-2 underline-offset-[6px] transition-colors duration-[var(--dur-base)] hover:text-white hover:decoration-queso-yellow"
+                className="font-display text-lg text-queso-black underline decoration-queso-red decoration-2 underline-offset-[6px] transition-colors duration-[var(--dur-base)] hover:text-queso-red"
               >
                 {formatPhone(phone)}
               </a>
@@ -116,7 +120,7 @@ export default function Home() {
 
       {/* ——— Story teaser ——— */}
       <section className="px-5 py-20 md:py-28">
-        <div className="queso-reveal mx-auto grid max-w-5xl gap-8 border border-queso-cream/10 bg-queso-cream p-8 md:grid-cols-2 md:items-center md:gap-10 md:p-10">
+        <div className="queso-reveal mx-auto grid max-w-5xl gap-8 rounded-lg border border-line bg-surface p-8 md:grid-cols-2 md:items-center md:gap-10 md:p-10">
           <div className="flex flex-col gap-6">
             {/* Tenure, not a customer count — see the note on SITE.tenureLine. */}
             <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
@@ -162,9 +166,9 @@ export default function Home() {
 
       {/* ——— Explore the Menu (bento) — the widest section, it carries the
              most weight on the page ——— */}
-      <section className="bg-surface-low px-5 py-24 md:py-36">
+      <section className="bg-surface-warm px-5 py-24 md:py-36">
         <div className="mx-auto flex max-w-7xl flex-col gap-10">
-          <h2 className="queso-reveal font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl lg:text-5xl">
+          <h2 className="queso-reveal font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
             Explore the Menu
           </h2>
           <div className="queso-reveal flex flex-col gap-2 md:grid md:grid-cols-6">
@@ -173,7 +177,7 @@ export default function Home() {
                 key={card.title}
                 href="/menu"
                 prefetch={false}
-                className={`group relative block overflow-hidden border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 ${card.tile}`}
+                className={`group relative block overflow-hidden rounded-lg border border-queso-black/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red/50 ${card.tile}`}
               >
                 <Image
                   src={card.image}
@@ -204,10 +208,10 @@ export default function Home() {
             <Link
               href="/menu"
               prefetch={false}
-              className="group flex h-[250px] flex-col items-center justify-center gap-2 border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 md:col-span-2"
+              className="group flex h-[250px] flex-col items-center justify-center gap-2 rounded-lg border border-line bg-surface transition-colors duration-[var(--dur-base)] hover:border-queso-red/50 md:col-span-2"
             >
               <PlusIcon className="h-8 w-8 text-queso-red transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover:rotate-90" />
-              <h3 className="font-display text-lg font-bold text-queso-cream">
+              <h3 className="font-display text-lg font-bold text-queso-black">
                 Extras &amp; Add-ons
               </h3>
             </Link>
@@ -215,7 +219,7 @@ export default function Home() {
           <Link
             href="/menu"
             prefetch={false}
-            className="flex items-center justify-center rounded-control border border-queso-cream/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-cream transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-white"
+            className="flex items-center justify-center rounded-control border border-queso-black/20 py-4 font-body text-sm font-bold uppercase tracking-wide text-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-queso-cream"
           >
             View Full Menu
           </Link>
@@ -227,7 +231,7 @@ export default function Home() {
              behind this, so there is nothing honest to show a customer yet.
              The five stars go with it — stars imply a rating we do not have. ——— */}
       {SHOW_PLACEHOLDERS ? (
-      <section className="border-y border-queso-cream/10 px-5 py-20 md:py-24">
+      <section className="border-y border-line px-5 py-20 md:py-24">
         <div className="queso-reveal mx-auto flex max-w-3xl flex-col items-center gap-6">
           <div
             className="flex gap-1"
@@ -254,30 +258,30 @@ export default function Home() {
           <MapEmbed className="aspect-square w-full" />
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-              <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream/70">
+              <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
                 Visit Us
               </p>
-              <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl lg:text-5xl">
+              <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
                 {SITE.address.area}
               </h2>
-              <p className="pt-2 font-body text-lg leading-relaxed text-queso-cream/65">
+              <p className="pt-2 font-body text-lg leading-relaxed text-ink-soft">
                 {SITE.address.road}
                 <br />
                 {SITE.address.city}
               </p>
               {/* Landmark confirmed 2026-08-19 — see design delta 4. */}
-              <p className="font-body text-sm text-queso-cream/65">
+              <p className="font-body text-sm text-ink-soft">
                 {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
               </p>
             </div>
-            <div className="h-px bg-queso-cream/15" />
+            <div className="h-px bg-line" />
             <div className="grid grid-cols-2 gap-4">
               {[SITE.hours.weekdays, SITE.hours.weekend].map((row) => (
                 <div key={row.label} className="flex flex-col gap-1">
-                  <p className="font-body text-base text-queso-cream/65">
+                  <p className="font-body text-base text-ink-soft">
                     {row.label}
                   </p>
-                  <p className="font-body text-base font-bold text-queso-cream">
+                  <p className="font-body text-base font-bold text-queso-black">
                     {formatTime(row.open)} - {formatTime(row.close)}
                   </p>
                 </div>
@@ -287,7 +291,7 @@ export default function Home() {
               href={MAPS_SEARCH_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex w-fit items-center gap-2 rounded-control border border-queso-cream/20 px-6 py-3 font-body text-sm font-bold uppercase tracking-wide text-white transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10"
+              className="group flex w-fit items-center gap-2 rounded-control border border-queso-black/20 px-6 py-3 font-body text-sm font-bold uppercase tracking-wide text-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-queso-cream"
             >
               Get Directions
               <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

@@ -34,10 +34,10 @@ export default function MenuPage() {
 
       {/* ——— Intro ——— */}
       <section className="mx-auto flex max-w-7xl flex-col items-center gap-7 py-20 text-center md:py-28">
-        <h1 className="queso-enter max-w-2xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-queso-cream sm:text-5xl lg:text-6xl">
+        <h1 className="queso-enter max-w-2xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-queso-black sm:text-5xl lg:text-6xl">
           Crafted in the heat. Enjoyed in the moment.
         </h1>
-        <p className="queso-enter queso-stagger-1 max-w-sm font-body text-base leading-relaxed text-queso-cream/65">
+        <p className="queso-enter queso-stagger-1 max-w-sm font-body text-base leading-relaxed text-ink-soft">
           Premium wood-fired pizza and shawarma. Authentic flavors, local
           roots.
         </p>
@@ -47,7 +47,7 @@ export default function MenuPage() {
             <a
               key={cat.id}
               href={`#${cat.id}`}
-              className="rounded-control border border-queso-cream/20 px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
+              className="rounded-full border border-line px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-queso-cream"
             >
               {cat.label}
             </a>
@@ -63,10 +63,10 @@ export default function MenuPage() {
       {/* ——— Pizza ——— */}
       <section id="pizza" className="mx-auto max-w-7xl scroll-mt-24 pb-20 md:pb-28">
         <div className="queso-reveal flex items-baseline gap-3 pb-10">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
             Artisanal Pizza
           </h2>
-          <span className="font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-cream/50">
+          <span className="font-body text-[10px] font-bold uppercase tracking-[0.15em] text-ink-soft">
             Wood-Fired
           </span>
         </div>
@@ -87,30 +87,30 @@ export default function MenuPage() {
 
         {/* ——— Extras ——— */}
         <div className="queso-reveal mt-10 flex flex-col gap-2 md:grid md:grid-cols-2">
-          <div className="flex flex-col gap-2 border border-queso-cream/10 bg-surface-low p-5 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/25">
+          <div className="flex flex-col gap-2 rounded-md border border-line bg-surface p-5 transition-colors duration-[var(--dur-base)] hover:border-queso-red/40">
             <div className="flex items-center justify-between">
-              <h3 className="font-body text-sm font-bold uppercase tracking-wide text-queso-cream">
+              <h3 className="font-body text-sm font-bold uppercase tracking-wide text-queso-black">
                 Extra Cheese
               </h3>
-              <span className="font-body text-sm font-bold text-queso-cream">
+              <span className="font-body text-sm font-bold text-queso-red">
                 K{EXTRA_CHEESE.S} / K{EXTRA_CHEESE.M}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <p className="font-body text-sm text-queso-cream/65">
+              <p className="font-body text-sm text-ink-soft">
                 Small / Medium · Large / XL
               </p>
-              <span className="font-body text-sm font-bold text-queso-cream">
+              <span className="font-body text-sm font-bold text-queso-red">
                 K{EXTRA_CHEESE.L} / K{EXTRA_CHEESE.XL}
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-2 border border-queso-cream/10 bg-surface-low p-5 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/25">
-            <h3 className="font-body text-sm font-bold uppercase tracking-wide text-queso-cream">
+          <div className="flex flex-col gap-2 rounded-md border border-line bg-surface p-5 transition-colors duration-[var(--dur-base)] hover:border-queso-red/40">
+            <h3 className="font-body text-sm font-bold uppercase tracking-wide text-queso-black">
               Extra Toppings
             </h3>
             {/* No confirmed pricing — never render a number here (CLAUDE.md) */}
-            <p className="font-body text-sm italic text-queso-cream/65">
+            <p className="font-body text-sm italic text-ink-soft">
               Pricing available in-store. Ask our server for today&apos;s
               premium selections.
             </p>
@@ -120,7 +120,7 @@ export default function MenuPage() {
 
       {/* ——— Shawarma ——— */}
       <section id="shawarma" className="mx-auto max-w-7xl scroll-mt-24 pb-20 md:pb-28">
-        <h2 className="queso-reveal pb-10 font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
+        <h2 className="queso-reveal pb-10 font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
           Shawarma
         </h2>
         <div className="queso-reveal flex flex-col gap-4">
@@ -137,7 +137,7 @@ export default function MenuPage() {
 
       {/* ——— Fries ——— */}
       <section id="fries" className="mx-auto max-w-7xl scroll-mt-24 pb-20 md:pb-28">
-        <h2 className="queso-reveal pb-10 font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
+        <h2 className="queso-reveal pb-10 font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
           Fries
         </h2>
         <div className="queso-reveal flex flex-col gap-2">
@@ -150,7 +150,7 @@ export default function MenuPage() {
       {/* ——— Beverages — flagged placeholder, no invented data ——— */}
       <section id="beverages" className="mx-auto max-w-7xl scroll-mt-24 pb-28 md:pb-36">
         <div className="queso-reveal flex items-baseline gap-3 pb-10">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
             Beverages
           </h2>
         </div>
@@ -161,7 +161,7 @@ export default function MenuPage() {
             The copy stays as approved and deliberately generic: the photo shows
             what is stocked today, and the sentence stays true when the stock
             rotates. There is still no price data, so no prices are implied. */}
-        <div className="queso-reveal grid gap-6 border border-queso-cream/10 bg-surface-low sm:grid-cols-[minmax(0,240px)_1fr] sm:items-center">
+        <div className="queso-reveal grid gap-6 overflow-hidden rounded-md border border-line bg-surface sm:grid-cols-[minmax(0,240px)_1fr] sm:items-center">
           <div className="relative aspect-[4/5] w-full">
             <Image
               src="/images/beverages-fridge.jpeg"
@@ -171,7 +171,7 @@ export default function MenuPage() {
               className="object-cover"
             />
           </div>
-          <p className="px-5 pb-5 font-body text-sm leading-relaxed text-queso-cream/65 sm:py-5 sm:pl-0 sm:pr-8">
+          <p className="px-5 pb-5 font-body text-sm leading-relaxed text-ink-soft sm:py-5 sm:pl-0 sm:pr-8">
             Variety of sodas, juices and water available in-store.
           </p>
         </div>

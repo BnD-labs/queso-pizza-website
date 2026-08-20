@@ -42,7 +42,7 @@ export function OrderNextSteps() {
           <li key={step.title} className="flex flex-col gap-1.5">
             <span
               aria-hidden
-              className="flex h-7 w-7 items-center justify-center bg-queso-red font-body text-xs font-bold text-white"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-queso-red font-body text-xs font-bold text-queso-cream"
             >
               {i + 1}
             </span>

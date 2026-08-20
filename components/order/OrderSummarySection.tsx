@@ -15,15 +15,15 @@ export function OrderSummarySection() {
   // rather than an order.
   return (
     <section className="mx-auto max-w-3xl scroll-mt-24 pb-28 md:pb-36" id="order">
-      <h2 className="queso-reveal max-w-md pb-8 font-display text-3xl font-extrabold leading-tight tracking-tight text-queso-cream sm:text-4xl">
+      <h2 className="queso-reveal max-w-md pb-8 font-display text-3xl font-extrabold leading-tight tracking-tight text-queso-black sm:text-4xl">
         Order Ready! Send and Call to Confirm
       </h2>
       {lines.length === 0 ? (
-        <p className="border border-queso-cream/10 bg-surface-low p-5 font-body text-sm text-queso-cream/60">
+        <p className="rounded-md border border-line bg-surface p-5 font-body text-sm text-ink-soft">
           Your order is empty — tap any item above to start building it.
         </p>
       ) : (
-        <div className="flex flex-col gap-4 border border-queso-cream/10 bg-surface-low p-5 md:p-6">
+        <div className="flex flex-col gap-4 rounded-md border border-queso-cream/10 bg-dark p-5 md:p-6">
           <OrderLinesList />
           <div className="flex items-center justify-between border-t border-queso-cream/15 pt-3">
             <span className="font-body text-sm font-bold uppercase tracking-wide text-queso-cream/65">

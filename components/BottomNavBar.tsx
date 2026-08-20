@@ -59,7 +59,7 @@ export function BottomNavBar() {
   return (
     <div
       aria-hidden={panelInView}
-      className={`fixed inset-x-0 bottom-0 z-50 border-t border-queso-cream/10 bg-surface-footer transition-[transform,opacity] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] ${
+      className={`fixed inset-x-0 bottom-0 z-50 border-t border-queso-cream/10 bg-dark transition-[transform,opacity] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] ${
         panelInView
           ? "pointer-events-none translate-y-full opacity-0"
           : "translate-y-0 opacity-100"

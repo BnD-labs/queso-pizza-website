@@ -19,7 +19,7 @@ export function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className="border-t border-queso-cream/10 bg-surface-footer px-5 pb-16 pt-24">
+    <footer className="border-t border-queso-cream/10 bg-dark px-5 pb-16 pt-24">
       <div className="mx-auto flex max-w-7xl flex-col gap-2">
         <Image
           src="/images/logo-mark.png"

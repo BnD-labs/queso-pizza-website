@@ -6,7 +6,7 @@ import { MAPS_EMBED_URL, SITE } from "@/lib/site-config";
 export function MapEmbed({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`relative overflow-hidden border border-queso-cream/15 ${className}`}
+      className={`relative overflow-hidden rounded-md border border-line ${className}`}
     >
       <iframe
         src={MAPS_EMBED_URL}

@@ -30,10 +30,10 @@ export function MostOrderedCard() {
         // produces /menu/__next.menu.__PAGE__.txt?add=... which 404s and logs a
         // console error on every homepage visit. Nothing to prefetch here.
         prefetch={false}
-        className="mx-auto flex max-w-md items-center gap-4 border border-queso-cream/15 bg-surface-high p-3 shadow-lg shadow-queso-black/60"
+        className="mx-auto flex max-w-md items-center gap-4 rounded-md border border-queso-cream/15 bg-dark-soft p-3 shadow-lg shadow-queso-black/25"
       >
         {image ? (
-          <div className="relative h-16 w-16 shrink-0">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-sm">
             <Image
               src={image}
               alt={`${pizza.name} pizza`}
@@ -55,7 +55,7 @@ export function MostOrderedCard() {
           </span>
         </div>
         <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-control bg-queso-red text-white"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-control bg-queso-red text-queso-cream"
           aria-hidden
         >
           <PlusIcon className="h-4 w-4" />
