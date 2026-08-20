@@ -33,6 +33,12 @@ const JOBS = [
   { src: "Interior shot 3.JPG",       out: "interior-diners.jpeg",    w: 1200, h: 900 , pos: "centre" },
   { src: "Meal prep.jpg",             out: "kitchen-prep.jpeg",       w: 1100, h: 1467, pos: "centre" },
 
+  // PizzaCard renders 4:3 at 33vw on desktop (~427px), so 1000 covers 2x DPR.
+  // Kept from the enhanced set by Brandon's call, 2026-08-20 — the only one of
+  // the supplied pizza frames that plausibly depicts its own menu item. See the
+  // caveat in lib/menu-content.ts.
+  { src: "Creamy_Grilled_Chicken_Pizza.png_2K_202608191911.jpeg", out: "creamy-chicken.jpeg", w: 1000, h: 750, pos: "centre" },
+
   // Beverages: 4:5 portrait band. This retires the Beverages placeholder —
   // the fridge shot is the evidence behind "available in-store".
   { src: "Bevereage_shot.jpg_202608191730.jpeg", out: "beverages-fridge.jpeg", w: 760, h: 950, pos: "centre" },

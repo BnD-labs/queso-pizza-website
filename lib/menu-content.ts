@@ -32,6 +32,14 @@ export const ITEM_IMAGES: Record<string, string> = {
   "flavorful-chicken": "/images/pizza-closeup.jpeg",
   "queso-original": "/images/pizza-cheese-pull.jpeg",
   "shawarma-platter": "/images/shawarma-box.jpeg",
+  // Kept from the 2026-08-19 enhanced set by Brandon's call, 2026-08-20: the
+  // only supplied pizza frame that plausibly depicts its own menu item —
+  // grilled chicken, cream sauce, red onion, herbs. Unlike the frames it was
+  // supplied with, it does not contradict its label. It is still a generated
+  // image (PNG intermediate, no EXIF), so it carries one open question: whether
+  // the real Creamy Chicken is served with red onion. Worth confirming with the
+  // founder, and replacing the moment a real photograph of this pizza exists.
+  "creamy-chicken": "/images/creamy-chicken.jpeg",
   // ——— verified Queso photography ———
   "chicken-tornado": "/images/chicken-tornado.jpeg",
   "triple-threat": "/images/triple-threat.jpeg",
