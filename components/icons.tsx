@@ -118,3 +118,28 @@ export function ReviewsIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+// Storefront awning — the Collection / walk-in mark. Deliberately a building
+// rather than a shopping bag: BagIcon already means "your order" in TopAppBar,
+// and reusing it here would read as the cart.
+export function StorefrontIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 9h18l-1.2-4.2A1 1 0 0 0 18.8 4H5.2a1 1 0 0 0-1 .8L3 9Z" />
+      <path d="M4.5 9v10a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9" />
+      <path d="M9.5 20v-5h5v5" />
+    </svg>
+  );
+}
+
+// Knife and fork — dine-in. The shop confirmed seating but no reservations,
+// so this never pairs with a "book a table" affordance.
+export function CutleryIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M7 3v7a2.5 2.5 0 0 0 5 0V3" />
+      <path d="M9.5 10v11" />
+      <path d="M17.5 3c-1.4 1-2 2.6-2 4.5 0 1.6.6 2.6 2 3.2V21" />
+    </svg>
+  );
+}

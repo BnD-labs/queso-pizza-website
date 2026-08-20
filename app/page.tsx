@@ -13,9 +13,11 @@ import { MapEmbed } from "@/components/MapEmbed";
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
+  CutleryIcon,
   PhoneIcon,
   PlusIcon,
   ReviewsIcon,
+  StorefrontIcon,
   StarIcon,
 } from "@/components/icons";
 
@@ -97,23 +99,82 @@ export default function Home() {
       {/* ——— Floating Most Ordered quick-add (overlaps the hero) ——— */}
       <MostOrderedCard />
 
-      {/* ——— Direct delivery hotline — deliberately compact band, so the
-             generous sections either side read as the important ones ——— */}
-      <section className="border-y border-line bg-surface-warm px-5 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4">
-          <p className="font-body text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
-            Direct Delivery Hotline
-          </p>
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-10">
-            {[SITE.phones.delivery1, SITE.phones.delivery2].map((phone) => (
-              <a
-                key={phone}
-                href={`tel:${phone}`}
-                className="font-display text-lg text-queso-black underline decoration-queso-red decoration-2 underline-offset-[6px] transition-colors duration-[var(--dur-base)] hover:text-queso-red"
+      {/* ——— Three ways to eat ———
+             Replaces a band that advertised only the delivery hotline. All
+             three modes were confirmed by the founder on 2026-08-19, and until
+             now the site said nothing about two of them — a customer had no way
+             to learn they could collect or sit in. Every claim here is a
+             confirmed fact; nothing is inferred.
+
+             No "book a table": he confirmed there is no reservation system,
+             which is also why StructuredData keeps acceptsReservations: false.
+             The delivery numbers move inside the Delivery card rather than
+             being dropped. ——— */}
+      <section className="border-y border-line bg-surface-warm px-5 py-14 md:py-20">
+        <div className="queso-reveal mx-auto flex max-w-7xl flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
+              Three ways to eat
+            </p>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
+              Delivered, collected, or eaten in.
+            </h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {/* ——— Delivery ——— */}
+            <div className="flex flex-col gap-3 rounded-md border border-line bg-surface p-6">
+              <PhoneIcon className="h-6 w-6 text-queso-red" />
+              <h3 className="font-display text-xl font-bold text-queso-black">
+                Delivery
+              </h3>
+              <p className="font-body text-sm leading-relaxed text-ink-soft">
+                Call either line and we&apos;ll bring it to you.
+              </p>
+              <div className="mt-auto flex flex-col gap-1 pt-2">
+                {[SITE.phones.delivery1, SITE.phones.delivery2].map((phone) => (
+                  <a
+                    key={phone}
+                    href={`tel:${phone}`}
+                    className="font-display text-base font-bold text-queso-black underline decoration-queso-red decoration-2 underline-offset-4 transition-colors duration-[var(--dur-base)] hover:text-queso-red"
+                  >
+                    {formatPhone(phone)}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* ——— Collection ——— */}
+            <div className="flex flex-col gap-3 rounded-md border border-line bg-surface p-6">
+              <StorefrontIcon className="h-6 w-6 text-queso-red" />
+              <h3 className="font-display text-xl font-bold text-queso-black">
+                Collection
+              </h3>
+              <p className="font-body text-sm leading-relaxed text-ink-soft">
+                Send your order on WhatsApp, then pick it up at the counter.
+              </p>
+              <Link
+                href="/menu#order"
+                prefetch={false}
+                className="group mt-auto flex w-fit items-center gap-2 pt-2 font-body text-sm font-bold uppercase tracking-wide text-queso-red"
               >
-                {formatPhone(phone)}
-              </a>
-            ))}
+                Build an order
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-quart)] group-hover:translate-x-1" />
+              </Link>
+            </div>
+
+            {/* ——— Dine in ——— */}
+            <div className="flex flex-col gap-3 rounded-md border border-line bg-surface p-6">
+              <CutleryIcon className="h-6 w-6 text-queso-red" />
+              <h3 className="font-display text-xl font-bold text-queso-black">
+                Dine in
+              </h3>
+              <p className="font-body text-sm leading-relaxed text-ink-soft">
+                Seating inside, no booking needed — walk in and take a table.
+              </p>
+              <p className="mt-auto pt-2 font-body text-sm text-ink-soft">
+                {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
+              </p>
+            </div>
           </div>
         </div>
       </section>
