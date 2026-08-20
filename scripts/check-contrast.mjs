@@ -53,6 +53,12 @@ const PAIRS = [
   ["cream on dark accent (footer)",   "queso-cream",   "dark",            4.5],
   ["cream on dark-soft accent",       "queso-cream",   "dark-soft",       4.5],
   ["focus ring vs cream ground",      "queso-red",     "queso-cream",     3.0],
+  // The v5 hero is a solid red band (2026-08-21). Red is a GROUND there, not a
+  // fill on cream, which is a pairing the table in CLAUDE.md does not cover —
+  // so both directions are asserted here rather than eyeballed.
+  ["hero body copy on red ground",    "queso-cream",   "queso-red",       4.5],
+  ["hero rating stars on red",        "queso-yellow",  "queso-red",       3.0],
+  ["hero CTA ink on cream fill",      "queso-red",     "queso-cream",     4.5],
 ];
 
 // Pairings that MUST fail — the v5 rules say these are banned, so if one ever

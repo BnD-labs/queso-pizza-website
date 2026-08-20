@@ -44,6 +44,19 @@ const JOBS = [
   { src: "Bevereage_shot.jpg_202608191730.jpeg", out: "beverages-fridge.jpeg", w: 760, h: 950, pos: "centre" },
 ];
 
+// The v5 hero renders this one as a circle on the red band, and a centred
+// square crop is not good enough for that: it leaves slate corners inside the
+// circle, so it reads as a round photo OF a pizza rather than as the pizza.
+// The crop is therefore an explicit box around the pie, derived once by
+// thresholding the greyscale (the slate is far darker than the crust) and
+// pinned here so it stays reproducible.
+const HERO_ROUND = {
+  src: "pizza-top-down.jpeg",
+  out: "pizza-hero-round.jpeg",
+  extract: { left: 34, top: 219, width: 769, height: 769 },
+  size: 720,
+};
+
 mkdirSync(OUT, { recursive: true });
 let total = 0;
 for (const j of JOBS) {
@@ -55,4 +68,16 @@ for (const j of JOBS) {
   total += kb;
   console.log(`${kb.toFixed(0).padStart(4)}K  ${j.out.padEnd(28)} ${j.w}x${j.h}  <- ${j.src}`);
 }
+
+await sharp(`${SRC}/${HERO_ROUND.src}`)
+  .extract(HERO_ROUND.extract)
+  .resize(HERO_ROUND.size, HERO_ROUND.size)
+  .jpeg({ quality: 74, mozjpeg: true, progressive: true })
+  .toFile(`${OUT}/${HERO_ROUND.out}`);
+{
+  const kb = statSync(`${OUT}/${HERO_ROUND.out}`).size / 1024;
+  total += kb;
+  console.log(`${kb.toFixed(0).padStart(4)}K  ${HERO_ROUND.out.padEnd(28)} ${HERO_ROUND.size}x${HERO_ROUND.size}  <- ${HERO_ROUND.src} (pinned crop)`);
+}
+
 console.log(`----\n${total.toFixed(0)}K generated`);

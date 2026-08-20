@@ -34,7 +34,7 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 
 **Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette are token drift from the Figma export, NOT brand. Never reintroduce.
 
-**The ground is cream, not black.** This is the whole rebrand in one line. v4 built a near-black site with cream text; `queso-cream` is now the page ground and `queso-black` is the ink. Dark surfaces are demoted from *default* to *accent* — the footer, a hero scrim, the order panel. Used everywhere they made the site read cold, and they are what the founder was reacting to.
+**The ground is cream, not black.** This is the whole rebrand in one line. v4 built a near-black site with cream text; `queso-cream` is now the page ground and `queso-black` is the ink. Dark surfaces are demoted from *default* to *accent* — the footer, the order panel, the Most Ordered card. Used everywhere they made the site read cold, and they are what the founder was reacting to.
 
 **CONTRAST RULES INVERT FROM v4. Read this before writing a single class.**
 
@@ -70,11 +70,24 @@ body. That single mistake was most of the 73 sub-3:1 text elements found afterwa
 If text is invisible and the classes look right, check that the token is actually defined
 in `app/globals.css` before assuming the colour is wrong.
 
-**Only four surfaces stay dark**, and the list is exhaustive: the **footer**, a **hero
-scrim**, the **order panel**, and the **Most Ordered card**. Yellow as text remains correct
+**Only three surfaces stay dark**, and the list is exhaustive: the **footer** (with the
+BottomNavBar above it), the **order panel**, and the **Most Ordered card**. The hero scrim
+was a fourth until 2026-08-21, when the hero became a solid red band — see the hero note
+below. Yellow as text remains correct
 *inside* those — the v5 ban is specifically yellow on cream. Everything else is cream or a
 white card. The TopAppBar is deliberately not on this list: a black band pinned across the
 top of every cream page is not an accent, it is a second ground.
+
+**The hero is a red band (2026-08-21).** Brandon shortlisted a reference layout and asked for it on the
+hero *only*: solid `queso-red` ground, content left, the pizza as a circle right, and an SVG wave easing
+into the cream. Red is a **ground** there rather than a fill on cream, which the table above does not
+cover, so both directions are asserted in `scripts/check-contrast.mjs` — cream on red is **5.46:1**,
+yellow on red is **5.23:1**. Yellow is legitimate there; the yellow ban is specifically yellow on *cream*.
+
+This replaced a full-bleed photo with a gradient scrim, and it fixed something the tooling could never
+check: text over a photograph has a contrast ratio that depends on which part of the crust it lands on,
+and the scrim was a *sibling* of the text rather than an ancestor, so computed styles could not see it.
+On a flat field the ratio is fixed. All four pages now probe clean.
 
 **Shape: softened, on a real scale.** v4 shipped one 6px control token on the reasoning that "two is what makes a mixed system read as accidental." That held for an architectural sharp-cornered brand. The founder rejected that brand, so the reasoning goes with it. v5 uses a deliberate scale — chosen once, applied consistently:
 
@@ -148,8 +161,9 @@ under five stars attached to no real rating. That is the single clearest reason 
 
 Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), which is
 `process.env.NODE_ENV !== "production"`. The rules:
-- **Nothing real to say → hide the whole module in production.** The GBP reviews blocks on Home and
-  Contact, including their stars. Stars imply a rating that does not exist.
+- **Nothing real to say → hide the whole module in production.** Stars imply a rating, so they only
+  ship once a rating exists. ~~The GBP reviews blocks on Home and Contact.~~ **Resolved 2026-08-21 —
+  see the reviews amendment below.**
 - **Something real to say → keep the content, drop only the scaffolding.** Beverages and the Home
   "Refreshments" tile keep their approved "available in-store" copy without the dashed box or the
   "Placeholder" badge. Hiding them would hide a product the shop actually sells, and dropping the
@@ -161,6 +175,40 @@ Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), whic
 
 This does not license inventing content. Missing descriptions, photography and review data remain
 content blockers on Brandon/Dalitso — see `PHASE-6-LAUNCH.md`.
+
+**v5 amendment (2026-08-21): the reviews are real now — and what that did NOT unlock.**
+
+Queso's Google Business Profile reviews arrived: **5.0 from 4 reviews.** They live in
+`lib/reviews.ts`, which is the single source of truth, and they ship on Home and Contact via
+`components/Reviews.tsx`. `aggregateRating` and `review` are now in the JSON-LD, which the
+structured-data file had explicitly refused for the whole build.
+
+**The rule did not change — the facts did.** The blocks were hidden because five stars over a
+`[PLACEHOLDER]` string is a rating claim with nothing behind it. Now there is something behind it.
+Nothing about the fabrication ban has loosened.
+
+Three constraints carried into `lib/reviews.ts`, and they should survive future edits:
+- **Quote text is verbatim**, including the reviewer's own punctuation. Never trimmed for length or
+  tidied for tone.
+- **Only reviews whose full text is legible in the source are quoted.** Two of the four rated 5 stars
+  but their text was not readable in the capture. They count towards the aggregate — which is what
+  Google itself reports — but they are not quoted, and their text is not guessed at.
+- **The count always ships with the rating.** Four is a small number, and "5.0" alone would flatter
+  it in precisely the way the fabricated-stat rule exists to prevent. Both or neither.
+- **No dates.** The profile showed relative ages ("5 weeks ago"). Converting those to absolute dates
+  would invent precision.
+
+**Two things the profile did NOT license.**
+
+The GBP dashboard shows **"290 customer interactions."** That is almost certainly where the
+founder's unsourced "250+ customers" came from — and it is not a customer count. It is Google's
+tally of profile views, direction taps and call clicks. It must not be rendered as customers, and
+`SITE.tenureLine` stays as it is.
+
+One reviewer is **"Arthur Chipolomoka."** An "Arthur" is also the project-side contact named in the
+design deltas below for verifying hours and the address. If they are the same person, a review from
+someone connected to the business is a credibility problem rather than an asset, and it should come
+down. **Unresolved — ask before treating that quote as independent.**
 
 **v5 amendment (2026-08-20): the photography audit, and why AI-enhanced frames are banned.**
 

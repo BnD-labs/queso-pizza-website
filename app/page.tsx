@@ -3,12 +3,11 @@ import Link from "next/link";
 import {
   SITE,
   MAPS_SEARCH_URL,
-  SHOW_PLACEHOLDERS,
   formatPhone,
   formatTime,
 } from "@/lib/site-config";
-import { Placeholder } from "@/components/Placeholder";
 import { MostOrderedCard } from "@/components/MostOrderedCard";
+import { Reviews, RatingBadge } from "@/components/Reviews";
 import { MapEmbed } from "@/components/MapEmbed";
 import {
   ArrowRightIcon,
@@ -16,9 +15,7 @@ import {
   CutleryIcon,
   PhoneIcon,
   PlusIcon,
-  ReviewsIcon,
   StorefrontIcon,
-  StarIcon,
 } from "@/components/icons";
 
 /* Bento tiles carry their own span/height so the grid has a focal point
@@ -62,40 +59,88 @@ const BENTO_CARDS = [
 export default function Home() {
   return (
     <>
-      {/* ——— Hero ——— */}
-      <section className="relative flex min-h-[88vh] flex-col justify-end pb-28">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/pizza-cheese-pull.jpeg"
-            alt="A Queso pizza fresh from the oven, with a melted cheese pull"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-queso-black via-queso-black/50 to-transparent" />
+      {/* ——— Hero ———
+             Reworked 2026-08-21 to the layout Brandon shortlisted: a solid red
+             band, content left, the pizza as a circle right, and a wave easing
+             into the cream ground. HERO ONLY — the rest of the page keeps the
+             v5 system it already had.
+
+             Red is a GROUND here rather than a fill on cream, which the
+             contrast table in CLAUDE.md does not cover, so both directions are
+             asserted in scripts/check-contrast.mjs: cream on red is 5.46:1 and
+             yellow on red is 5.23:1. Nothing here is eyeballed.
+
+             This also retires the full-bleed photo scrim. Text over a
+             photograph had a contrast ratio that depended on which part of the
+             crust it landed on — the one thing the probe could never verify,
+             because the scrim was a sibling of the text rather than an
+             ancestor. On a flat red field the ratio is fixed. ——— */}
+      <section className="relative overflow-hidden bg-queso-red pb-24 pt-10 md:pb-32 md:pt-16">
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 md:grid-cols-[1.1fr_1fr] md:gap-8">
+          <div className="flex flex-col items-start gap-6">
+            <span className="queso-enter flex items-center gap-2 rounded-full bg-queso-cream/15 px-3.5 py-1.5 font-body text-xs font-bold uppercase tracking-[0.1em] text-queso-cream ring-1 ring-queso-cream/25">
+              <PhoneIcon className="h-3 w-3" />
+              Delivery · Collection · Dine in
+            </span>
+            {/* text-4xl at 390px, not text-5xl: "THE TASTE THAT" overflows 350px of
+                usable width at 48px and wraps to four ragged lines, which fights
+                the explicit break below it. */}
+            <h1 className="queso-enter queso-stagger-1 font-display text-4xl font-extrabold leading-[0.95] tracking-tight text-queso-cream sm:text-6xl lg:text-7xl">
+              THE TASTE THAT
+              <br />
+              STAYS WITH YOU
+            </h1>
+            <p className="queso-enter queso-stagger-2 max-w-md font-body text-base leading-relaxed text-queso-cream/85">
+              Oven-baked pizza, shawarma and fries in Chongwe. Build your order
+              and send it straight to our WhatsApp.
+            </p>
+            <div className="queso-enter queso-stagger-3 flex flex-col items-start gap-5">
+              <Link
+                href="/menu"
+                prefetch={false}
+                className="rounded-full bg-queso-cream px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0"
+              >
+                Order Now
+              </Link>
+              {/* Real 5.0 from the Google Business Profile — see lib/reviews.ts.
+                  The count ships with it deliberately. */}
+              <RatingBadge tone="onRed" />
+            </div>
+          </div>
+
+          {/* The pizza, as a disc. Cropped square at source (see
+              scripts/build-photos.mjs) so the circle frames the pizza rather
+              than whatever object-cover happens to centre on. */}
+          <div className="queso-enter queso-stagger-2 relative mx-auto aspect-square w-full max-w-[230px] sm:max-w-[300px] md:max-w-[440px]">
+            <div className="absolute inset-0 rounded-full bg-queso-black/15 blur-2xl" />
+            <Image
+              src="/images/pizza-hero-round.jpeg"
+              alt="An oven-baked Queso pizza, viewed from above"
+              fill
+              priority
+              sizes="(min-width: 768px) 440px, 300px"
+              className="rounded-full object-cover ring-8 ring-queso-cream/15"
+            />
+          </div>
         </div>
-        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-start gap-7 px-5">
-          {/* Solid red, not red/35. A 35% fill over a photograph gives a contrast
-              ratio that depends on whatever is behind it — here it composited to
-              a muddy 1.87:1 against the crust. Solid red is a fixed 5.46:1 and
-              reads as a badge rather than a stain. */}
-          <span className="queso-enter flex items-center gap-2 rounded-full bg-queso-red px-3.5 py-1.5 font-body text-xs font-bold uppercase tracking-[0.1em] text-queso-cream">
-            <PhoneIcon className="h-3 w-3" />
-            Delivery Available
-          </span>
-          <h1 className="queso-enter queso-stagger-1 max-w-4xl font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            THE TASTE THAT
-            <br />
-            STAYS WITH YOU
-          </h1>
-          <Link
-            href="/menu"
-            prefetch={false}
-            className="queso-enter queso-stagger-2 rounded-control bg-queso-red px-8 py-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream transition-[transform,filter] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95"
+
+        {/* The wave into the cream ground. Inline SVG rather than a border
+            radius so the curve can be asymmetric, and preserveAspectRatio="none"
+            so it stretches to any viewport without changing height. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 leading-[0] text-queso-cream"
+          aria-hidden
+        >
+          <svg
+            viewBox="0 0 1440 120"
+            preserveAspectRatio="none"
+            className="block h-[52px] w-full md:h-[104px]"
           >
-            Order Now
-          </Link>
+            <path
+              fill="currentColor"
+              d="M0,46 C240,116 470,6 720,38 C970,70 1200,116 1440,58 L1440,120 L0,120 Z"
+            />
+          </svg>
         </div>
       </section>
 
@@ -290,31 +335,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ——— Social proof — GBP reviews placeholder (no fabricated quotes).
-             Hidden in production: unlike Beverages there is no approved copy
-             behind this, so there is nothing honest to show a customer yet.
-             The five stars go with it — stars imply a rating we do not have. ——— */}
-      {SHOW_PLACEHOLDERS ? (
+      {/* ——— Social proof — REAL Google Business Profile reviews ———
+             This block was gated behind SHOW_PLACEHOLDERS and never shipped,
+             because five stars over a "[PLACEHOLDER]" string is a rating claim
+             with nothing behind it. The real profile data landed 2026-08-21, so
+             it ships unconditionally now. See lib/reviews.ts. ——— */}
       <section className="border-y border-line px-5 py-20 md:py-24">
-        <div className="queso-reveal mx-auto flex max-w-3xl flex-col items-center gap-6">
-          <div
-            className="flex gap-1"
-            role="img"
-            aria-label="Five star rating placeholder"
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <StarIcon key={i} className="h-5 w-5 text-queso-yellow" />
-            ))}
-          </div>
-          <Placeholder
-            icon={<ReviewsIcon className="h-8 w-8" />}
-            title="Google Business Profile Reviews"
-            body="[PLACEHOLDER: This section is reserved for the live Google Business Profile reviews embed module.]"
-            className="w-full"
-          />
-        </div>
+        <Reviews className="mx-auto w-full max-w-5xl" />
       </section>
-      ) : null}
 
       {/* ——— Location & hours ——— */}
       <section className="px-5 py-24 md:py-32">

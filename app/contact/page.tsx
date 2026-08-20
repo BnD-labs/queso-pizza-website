@@ -2,17 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import {
   SITE,
-  SHOW_PLACEHOLDERS,
   formatPhone,
   formatTime,
 } from "@/lib/site-config";
-import { Placeholder } from "@/components/Placeholder";
 import { MapEmbed } from "@/components/MapEmbed";
+import { Reviews } from "@/components/Reviews";
 import {
   ClockIcon,
   PhoneIcon,
-  ReviewsIcon,
-  StarIcon,
 } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -110,33 +107,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ——— Customer Voice — GBP reviews placeholder. Hidden in production for
-             the same reason as the Home block: there is no approved copy behind
-             it, and the stars imply a rating that does not exist yet. ——— */}
-      {SHOW_PLACEHOLDERS ? (
-      <section className="queso-reveal mx-auto flex max-w-7xl flex-col gap-6 pb-28 md:pb-36">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black">
-            Customer Voice
-          </h2>
-          <div
-            className="flex gap-0.5"
-            role="img"
-            aria-label="Five star rating placeholder"
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <StarIcon key={i} className="h-3.5 w-3.5 text-queso-yellow" />
-            ))}
-          </div>
-        </div>
-        <Placeholder
-          icon={<ReviewsIcon className="h-8 w-8" />}
-          title="Google Business Profile Reviews"
-          body="[PLACEHOLDER: This section is reserved for the live Google Business Profile reviews embed module.]"
-          className="w-full"
-        />
-      </section>
-      ) : null}
+      {/* ——— Customer Voice — REAL Google Business Profile reviews.
+             Was gated behind SHOW_PLACEHOLDERS for the same reason as the Home
+             block; the real profile data landed 2026-08-21. See lib/reviews.ts. ——— */}
+      <Reviews
+        title="Customer Voice"
+        className="mx-auto w-full max-w-7xl pb-28 md:pb-36"
+      />
     </div>
   );
 }
