@@ -44,3 +44,7 @@ next-env.d.ts
 # design source binaries (140 MB — keep out of git; DESIGN-REVIEW.md stays tracked)
 frames/*.fig
 frames/*.pdf
+
+# Full-resolution originals held for review — see assets-source/README.md.
+# Kept on disk deliberately; too heavy for git history and not shipped.
+assets-source/held-back/

@@ -27,15 +27,28 @@ export const SITE = {
     road: "Great East Road",
     city: "Chongwe, Lusaka Province, Zambia",
     // The same address split into schema.org PostalAddress components. These
-    // restate the confirmed line above — no new facts, and no landmark, which
-    // is still UNCONFIRMED and must not be asserted to search engines.
+    // restate the confirmed line above — no new facts. The landmark stays out
+    // of the structured data: it is wayfinding for a human, not a postal field.
     locality: "Chongwe",
     region: "Lusaka Province",
     country: "ZM",
-    // UNCONFIRMED — verify with Arthur: "next to" vs "opposite" Access Bank.
-    // Render with the italic/placeholder styling from the design until confirmed.
-    landmark: "near Access Bank",
+    // CONFIRMED by the founder, 2026-08-19: the shop is in an unnamed complex
+    // next to Access Bank. "next to" is correct — this was the last remaining
+    // UNCONFIRMED field, so the italic placeholder styling comes off with it.
+    landmark: "next to Access Bank",
   },
+
+  // CONFIRMED by the founder, 2026-08-19: trading 4+ years, one location.
+  //
+  // Rendered as a tenure line, NOT a customer count. On the same call he
+  // mentioned "250+ customers" but could not source the figure, and an
+  // estimate derived from "4+ years" would be exactly the fabricated-stat
+  // failure CLAUDE.md bans — the same class of problem as the invented
+  // "SARAH M., GOOGLE REVIEWS" quote. Tenure is verifiable and carries the
+  // same credibility. If a real count ever comes out of the WhatsApp order
+  // history or the Google Business Profile, it can replace this.
+  since: 2022,
+  tenureLine: "Serving Chongwe since 2022",
 
   // CONFIRMED by Brandon, 2026-07-14: Mon–Fri 8am–8pm, Sat–Sun 8am–7pm.
   // Displayed as two rows: Mon–Fri and Sat–Sun.

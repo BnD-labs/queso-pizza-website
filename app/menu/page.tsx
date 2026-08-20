@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Image from "next/image";
 import { PIZZAS, SHAWARMA, FRIES, EXTRA_CHEESE } from "@/lib/menu-data";
 import { ITEM_DESCRIPTIONS, ITEM_IMAGES, MENU_CATEGORIES } from "@/lib/menu-content";
-import { SHOW_PLACEHOLDERS } from "@/lib/site-config";
 import { MenuCategoryNav } from "@/components/MenuCategoryNav";
-import { Placeholder } from "@/components/Placeholder";
-import { CameraIcon } from "@/components/icons";
 import { PizzaCard } from "@/components/order/PizzaCard";
 import { FlatItemRow } from "@/components/order/FlatItemRow";
 import { PerfectPairings } from "@/components/order/PerfectPairings";
@@ -155,26 +153,28 @@ export default function MenuPage() {
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream sm:text-4xl">
             Beverages
           </h2>
-          {SHOW_PLACEHOLDERS ? (
-            <span className="border border-queso-cream/25 px-2 py-0.5 font-body text-[10px] font-bold uppercase tracking-[0.15em] text-queso-cream/50">
-              Placeholder
-            </span>
-          ) : null}
         </div>
-        {/* The category is real and the copy is approved — only the dashed
-            scaffolding is internal. Hiding the section outright would hide a
-            product the shop actually sells. */}
-        {SHOW_PLACEHOLDERS ? (
-          <Placeholder
-            icon={<CameraIcon className="h-8 w-8" />}
-            body="Variety of sodas, juices and water available in-store."
-            className="w-full"
-          />
-        ) : (
-          <p className="queso-reveal border border-queso-cream/10 bg-surface-low p-5 font-body text-sm text-queso-cream/65">
+        {/* Beverages carried the dashed placeholder for the whole build because
+            no photograph existed. One does now — the shop's own fridge, shot
+            2026-08-19 — so the scaffolding is retired rather than gated.
+
+            The copy stays as approved and deliberately generic: the photo shows
+            what is stocked today, and the sentence stays true when the stock
+            rotates. There is still no price data, so no prices are implied. */}
+        <div className="queso-reveal grid gap-6 border border-queso-cream/10 bg-surface-low sm:grid-cols-[minmax(0,240px)_1fr] sm:items-center">
+          <div className="relative aspect-[4/5] w-full">
+            <Image
+              src="/images/beverages-fridge.jpeg"
+              alt="The chilled drinks fridge at Queso Pizza, stocked with juices, soft drinks and bottled water"
+              fill
+              sizes="(min-width: 640px) 240px, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <p className="px-5 pb-5 font-body text-sm leading-relaxed text-queso-cream/65 sm:py-5 sm:pl-0 sm:pr-8">
             Variety of sodas, juices and water available in-store.
           </p>
-        )}
+        </div>
       </section>
 
       {/* ——— Order Ready! Send and Call to Confirm ——— */}

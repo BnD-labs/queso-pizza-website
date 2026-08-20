@@ -111,7 +111,7 @@ See `.claude/skills/whatsapp-order-builder/` before touching this component.
    - "Perfect Pairings" cross-sell strip on /menu: after any item is added, horizontal row of circular photo chips (fries, drinks, sides) with red "+" — one tap adds to order
 
 ## Content & placeholder conventions
-- Real photography only (assets exported from Figma/provided by Brandon). No stock.
+- Real photography only (assets exported from Figma/provided by Brandon). No stock, **and no AI-generated or AI-"enhanced" imagery** — see the v5 photography amendment below.
 - Missing photography (beverages, reviews) → dashed-border + icon placeholder convention, exactly as the design shows — **in development only.** See the v4 amendment below.
 - Menu data only from `lib/menu-data.ts`; site constants (phones, address, hours, socials) only from `lib/site-config.ts`
 
@@ -138,6 +138,61 @@ Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), whic
 
 This does not license inventing content. Missing descriptions, photography and review data remain
 content blockers on Brandon/Dalitso — see `PHASE-6-LAUNCH.md`.
+
+**v5 amendment (2026-08-20): the photography audit, and why AI-enhanced frames are banned.**
+
+A 34-file photography drop landed on 2026-08-19. Auditing it split the set cleanly in two, and the
+split is *provable* rather than a matter of taste — the method is worth keeping, because this will
+happen again.
+
+**How to tell them apart.** Read the JPEG segment table and the EXIF, not the picture:
+- **Genuine** frames carry `EXIF/APP1` with a camera `Make`/`Model`, plus Lightroom's `Software`
+  tag, an ICC profile and a Photoshop IPTC block. Six did: **Canon PowerShot S3 IS, shot
+  2026-08-04**. Two more had no EXIF but arrived via WhatsApp (which strips it) and match the shop
+  on props — same pink trays, same prep counter.
+- **Generated or re-rendered** frames carry `JFIF/APP0` and nothing else — regenerated pixels keep
+  no camera metadata. Corroborating tells: generator filenames (`..._2K_202608191833`), diffusion
+  output dimensions (1024x1024, 2048x2048), and PNG intermediates (`.png_2K_...`) that no camera
+  produces.
+
+`scripts/build-photos.mjs` regenerates `public/images` from the verified originals in
+`assets-source/photography-2026-08/`; the rest sit in `assets-source/held-back/`, on disk and
+untracked. `assets-source/README.md` records why each was held.
+
+**The rule this establishes.** AI-enhanced product photography is banned on the same footing as
+stock, for three separate reasons — any one of which is sufficient:
+
+1. **It misrepresents the product.** Two frames contradicted their own labels: `Beef_Pizza_OG` shows
+   chicken; `Flavorful_beef_Pizza` shows ham and mushroom. A customer orders off the photo, and the
+   counter absorbs the complaint. This is the same failure as the banned `SARAH M., GOOGLE REVIEWS`
+   quote — an invented claim about a real business.
+2. **It invents facts about the shop.** `Kitchen_Prep.jpg_202608191809.jpeg` is the real
+   `Meal prep.jpg` re-composed, with a person, an apron and a gloved hand hallucinated into a scene
+   that contained none. That is a staff member who does not exist.
+3. **It destroys exactly what the rebrand is for.** The founder asked for a site that "screams local
+   brand." A relit, seamless-black studio render is the *most* generic possible output — it is the
+   international-chain look he objected to, applied to his own photographs. The flash-lit Canon
+   frames of a wrap on a red tray do the job the enhanced versions cannot.
+
+**Corollary — the storefront and interior photography is the strongest asset in this project.** Real
+customers, the red-and-white wall, the menu board, the corrugated roof. Do not desaturate it, do not
+crop the people out, and do not replace it with a product render. Home's story teaser previously
+rendered it `grayscale` until hover; that treatment is removed and should not return.
+
+**Verified-fact discipline extends to numbers.** The founder mentioned "250+ customers" on the
+2026-08-19 call but could not source it, and 250 over four years reads as roughly one a week, which
+undersells the shop badly. Do not estimate it. `SITE.tenureLine` ships
+**"Serving Chongwe since 2022"** instead — derived from the verifiable 4+ years, and it carries the
+same credibility without a fabricated denominator. A real count from the WhatsApp order history or
+the Google Business Profile may replace it; a computed one may not.
+
+**Image weight is now enforced.** `next.config.ts` sets `images.unoptimized`, so `sizes=` does
+nothing and every byte in `public/images` is downloaded at full resolution by a phone on a Zambian
+mobile network. `scripts/check-image-budget.mjs` runs in CI: **1300 KB total, 200 KB per file.**
+The budget rose from ~950 KB when the founder's own photography landed — real local photography
+earns weight in a way stock never did. Raise it again only for photographs that earn it, never to
+unblock a commit. Sizes in `build-photos.mjs` are chosen per *use*: a 64px `FlatItemRow` thumb gets
+a 320px square, not a 2816px original.
 
 ## Explicit boundaries — never build unless instructed
 No cart/checkout, no payments, no login, no CMS, no extra pages, no backend, no analytics yet (GA4 was old-scope; add only if asked).

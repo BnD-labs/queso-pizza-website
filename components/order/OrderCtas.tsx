@@ -25,13 +25,17 @@ export function OrderCtas({ stacked = false }: { stacked?: boolean }) {
       <div
         className={`flex gap-2 ${stacked ? "flex-col sm:flex-row sm:items-center" : "items-center"}`}
       >
-        {/* whatsapp-green: approved exception, WhatsApp action buttons ONLY */}
+        {/* whatsapp-green: approved exception, WhatsApp action buttons ONLY.
+            Label is queso-black, not white: white on #25D366 measures 1.98:1,
+            the worst contrast on the site, and check-contrast.mjs already lists
+            that pairing as banned. Black on the same green is 9.46:1 and keeps
+            the platform recognition the exception exists for. */}
         <a
           href={waOrderUrl(SITE.phones.whatsappOrder, lines)}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setSent(true)}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-whatsapp-green font-body text-sm font-bold tracking-wide text-white transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-control bg-whatsapp-green font-body text-sm font-bold tracking-wide text-queso-black transition-[transform,filter] duration-[var(--dur-fast)] ease-[var(--ease-out-quart)] hover:brightness-110 active:scale-[0.98] active:brightness-95"
         >
           <WhatsAppIcon className="h-4 w-4" />
           {lines.length > 0 ? "Send via WhatsApp" : "Order on WhatsApp"}

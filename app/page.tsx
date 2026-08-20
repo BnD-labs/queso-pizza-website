@@ -13,7 +13,6 @@ import { MapEmbed } from "@/components/MapEmbed";
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
-  CameraIcon,
   PhoneIcon,
   PlusIcon,
   ReviewsIcon,
@@ -41,6 +40,17 @@ const BENTO_CARDS = [
     image: "/images/chicken-fries-dark.jpeg",
     tile: "md:col-span-2 h-[250px]",
     heading: "text-lg",
+  },
+  {
+    // Was a bespoke dashed-placeholder tile: the shop sells drinks but no
+    // photograph existed, so it rendered as an empty box next to five photo
+    // tiles. The fridge shot (2026-08-19) closes that gap and lets it join
+    // the grid on the same terms as everything else.
+    title: "Refreshments",
+    image: "/images/beverages-fridge.jpeg",
+    tile: "md:col-span-2 h-[250px]",
+    heading: "text-lg",
+    sub: "Available in-store",
   },
 ];
 
@@ -108,6 +118,10 @@ export default function Home() {
       <section className="px-5 py-20 md:py-28">
         <div className="queso-reveal mx-auto grid max-w-5xl gap-8 border border-queso-cream/10 bg-queso-cream p-8 md:grid-cols-2 md:items-center md:gap-10 md:p-10">
           <div className="flex flex-col gap-6">
+            {/* Tenure, not a customer count — see the note on SITE.tenureLine. */}
+            <p className="font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
+              {SITE.tenureLine}
+            </p>
             <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
               Rooted in Chongwe.
             </h2>
@@ -127,14 +141,20 @@ export default function Home() {
             </Link>
           </div>
           {/* Image sits beside the copy on desktop so the CTA ends the column
-              rather than being stranded above a full-width photo. */}
+              rather than being stranded above a full-width photo.
+
+              Shot in the shop on 2026-08-04. Rendered in full colour: the
+              grayscale-until-hover treatment that was here drained the one
+              asset on the page that actually evidences "Rooted in Chongwe",
+              and desaturation is a large part of the coldness the founder
+              objected to on 2026-08-19. */}
           <div className="relative aspect-[4/3] w-full md:aspect-square">
             <Image
-              src="/images/store-front.jpg"
-              alt="The Queso Pizza storefront in Chongwe"
+              src="/images/interior-counter.jpeg"
+              alt="Customers at the counter inside Queso Pizza in Chongwe, under the menu board"
               fill
               sizes="(min-width: 768px) 480px, 100vw"
-              className="object-cover grayscale transition-[filter] duration-700 ease-[var(--ease-out-quart)] hover:grayscale-0"
+              className="object-cover"
             />
           </div>
         </div>
@@ -171,40 +191,14 @@ export default function Home() {
                   >
                     {card.title}
                   </h3>
+                  {"sub" in card ? (
+                    <p className="pt-1 font-body text-sm text-queso-cream/60">
+                      {card.sub}
+                    </p>
+                  ) : null}
                 </div>
               </Link>
             ))}
-
-            {/* Refreshments — no verified beverage photography; placeholder convention */}
-            {/* Kept in production, unlike the reviews block: the shop really
-                does sell drinks, and the in-store line is approved copy. Only
-                the dashed scaffolding is internal — and keeping the tile keeps
-                the 4+2 / 2+2+2 grid balanced. */}
-            <Link
-              href="/menu"
-              prefetch={false}
-              className="relative flex h-[250px] flex-col justify-end border border-queso-cream/10 bg-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-cream/30 md:col-span-2"
-            >
-              {SHOW_PLACEHOLDERS ? (
-                <div className="absolute inset-2">
-                  <Placeholder
-                    icon={<CameraIcon className="h-7 w-7" />}
-                    body="Beverage photography pending"
-                    className="h-full"
-                  />
-                </div>
-              ) : null}
-              <div className="relative p-6">
-                <h3 className="font-display text-lg font-bold text-queso-cream">
-                  Refreshments
-                </h3>
-                {SHOW_PLACEHOLDERS ? null : (
-                  <p className="pt-1 font-body text-sm text-queso-cream/60">
-                    Available in-store
-                  </p>
-                )}
-              </div>
-            </Link>
 
             {/* Extras & Add-ons */}
             <Link
@@ -271,8 +265,8 @@ export default function Home() {
                 <br />
                 {SITE.address.city}
               </p>
-              {/* UNCONFIRMED landmark — italic placeholder styling per design delta 4 */}
-              <p className="font-body text-sm italic text-queso-cream/50">
+              {/* Landmark confirmed 2026-08-19 — see design delta 4. */}
+              <p className="font-body text-sm text-queso-cream/65">
                 {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
               </p>
             </div>

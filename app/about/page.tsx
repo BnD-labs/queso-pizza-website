@@ -70,10 +70,12 @@ export default function AboutPage() {
           &ldquo;Quality isn&apos;t an option. It&apos;s the only
           baseline.&rdquo;
         </blockquote>
-        <div className="relative mt-4 aspect-square w-full">
+        {/* "Grounded in Community" is carried by a photograph of the community,
+            not by another product shot. Taken in the shop on 2026-08-04. */}
+        <div className="relative mt-4 aspect-[4/3] w-full">
           <Image
-            src="/images/pizza-top-down.jpeg"
-            alt="A wood-fired Queso pizza straight from the oven"
+            src="/images/interior-diners.jpeg"
+            alt="Two customers sharing a meal and a Coca-Cola at Queso Pizza in Chongwe"
             fill
             sizes="(min-width: 768px) 704px, 100vw"
             className="object-cover"

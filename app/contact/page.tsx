@@ -73,8 +73,9 @@ export default function ContactPage() {
               <p className="font-body text-base text-queso-cream/65">
                 {SITE.address.road}
               </p>
-              {/* UNCONFIRMED landmark — italic placeholder styling per design delta 4 */}
-              <p className="pt-2 font-body text-sm italic text-queso-cream/50">
+              {/* Landmark confirmed 2026-08-19 — the italic placeholder styling
+                  from design delta 4 comes off with the UNCONFIRMED marker. */}
+              <p className="pt-2 font-body text-sm text-queso-cream/65">
                 {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
               </p>
             </div>
