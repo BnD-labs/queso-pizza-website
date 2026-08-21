@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { SITE } from "@/lib/site-config";
 import { BagIcon, MenuIcon } from "./icons";
+import { Wordmark } from "./Wordmark";
 import { useOrder } from "./order/OrderProvider";
 
 const NAV_LINKS = [
@@ -49,19 +49,16 @@ export function TopAppBar() {
           className="flex items-center gap-2"
           onClick={() => setOpen(false)}
         >
+          {/* Larger than the 44x25 it was: with the logotype now smaller the
+              mark should lead the lockup, not be overshadowed by it. */}
           <Image
             src="/images/logo-mark.png"
             alt=""
-            width={44}
-            height={25}
+            width={64}
+            height={36}
             priority
           />
-          {/* whitespace-nowrap and a smaller base size: Comix Loud is wide enough
-              that "QUESO PIZZA" broke onto two lines at 390px, which a wordmark
-              must never do. */}
-          <span className="whitespace-nowrap font-brand text-base font-bold tracking-tight text-queso-black sm:text-xl">
-            {SITE.name.toUpperCase()}
-          </span>
+          <Wordmark tone="onLight" className="text-sm sm:text-lg" />
         </Link>
 
         <Link

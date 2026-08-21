@@ -64,6 +64,13 @@ const PAIRS = [
 // Pairings that MUST fail — the v5 rules say these are banned, so if one ever
 // starts passing it means a token drifted and the ban is no longer enforced by
 // the palette itself.
+//
+// ONE SANCTIONED EXCEPTION, and it does not weaken the ban. The "PIZZA" half of
+// the logotype is queso-yellow on the cream header (components/Wordmark.tsx).
+// It is legible because it carries a 2.5px queso-black outline, and black on
+// cream is 18.2:1 — the stroke does the work, not the fill. Plain yellow text on
+// cream is still 1.04:1 and still invisible. Do not read the wordmark as
+// permission to use yellow as a text colour anywhere else.
 const MUST_FAIL = [
   ["yellow as text on cream (BANNED)", "queso-yellow", "queso-cream", 4.5],
   ["white on WhatsApp green (BANNED)", "surface",      "whatsapp-green", 4.5],

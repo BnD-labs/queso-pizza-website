@@ -129,6 +129,19 @@ the unlicensed Taste of Home stock photo in `assets-source/held-back/` — flagg
 `.claude/skills/queso-brand-tokens/SKILL.md` was rewritten to v5 on 2026-08-20 and now agrees with this file. Every version before that date taught the v3/v4 dark-ground doctrine — it instructed the reader that `queso-black` was the base background and to *flag a cream background as a mistake*, which would have reverted the entire rebrand. If a session ever cites that skill against something here, this file wins.
 
 **Motion** (added 2026-07-26, defined in `app/globals.css`): shared `--dur-*` / `--ease-*` tokens; `.queso-enter` (+ `.queso-stagger-1/2/3`) for above-the-fold entrances; `.queso-reveal` for scroll reveals. Reveals use CSS scroll-driven animations (`animation-timeline: view()`) so pages stay static with no JS. Content is **visible by default** and animation layers on only inside `@supports` — never invert this, or unsupporting browsers render blank pages on the low-end Android hardware this site targets. Perceived reveal length is governed by `animation-range`, not `--dur-slow`. A global `prefers-reduced-motion` guard covers the inline Tailwind transitions too.
+**Logotype:** `components/Wordmark.tsx` renders "QUESO PIZZA" in Comix Loud, in brand colours —
+**QUESO red, PIZZA yellow** (Brandon, 2026-08-21). Two things about it are load-bearing:
+
+- On the **cream** header, PIZZA is yellow **with a 2.5px `queso-black` outline**. Plain yellow on
+  cream is **1.04:1** — the banned pairing, invisible. The outline carries the legibility (black on
+  cream is 18.2:1) and suits a comic face. This is the *only* sanctioned yellow-on-cream text, and it
+  is noted as such in `scripts/check-contrast.mjs`. It is not licence to use yellow as text elsewhere.
+- On the **dark** footer, QUESO is **cream, not red** — red on dark is 3.23:1, the v4 constraint that
+  did not disappear, it just moved to the dark accents. Yellow needs no outline there (16.9:1).
+
+The logotype is deliberately small and the mark deliberately large (64x36 in the app bar, 104x59 in
+the footer): the type was overshadowing the mark, and Comix Loud is wide enough that it dominates fast.
+
 **Logo:** `public/images/logo-mark.png` — a red disc with a yellow ring and a black mark, on a **transparent** background (verified alpha, 2026-08-19). It sits on any ground, dark or cream. v4 described this as a "dark-version lockup (white mark on black)", which was simply wrong. No literal pizza imagery elsewhere in iconography.
 **Voice:** confident, warm, local, direct. Tagline: "The taste that stays with you."
 **Footer year:** 2026, not 2024.
