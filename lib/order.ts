@@ -123,6 +123,16 @@ export function waOrderUrl(e164Phone: string, lines: OrderLine[]): string {
 /** sessionStorage key. Versioned so a shape change can't revive as garbage. */
 export const ORDER_STORAGE_KEY = "queso.order.v1";
 
+/**
+ * Stores the signature of the order that was last handed off to WhatsApp.
+ *
+ * Persisted rather than held in memory because on a phone — the primary target
+ * — tapping a wa.me link leaves the browser for the WhatsApp app entirely, and
+ * coming back frequently reloads the tab. In-memory "sent" state would be gone
+ * exactly when the customer most needs to see it.
+ */
+export const ORDER_SENT_STORAGE_KEY = "queso.order.sent.v1";
+
 const SIZES: readonly PizzaSize[] = ["S", "M", "L", "XL"];
 const PIZZA_BY_ID = new Map(PIZZAS.map((p) => [p.id, p]));
 const FLAT_BY_ID = new Map([...SHAWARMA, ...FRIES].map((i) => [i.id, i]));
@@ -196,5 +206,25 @@ export function reviveOrder(raw: string | null): OrderLine[] {
 export function serializeOrder(lines: OrderLine[]): string {
   return JSON.stringify(
     lines.map((l) => ({ id: l.id, size: l.size, qty: l.qty })),
+  );
+}
+
+/**
+ * A stable fingerprint of an order's CONTENT, used to decide whether the order
+ * on screen is still the one that was sent to WhatsApp.
+ *
+ * Sorted, because "Chicken then Fries" and "Fries then Chicken" are the same
+ * order and must not read as different ones just because of insertion order.
+ *
+ * This is what makes "Order sent!" honest. The flag used to be a plain boolean
+ * that was set on click and never cleared, so it survived the customer
+ * emptying the order, removing an item, or — worst — ADDING one, which left the
+ * site claiming an item had been sent that WhatsApp never saw.
+ */
+export function orderSignature(lines: OrderLine[]): string {
+  return JSON.stringify(
+    lines
+      .map((l) => `${l.id}|${l.size ?? ""}|${l.qty}`)
+      .sort(),
   );
 }

@@ -3,6 +3,7 @@
 import { useOrder } from "./OrderProvider";
 import { OrderLinesList } from "./OrderLinesList";
 import { OrderCtas } from "./OrderCtas";
+import { ClearOrderButton } from "./ClearOrderButton";
 import { OrderNextSteps } from "./OrderNextSteps";
 
 // The "Order Ready! Send and Call to Confirm" section at the bottom of /menu
@@ -37,6 +38,9 @@ export function OrderSummarySection() {
             </span>
           </div>
           <OrderCtas stacked />
+          <div className="flex justify-center">
+            <ClearOrderButton tone="onDark" />
+          </div>
           <OrderNextSteps />
         </div>
       )}

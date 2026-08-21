@@ -6,6 +6,7 @@ import { BagIcon } from "./icons";
 import { useOrder } from "./order/OrderProvider";
 import { OrderLinesList } from "./order/OrderLinesList";
 import { OrderCtas } from "./order/OrderCtas";
+import { ClearOrderButton } from "./order/ClearOrderButton";
 
 // True while the /menu "Order Ready!" panel is on screen above the bar. Both
 // carry the same paired CTAs, and showing them twice at once invites the
@@ -95,6 +96,9 @@ export function BottomNavBar() {
               <span className="font-body text-lg font-bold text-queso-yellow">
                 K{total}
               </span>
+            </div>
+            <div className="flex justify-end pt-3">
+              <ClearOrderButton tone="onDark" />
             </div>
           </div>
         </div>
