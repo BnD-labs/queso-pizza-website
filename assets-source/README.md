@@ -34,6 +34,30 @@ in `CLAUDE.md` for why each one is here. In short:
   a room that does not match the verified interior. Not asserted to be fake —
   unverified, which is enough to keep it out.
 
+## Three frames promoted back, 2026-08-21
+
+Brandon reviewed the held-back set and chose three for use. They moved into
+`photography-2026-08/` and are built by `npm run photos`:
+
+| File | Used as | Note |
+|---|---|---|
+| `Dining_shot.jpg_2K_...` | About, "Grounded in Community" | Replaced the Canon `Interior shot 3.JPG`, which is still here but no longer built |
+| `Chicken_Tornado.jpg_202608191715.jpeg` | `chicken-tornado` menu thumb | A re-render, but of Queso's **own** wrap, so unlike the held-back pizzas it does not misdescribe what it labels |
+| `Chicken_&_Mushroom-1.jpg_...` | `chicken-mushroom` menu card | This item previously had neither photo nor description and rendered as a bare name and price |
+
+These are re-renders, so the audit's objection still stands in principle. It was
+weighed and overridden for these three specifically. The one open question is
+whether the Chicken and Mushroom frame matches the real pizza — worth confirming
+with the founder, same as `creamy-chicken`.
+
+## Fonts
+
+`Comix Loud.ttf` is Queso's brand display face, supplied 2026-08-21. The shipped
+WOFF2 in `app/fonts/` is generated from it. **Its embedded licence field says
+"Free for personal use"** — see the licensing note in `CLAUDE.md`.
+
+---
+
 If the founder later confirms any of these depicts the real product, move the
 file back into `photography-2026-08/`, add a job to `scripts/build-photos.mjs`,
 and note the confirmation here.

@@ -29,7 +29,7 @@ export function Footer() {
         />
         <div className="mt-6 flex flex-col gap-10">
           <div className="flex flex-col gap-6">
-            <p className="font-display text-3xl font-bold tracking-tight text-queso-cream">
+            <p className="font-brand text-3xl font-bold tracking-tight text-queso-cream">
               {SITE.name.toUpperCase()}
             </p>
             <p className="max-w-sm font-body text-base leading-relaxed text-queso-cream/65">
@@ -61,9 +61,23 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div className="border-t border-queso-cream/10 pt-8 text-center">
+          <div className="flex flex-col items-center gap-2 border-t border-queso-cream/10 pt-8 text-center">
             <p className="font-body text-base text-queso-cream/60">
               © {SITE.footerYear} {SITE.name.toUpperCase()}. LOCAL. ROOTED.
+            </p>
+            {/* Build credit. rel="noopener noreferrer" because it opens in a new
+                tab; without noopener the target page gets a handle on this one
+                via window.opener. */}
+            <p className="font-body text-sm text-queso-cream/45">
+              Developed by{" "}
+              <a
+                href="https://www.bnd-lab-agency.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-queso-cream/70 underline decoration-queso-red decoration-2 underline-offset-4 transition-colors duration-[var(--dur-base)] hover:text-queso-cream"
+              >
+                BND Labs
+              </a>
             </p>
           </div>
         </div>

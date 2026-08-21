@@ -74,8 +74,8 @@ export default function AboutPage() {
             not by another product shot. Taken in the shop on 2026-08-04. */}
         <div className="relative mt-4 aspect-[4/3] w-full">
           <Image
-            src="/images/interior-diners.jpeg"
-            alt="Two customers sharing a meal and a Coca-Cola at Queso Pizza in Chongwe"
+            src="/images/dining-shot.jpeg"
+            alt="Two customers sharing a meal on the red trays at Queso Pizza in Chongwe"
             fill
             sizes="(min-width: 768px) 704px, 100vw"
             className="object-cover"

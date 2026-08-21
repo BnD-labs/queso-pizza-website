@@ -76,19 +76,35 @@ export default function Home() {
              because the scrim was a sibling of the text rather than an
              ancestor. On a flat red field the ratio is fixed. ——— */}
       <section className="relative overflow-hidden bg-queso-red pb-24 pt-10 md:pb-32 md:pt-16">
-        <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 md:grid-cols-[1.1fr_1fr] md:gap-8">
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 md:grid-cols-[1.25fr_1fr] md:gap-8">
           <div className="flex flex-col items-start gap-6">
             <span className="queso-enter flex items-center gap-2 rounded-full bg-queso-cream/15 px-3.5 py-1.5 font-body text-xs font-bold uppercase tracking-[0.1em] text-queso-cream ring-1 ring-queso-cream/25">
               <PhoneIcon className="h-3 w-3" />
               Delivery · Collection · Dine in
             </span>
-            {/* text-4xl at 390px, not text-5xl: "THE TASTE THAT" overflows 350px of
-                usable width at 48px and wraps to four ragged lines, which fights
-                the explicit break below it. */}
-            <h1 className="queso-enter queso-stagger-1 font-display text-4xl font-extrabold leading-[0.95] tracking-tight text-queso-cream sm:text-6xl lg:text-7xl">
-              THE TASTE THAT
-              <br />
-              STAYS WITH YOU
+            {/* Sized and spaced for Comix Loud, which is a very different shape from
+                the Epilogue this was tuned for. Measured in the browser rather
+                than guessed: at 72px "THE TASTE THAT" renders 974px wide in a
+                633px column, and the font's natural line box is 1.5x its em.
+                The old leading-[0.95] and lg:text-7xl therefore overflowed AND
+                overlapped at the same time.
+
+                The hard <br /> is gone with them. A fixed break only works when
+                you know the line fits; with a face this wide it forced a wrap
+                mid-phrase and then collided with the next line. text-wrap:balance
+                distributes the lines evenly instead, and degrades to normal
+                wrapping where unsupported.
+
+                Sizes run a step below the Epilogue equivalents for the same
+                reason — this face fills far more width per character, so it
+                reads at the same visual weight smaller.
+
+                leading-[1.5] is not a stylistic choice, it is the font's own
+                metric: measured in the browser, one line of Comix Loud occupies
+                1.5x its font-size. Anything tighter and consecutive lines
+                physically overlap, which 0.95, 1.08, 1.15 and 1.3 all did. */}
+            <h1 className="queso-enter queso-stagger-1 font-brand text-3xl font-extrabold leading-[1.5] tracking-tight text-queso-cream [text-wrap:balance] sm:text-4xl lg:text-5xl">
+              THE TASTE THAT STAYS WITH YOU
             </h1>
             <p className="queso-enter queso-stagger-2 max-w-md font-body text-base leading-relaxed text-queso-cream/85">
               Oven-baked pizza, shawarma and fries in Chongwe. Build your order
@@ -277,7 +293,7 @@ export default function Home() {
              most weight on the page ——— */}
       <section className="bg-surface-warm px-5 py-24 md:py-36">
         <div className="mx-auto flex max-w-7xl flex-col gap-10">
-          <h2 className="queso-reveal font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
+          <h2 className="queso-reveal font-brand text-3xl font-extrabold leading-[1.25] tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
             Explore the Menu
           </h2>
           <div className="queso-reveal flex flex-col gap-2 md:grid md:grid-cols-6">

@@ -40,6 +40,11 @@ export const ITEM_IMAGES: Record<string, string> = {
   // the real Creamy Chicken is served with red onion. Worth confirming with the
   // founder, and replacing the moment a real photograph of this pizza exists.
   "creamy-chicken": "/images/creamy-chicken.jpeg",
+  // Added 2026-08-21 on Brandon's instruction. Chicken and Mushroom was the one
+  // item on the menu with no photograph AND no description, so it rendered as a
+  // bare name and a price. Same caveat as creamy-chicken above: a re-render, so
+  // worth confirming with the founder that the real pizza matches the frame.
+  "chicken-mushroom": "/images/chicken-mushroom.jpeg",
   // ——— verified Queso photography ———
   "chicken-tornado": "/images/chicken-tornado.jpeg",
   "triple-threat": "/images/triple-threat.jpeg",

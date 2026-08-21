@@ -20,7 +20,11 @@ const OUT = "public/images";
 const JOBS = [
   // Flat menu items render in FlatItemRow at 64px square. 320 covers 2x DPR
   // and the planned Perfect Pairings chips; anything larger is dead weight.
-  { src: "Chicken tornado-6.jpg",  out: "chicken-tornado.jpeg",       w: 320,  h: 320,  pos: "centre" },
+  // Brandon's pick, 2026-08-21, over the Canon frame (Chicken tornado-6.jpg,
+  // still in this folder). It is a re-render, but of Queso's OWN wrap — same
+  // filling, same greenery — so unlike the held-back pizzas it does not
+  // misdescribe the product it labels.
+  { src: "Chicken_Tornado.jpg_202608191715.jpeg", out: "chicken-tornado.jpeg", w: 320, h: 320, pos: "centre" },
   { src: "Tripple threat-1.jpg",   out: "triple-threat.jpeg",         w: 320,  h: 320,  pos: "centre" },
   { src: "Chicken fingers with fries.jpg", out: "fries-chicken-fingers.jpeg", w: 320, h: 320, pos: "attention" },
   // Re-encode: this shipped at 129K to fill a 64px box, the single largest
@@ -30,14 +34,27 @@ const JOBS = [
   // Section-scale photography: rendered up to ~704px wide, so 1200 covers ~1.7x
   // DPR — the point where further pixels stop being visible on a phone.
   { src: "Queso Interior shot-2.jpg", out: "interior-counter.jpeg",   w: 1200, h: 900 , pos: "centre" },
-  { src: "Interior shot 3.JPG",       out: "interior-diners.jpeg",    w: 1200, h: 900 , pos: "centre" },
-  { src: "Meal prep.jpg",             out: "kitchen-prep.jpeg",       w: 1100, h: 1467, pos: "centre" },
+  // Square, not 1100x1467. About renders this in an aspect-square container, so
+  // a portrait source spends ~370px of height on pixels object-cover throws
+  // away — and on a static export every one of those bytes is still downloaded.
+  { src: "Meal prep.jpg",             out: "kitchen-prep.jpeg",       w: 1100, h: 1100, pos: "centre" },
 
-  // PizzaCard renders 4:3 at 33vw on desktop (~427px), so 1000 covers 2x DPR.
+  // PizzaCard renders 4:3 at ~33vw on desktop. 900 wide covers that at 2x DPR
+  // on the phones this targets, and matches chicken-mushroom below.
   // Kept from the enhanced set by Brandon's call, 2026-08-20 — the only one of
   // the supplied pizza frames that plausibly depicts its own menu item. See the
   // caveat in lib/menu-content.ts.
-  { src: "Creamy_Grilled_Chicken_Pizza.png_2K_202608191911.jpeg", out: "creamy-chicken.jpeg", w: 1000, h: 750, pos: "centre" },
+  { src: "Creamy_Grilled_Chicken_Pizza.png_2K_202608191911.jpeg", out: "creamy-chicken.jpeg", w: 900, h: 675, pos: "centre" },
+
+  // About's "Grounded in Community" photo, Brandon's pick 2026-08-21, replacing
+  // the Canon interior-diners frame (source still in this folder, no longer
+  // built — nothing referenced it once About switched).
+  { src: "Dining_shot.jpg_2K_202608191916.jpeg", out: "dining-shot.jpeg", w: 1200, h: 900, pos: "centre" },
+
+  // Chicken and Mushroom had no photograph at all and rendered text-forward.
+  // 900x675 rather than the 1000x750 used for creamy-chicken: the pizza grid
+  // shows these at ~33vw and the budget has no room to spare.
+  { src: "Chicken_&_Mushroom-1.jpg_202608191820.jpeg", out: "chicken-mushroom.jpeg", w: 900, h: 675, pos: "centre" },
 
   // Beverages: 4:5 portrait band. This retires the Beverages placeholder —
   // the fridge shot is the evidence behind "available in-store".

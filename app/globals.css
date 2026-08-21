@@ -57,6 +57,16 @@
 
   /* ——— Typography (wired to next/font variables set in app/layout.tsx) ——— */
   --font-display: var(--font-epilogue); /* headlines, 700–800 */
+
+  /* Comix Loud, the brand display face (supplied 2026-08-21), is deliberately
+     NOT the general heading font. Brandon's call after seeing it applied
+     everywhere: it is a wide, tall comic face — ~1.5x Epilogue's width at the
+     same size, with a natural line box 1.5x its em — so at heading sizes it
+     overwhelmed the page and forced awkward wraps. Scoped to three places where
+     it reads as branding rather than as body structure: the logo wordmark, the
+     hero headline, and the "Explore the Menu" feature heading.
+     See the licensing note in app/layout.tsx before launch. */
+  --font-brand: var(--font-comix);
   --font-body: var(--font-inter); /* body / labels */
 }
 

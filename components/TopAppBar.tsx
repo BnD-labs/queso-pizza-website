@@ -56,7 +56,10 @@ export function TopAppBar() {
             height={25}
             priority
           />
-          <span className="font-display text-xl font-bold tracking-tight text-queso-black">
+          {/* whitespace-nowrap and a smaller base size: Comix Loud is wide enough
+              that "QUESO PIZZA" broke onto two lines at 390px, which a wordmark
+              must never do. */}
+          <span className="whitespace-nowrap font-brand text-base font-bold tracking-tight text-queso-black sm:text-xl">
             {SITE.name.toUpperCase()}
           </span>
         </Link>

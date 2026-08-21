@@ -99,7 +99,32 @@ On a flat field the ratio is fixed. All four pages now probe clean.
 
 **"Screams local brand"** is the founder's phrase and the easiest thing to fake. It means the real Chongwe storefront photography used properly, Kwacha pricing shown with confidence, Great East Road and the Access Bank landmark as genuine wayfinding, and WhatsApp-first ordering presented as the feature it is rather than apologised for. It does **not** mean decorative pattern pastiche.
 
-**Typography:** Epilogue (display/headlines, 700-800), Inter (body/labels). Google Fonts via next/font. The brand book names Garet / Helvetica World / Helvetica Now, but **no license has been confirmed for any of them**. Epilogue/Inter are the shipped web substitutes and remain correct until someone confirms a Garet license.
+**Typography:** **Comix Loud** (brand display face), **Epilogue** (headlines, 700-800), **Inter** (body/labels).
+
+Comix Loud arrived from Brandon on 2026-08-21 as Queso's primary brand font, superseding the
+unlicensed Garet / Helvetica World / Helvetica Now the brand book named. It is loaded with
+`next/font/local` from `app/fonts/comix-loud.woff2` (converted from the supplied 33 KB TTF; the
+original is in `assets-source/`, and the WOFF2 is 11.8 KB).
+
+**It is scoped to three places, and that scoping is deliberate:** the **logo wordmark**, the **hero
+headline**, and the **"Explore the Menu"** feature heading. Applied to headings generally it
+overwhelmed the page — Brandon's call after seeing it. The reason is measurable rather than a matter
+of taste: at the same font-size Comix Loud renders about **1.5x wider** than Epilogue ("THE TASTE
+THAT" measured 974px at 72px, in a 633px column) and its natural line box is **1.5x its em**.
+
+Two consequences that will bite anyone who uses `font-brand` somewhere new:
+- **Never set leading below 1.5 on it.** 0.95, 1.08, 1.15 and 1.3 were all tried and all made
+  consecutive lines physically overlap. This is the font's own metric, not a style preference.
+- **Size it a step down** from the Epilogue equivalent, and never rely on a hard `<br />` to control
+  wrapping. Use `[text-wrap:balance]`.
+
+Everything else stays Epilogue/Inter. `--font-display` is Epilogue; `--font-brand` is Comix Loud.
+
+**LICENSING — UNRESOLVED, VERIFY BEFORE LAUNCH.** The TTF's own embedded name table reads
+`Copyright © Imagex 2013` and, in the license field, **"Free for personal use."** Queso Pizza is a
+commercial business, so a personal-use grant does not cover this site. Either the client already
+holds a commercial licence from Imagex or one has to be bought. This is the same class of problem as
+the unlicensed Taste of Home stock photo in `assets-source/held-back/` — flagged, not resolved.
 
 `.claude/skills/queso-brand-tokens/SKILL.md` was rewritten to v5 on 2026-08-20 and now agrees with this file. Every version before that date taught the v3/v4 dark-ground doctrine — it instructed the reader that `queso-black` was the base background and to *flag a cream background as a mistake*, which would have reverted the entire rebrand. If a session ever cites that skill against something here, this file wins.
 
