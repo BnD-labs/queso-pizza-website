@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { SITE } from "@/lib/site-config";
 import { BagIcon, MenuIcon } from "./icons";
+import { Wordmark } from "./Wordmark";
 import { useOrder } from "./order/OrderProvider";
 
 const NAV_LINKS = [
@@ -24,15 +24,21 @@ export function TopAppBar() {
   const [open, setOpen] = useState(false);
   const { count } = useOrder();
 
+  // Cream, not black. v5 demotes dark surfaces to accents — the sanctioned ones
+  // are the footer, a hero scrim, the order panel and the Most Ordered card. A
+  // black band pinned across the top of every cream page is not an accent, it
+  // is a second ground, and it reintroduces the coldness the founder objected
+  // to on 2026-08-19. Translucent + blurred so content scrolling under it stays
+  // legible.
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-queso-cream/10 bg-queso-black">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-queso-cream/95 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
         <button
           type="button"
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-12 w-12 items-center justify-center rounded-control text-queso-cream transition-colors duration-[var(--dur-base)] hover:bg-queso-cream/10"
+          className="flex h-12 w-12 items-center justify-center rounded-control text-queso-black transition-colors duration-[var(--dur-base)] hover:bg-queso-black/5"
         >
           <MenuIcon className="h-5 w-5" />
         </button>
@@ -43,28 +49,28 @@ export function TopAppBar() {
           className="flex items-center gap-2"
           onClick={() => setOpen(false)}
         >
+          {/* Larger than the 44x25 it was: with the logotype now smaller the
+              mark should lead the lockup, not be overshadowed by it. */}
           <Image
             src="/images/logo-mark.png"
             alt=""
-            width={44}
-            height={25}
+            width={64}
+            height={36}
             priority
           />
-          <span className="font-display text-xl font-bold tracking-tight text-queso-cream">
-            {SITE.name.toUpperCase()}
-          </span>
+          <Wordmark tone="onLight" className="text-sm sm:text-lg" />
         </Link>
 
         <Link
           href="/menu"
           prefetch={false}
           aria-label={count > 0 ? `Menu & Order — ${count} items in order` : "Menu & Order"}
-          className="relative flex h-12 w-12 items-center justify-center rounded-control text-queso-cream transition-colors duration-[var(--dur-base)] hover:bg-queso-cream/10"
+          className="relative flex h-12 w-12 items-center justify-center rounded-control text-queso-black transition-colors duration-[var(--dur-base)] hover:bg-queso-black/5"
         >
           <BagIcon className="h-5 w-5" />
           {count > 0 ? (
             /* cart count badge: one of the two approved circular exceptions */
-            <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-queso-red px-1 font-body text-[10px] font-bold text-white">
+            <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-queso-red px-1 font-body text-[10px] font-bold text-queso-cream">
               {count}
             </span>
           ) : null}
@@ -72,15 +78,15 @@ export function TopAppBar() {
       </div>
 
       {open ? (
-        <nav className="border-t border-queso-cream/10 bg-surface-low">
+        <nav className="border-t border-line bg-surface">
           <ul>
             {NAV_LINKS.map((link) => (
-              <li key={link.href} className="border-b border-queso-cream/5">
+              <li key={link.href} className="border-b border-line">
                 <Link
                   href={link.href}
                   prefetch={false}
                   onClick={() => setOpen(false)}
-                  className="block px-5 py-4 font-body text-base text-queso-cream/80 hover:text-queso-cream"
+                  className="block px-5 py-4 font-body text-base text-queso-black transition-colors duration-[var(--dur-base)] hover:text-queso-red"
                 >
                   {link.label}
                 </Link>

@@ -6,6 +6,7 @@ import { BagIcon } from "./icons";
 import { useOrder } from "./order/OrderProvider";
 import { OrderLinesList } from "./order/OrderLinesList";
 import { OrderCtas } from "./order/OrderCtas";
+import { ClearOrderButton } from "./order/ClearOrderButton";
 
 // True while the /menu "Order Ready!" panel is on screen above the bar. Both
 // carry the same paired CTAs, and showing them twice at once invites the
@@ -59,7 +60,7 @@ export function BottomNavBar() {
   return (
     <div
       aria-hidden={panelInView}
-      className={`fixed inset-x-0 bottom-0 z-50 border-t border-queso-cream/10 bg-surface-footer transition-[transform,opacity] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] ${
+      className={`fixed inset-x-0 bottom-0 z-50 border-t border-queso-cream/10 bg-dark transition-[transform,opacity] duration-[var(--dur-base)] ease-[var(--ease-out-quart)] ${
         panelInView
           ? "pointer-events-none translate-y-full opacity-0"
           : "translate-y-0 opacity-100"
@@ -95,6 +96,9 @@ export function BottomNavBar() {
               <span className="font-body text-lg font-bold text-queso-yellow">
                 K{total}
               </span>
+            </div>
+            <div className="flex justify-end pt-3">
+              <ClearOrderButton tone="onDark" />
             </div>
           </div>
         </div>

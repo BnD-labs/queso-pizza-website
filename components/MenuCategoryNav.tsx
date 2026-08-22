@@ -16,14 +16,14 @@ export function MenuCategoryNav() {
   return (
     <nav
       aria-label="Menu categories"
-      className="sticky top-16 z-30 -mx-5 hidden border-b border-queso-cream/10 bg-queso-black/90 px-5 backdrop-blur-sm md:block"
+      className="sticky top-16 z-30 -mx-5 hidden border-b border-line bg-queso-cream/95 px-5 backdrop-blur-sm md:block"
     >
       <ul className="mx-auto flex max-w-7xl gap-2 py-3">
         {MENU_CATEGORIES.map((cat) => (
           <li key={cat.id}>
             <a
               href={`#${cat.id}`}
-              className="block rounded-control border border-queso-cream/20 px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-cream/80 transition-colors duration-[var(--dur-base)] hover:border-queso-cream/50 hover:bg-queso-cream/10 hover:text-queso-cream"
+              className="block rounded-full border border-line px-4 py-2 font-body text-xs font-bold uppercase tracking-wide text-queso-black transition-colors duration-[var(--dur-base)] hover:border-queso-red hover:bg-queso-red hover:text-queso-cream"
             >
               {cat.label}
             </a>

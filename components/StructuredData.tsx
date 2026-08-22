@@ -1,6 +1,7 @@
 import { PIZZAS, SHAWARMA, FRIES, type PizzaSize } from "@/lib/menu-data";
 import { ITEM_DESCRIPTIONS } from "@/lib/menu-content";
 import { SITE, MAPS_SEARCH_URL } from "@/lib/site-config";
+import { REVIEWS } from "@/lib/reviews";
 
 /*
  * schema.org Restaurant + Menu markup.
@@ -8,14 +9,18 @@ import { SITE, MAPS_SEARCH_URL } from "@/lib/site-config";
  * Every value is derived from lib/site-config.ts and lib/menu-data.ts, which
  * are the two sources of truth. Nothing here is authored.
  *
+ * aggregateRating and review were absent for the whole build because the five
+ * stars on the homepage were a design placeholder with no rating behind them,
+ * and restating a placeholder to Google turns it into a claim. That condition
+ * was lifted on 2026-08-21: the real Google Business Profile rating arrived, so
+ * both now ship, sourced from lib/reviews.ts. The rule that produced the
+ * absence has not changed — only the facts have.
+ *
  * Deliberately ABSENT, and they must stay absent:
- *   - aggregateRating / review — the five stars on the homepage are a design
- *     placeholder with no real rating behind them. Restating that to Google as
- *     structured data turns a placeholder into a claim, and it is the same
- *     fabrication the constitution bans for review text.
  *   - geo — no one has confirmed coordinates. hasMap points at the plus code,
  *     which is the honest version of the same information.
- *   - the address landmark — still UNCONFIRMED in site-config.
+ *   - the address landmark — it is human wayfinding, not a postal field, and
+ *     asserting it as one to a search engine is not what it is for.
  */
 
 const BASE = `https://${SITE.domain}`;
@@ -87,6 +92,29 @@ const RESTAURANT = {
     addressCountry: SITE.address.country,
   },
   hasMap: MAPS_SEARCH_URL,
+  // Google's own aggregate, not a computed one. reviewCount is the profile's
+  // full count (4), which is larger than the two quotes we can legibly render —
+  // reporting only the quotable ones would understate a real rating.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: REVIEWS.ratingValue,
+    reviewCount: REVIEWS.count,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  review: REVIEWS.quotes.map((r) => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: r.author },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: r.rating,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    reviewBody: r.text,
+    // No datePublished: the profile showed relative ages ("5 weeks ago") and
+    // converting those to absolute dates would invent precision.
+  })),
   servesCuisine: ["Pizza", "Shawarma", "Fast Food"],
   priceRange: `K${Math.min(...allPrices)}–K${Math.max(...allPrices)}`,
   currenciesAccepted: CURRENCY,

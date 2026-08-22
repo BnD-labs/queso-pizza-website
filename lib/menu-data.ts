@@ -35,7 +35,11 @@ export const PIZZAS: PizzaItem[] = [
   { id: "creamy-chicken", name: "Creamy Chicken", tier: "special", prices: { S: 95, M: 165, L: 210, XL: 300 } },
   { id: "chicken-tika", name: "Chicken Tika", tier: "special", prices: { S: 85, M: 155, L: 200, XL: 290 } },
   { id: "queso-original", name: "Queso Original", tier: "special", prices: { S: 85, M: 155, L: 200, XL: 290 } },
-  { id: "all-in-one", name: "All In One", tier: "special", prices: { S: 85, M: 155, L: 200, XL: 290 } },
+  // "All In One" (special, S85/M155/L200/XL290) removed 2026-08-20 on the
+  // founder's instruction from the 2026-08-19 call: too little information
+  // about what it actually is to describe or photograph it honestly. Pizzas
+  // 10 -> 9. This is the first sanctioned edit to this file; every other value
+  // here still requires explicit instruction before it changes.
 ];
 
 export const SHAWARMA: FlatItem[] = [

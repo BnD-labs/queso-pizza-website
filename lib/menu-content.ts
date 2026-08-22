@@ -17,14 +17,38 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "chicken-tornado": "Our spicy, rolled specialty with a punch of flavor.",
 };
 
-// PROVISIONAL photo-to-item mapping — only items where the photograph
-// defensibly shows that dish. Everything else renders the placeholder
-// convention. Confirm the mapping with Brandon before launch.
+// Photo-to-item mapping — only items where the photograph defensibly shows
+// THAT dish. Everything else renders text-forward (see the v4 amendment in
+// CLAUDE.md); an approximate photo is worse than none, because the customer
+// orders off it.
+//
+// The four entries below the rule were added 2026-08-20 from the founder's own
+// shoot (Canon PowerShot S3 IS, 2026-08-04) and are the first item photographs
+// verifiably taken at the shop. The pizzas supplied alongside them were held
+// back: they were AI re-renders, and two contradicted their own labels — the
+// "Beef" frame showed chicken, "Flavorful Beef" showed ham and mushroom.
 export const ITEM_IMAGES: Record<string, string> = {
   chicken: "/images/pizza-whole-steam.jpeg",
   "flavorful-chicken": "/images/pizza-closeup.jpeg",
   "queso-original": "/images/pizza-cheese-pull.jpeg",
   "shawarma-platter": "/images/shawarma-box.jpeg",
+  // Kept from the 2026-08-19 enhanced set by Brandon's call, 2026-08-20: the
+  // only supplied pizza frame that plausibly depicts its own menu item —
+  // grilled chicken, cream sauce, red onion, herbs. Unlike the frames it was
+  // supplied with, it does not contradict its label. It is still a generated
+  // image (PNG intermediate, no EXIF), so it carries one open question: whether
+  // the real Creamy Chicken is served with red onion. Worth confirming with the
+  // founder, and replacing the moment a real photograph of this pizza exists.
+  "creamy-chicken": "/images/creamy-chicken.jpeg",
+  // Added 2026-08-21 on Brandon's instruction. Chicken and Mushroom was the one
+  // item on the menu with no photograph AND no description, so it rendered as a
+  // bare name and a price. Same caveat as creamy-chicken above: a re-render, so
+  // worth confirming with the founder that the real pizza matches the frame.
+  "chicken-mushroom": "/images/chicken-mushroom.jpeg",
+  // ——— verified Queso photography ———
+  "chicken-tornado": "/images/chicken-tornado.jpeg",
+  "triple-threat": "/images/triple-threat.jpeg",
+  "fries-chicken-fingers": "/images/fries-chicken-fingers.jpeg",
 };
 
 /**

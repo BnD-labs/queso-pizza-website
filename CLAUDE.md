@@ -1,16 +1,18 @@
-# Queso Pizza — Project Constitution (v4)
+# Queso Pizza — Project Constitution (v5)
 
-Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1/v2/v3 constitutions — this is how *this* project works.
+Read this file at the start of every session in this repo. It supersedes generic assumptions and the v1–v4 constitutions — this is how *this* project works.
 
-**The Figma design-lock was lifted on 2026-07-26 (Brandon's call).** v2 declared the July 2026 Figma FINAL and instructed matching it section-for-section. That is no longer the standard. The Figma is now **reference, not contract**: the client judged the built result "incomplete, not premium," and granted full design latitude to rework layout, composition, spacing, hierarchy, and motion.
+**The founder lifted the dark-ground and sharp-corner locks on 2026-08-19.** Asked directly whether the problem was the execution or the look itself, he said **the look itself**, and gave full permission to change it. He objected specifically to *how the four brand colours and the hard square corners were being used*, said the reference sites "scream pizza restaurant" in a way ours did not, and wants a visitor to feel they have opened a **premium pizza restaurant that is easy to navigate, very clear, easy to find meals in, and unmistakably local**.
+
+**The four colours themselves did not change — only their roles.** See the Brand system section; the contrast rules invert, and getting that wrong ships unreadable text.
+
+The Figma has been reference-not-contract since 2026-07-26 and is now two design generations stale. Do not restore layouts from it.
 
 What remains genuinely locked, and must not be changed without a new explicit decision:
-- The brand system — the four colors, the WhatsApp-green exception, sharp corners, Epilogue/Inter
+- The four colour values, the WhatsApp-green exception, Epilogue/Inter
 - The four-page structure
 - `lib/menu-data.ts` values and the WhatsApp + call-to-confirm order flow
-- Every content rule below (no fabricated reviews, prices, or landmarks)
-
-Do not "restore" the Figma layouts over the current build. The polish work on `design-polish` (2026-07-26) is deliberate and supersedes them.
+- Every content rule below (no fabricated reviews, ratings, stats, prices, or landmarks)
 
 ## What this is
 A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food restaurant in Chongwe, Lusaka, Zambia. No cart, no payment gateway, no accounts, no CMS. The site's job: look premium, show the menu well, route orders to WhatsApp and a confirmation phone call.
@@ -21,37 +23,126 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 - Hosting: **Cloudflare Worker serving static assets** (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`. NOT Cloudflare Pages — the client account no longer exposes a Pages creation flow. `wrangler.jsonc` is load-bearing: without it `wrangler deploy` auto-detects Next.js, assumes an SSR build, and fails. See `PHASE-6-LAUNCH.md`.
 - Mobile-first (390px design frames). Desktop = responsive Tailwind breakpoints applied sensibly to the same layouts; no bespoke desktop design exists.
 
-## Brand system — locked
-**Colors** (Tailwind theme tokens, never raw hex in JSX):
+## Brand system — v5 (rebranded 2026-08-19)
+
+**Colors** (Tailwind theme tokens, never raw hex in JSX) — values unchanged from v4:
 - `queso-red`: `#CC1010`
 - `queso-black`: `#0F0F0F`
 - `queso-yellow`: `#FDFC00`
 - `queso-cream`: `#FFF8F0`
-- Supporting dark surfaces from the design: `#131313` (base), `#1C1B1B` (surface-low), `#201F1F` (surface), `#2A2A2A` (surface-high), `#0E0E0E` (footer/lowest)
-- `whatsapp-green`: `#25D366` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never use for any other element. (Corrected 2026-07-29 from the Figma export's `#29D51A`, which was brighter and more lime than WhatsApp's real brand green — self-defeating for a token whose only job is to be recognised as WhatsApp.)
+- `whatsapp-green`: `#25D366` — APPROVED EXCEPTION, WhatsApp action buttons ONLY (platform recognition). Never any other element.
 
-**Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette appear throughout the Figma CSS export — these are token drift, NOT brand. Wherever the design shows salmon (labels like "VISIT US", icons, active footer links), use cream at 60-70% opacity for muted labels. Wherever lime yellow appears (star icons), use `queso-yellow`.
+**Banned colors:** the salmon/pink `#FFB4A9` and lime `#EBEA00` from the old Stitch M3 palette are token drift from the Figma export, NOT brand. Never reintroduce.
 
-**Red belongs in fills, not in text on dark surfaces.** (Decided 2026-07-26; supersedes v2's "use `queso-red` for accents/active states".) `queso-red` on the dark surface scale measures ≈2.9:1 — below the 4.5:1 WCAG AA threshold at the sizes this site uses it, and the brand book's approved pairings list only three: off-white on `queso-black`, `queso-black` on `queso-red`, white on `queso-red`. Note that all three put red *behind* text, never in it. So:
+**The ground is cream, not black.** This is the whole rebrand in one line. v4 built a near-black site with cream text; `queso-cream` is now the page ground and `queso-black` is the ink. Dark surfaces are demoted from *default* to *accent* — the footer, the order panel, the Most Ordered card. Used everywhere they made the site read cold, and they are what the founder was reacting to.
 
-- **Red as a background/fill** with white or `queso-black` on top — correct, use freely (primary CTAs, selected states, badges, the delivery bar)
-- **Red as text on a dark surface** — do not. Assignments in use: item prices → `queso-cream`; order totals → `queso-yellow`; eyebrow/muted labels → `queso-cream/70`; active nav and key affordances → `queso-yellow`
-- **Red as text on a light surface** — fine, it measures ≈5.9:1. The About page eyebrows and the Home story-card hover are correct as-is
-- **Red icons** — acceptable; they are graphics, not body text
+**CONTRAST RULES INVERT FROM v4. Read this before writing a single class.**
 
-If Brandon wants more red presence back, add red *fills*, not red text. This closed the "known exception 1" logged in `QC-REPORT.md`.
+| Colour | v4 (dark ground) | v5 (cream ground) |
+|---|---|---|
+| `queso-red` as text | **Banned** — ≈2.9:1 on dark | **Encouraged** — **5.46:1** on cream. Headings, eyebrows, prices, links |
+| `queso-yellow` as text | Totals, active nav | **Banned** — **1.04:1** on cream, effectively invisible |
+| `queso-yellow` as fill | Badges | Correct, with `queso-black` on top (**17.43:1**) |
+| `queso-black` as text | Only on light cards | The default ink |
+| `queso-cream` as text | The default | Only on dark accents and on red fills |
 
-**Shape: sharp surfaces, softened controls.** (Revised 2026-07-29; v2 was "zero roundedness" everywhere.) The Figma export's assorted radius values (4/5/8/10/12px) are still tool artifacts, not design intent — the radius scale stays deleted from the theme so no `rounded-*` utility ships a corner by accident.
+Red is finally usable as text — that is the expressive unlock the founder was asking for, and it is why the palette did not need to change. Yellow now carries the opposite constraint: it is a fill colour only.
 
-- **Surfaces stay sharp 90°:** cards, image containers, bento tiles, panels, the app bar, the footer, badges. This is the brand's architectural feel.
-- **Controls get `rounded-control` (6px):** buttons, CTAs, size selectors, quantity steppers, category pills, inputs. Things you press are softened; things you read stay sharp.
-- **Do not add a second radius token.** One value is a system; two is what makes a mixed treatment read as accidental.
-- Circular (`rounded-full`) remains permitted ONLY for the map pin dot and the Perfect Pairings chips.
+These figures are measured, not estimated, and are enforced in CI by
+`scripts/check-contrast.mjs`, which parses the tokens straight out of `app/globals.css` so the
+check can never drift from what actually ships. It also asserts the *banned* pairings stay
+banned - if yellow-on-cream ever starts passing, a token drifted.
 
-**Typography:** Epilogue (display/headlines, 700-800), Inter (body/labels). Google Fonts via next/font. NOTE: `.claude/skills/queso-brand-tokens/SKILL.md` names Garet / Helvetica World / Helvetica Now — those are the brand-book families, and no license has been confirmed. Epilogue/Inter are the shipped web substitutes and remain correct until someone confirms a Garet license. Do not swap on the skill's say-so alone.
+**Warm neutrals, never grey.** Every supporting tone is derived from cream, not from a neutral grey ramp. A mid-grey on a cream page reads as unconsidered and fights the warmth the whole rebrand is chasing.
+
+**The surface tokens, and a trap worth knowing about.** The available surfaces are
+`surface` (white), `surface-warm`, `surface-sunk`, `line` (borders), `ink-soft` (muted
+copy), and `dark` / `dark-soft` (accents). The v4 names `surface-low`, `surface-high`
+and `surface-footer` **no longer exist.**
+
+They were renamed in the v5 token rewrite (3331a78) without the 14 usages being updated,
+and the failure mode is nastier than it sounds: Tailwind emits **no CSS rule at all** for
+an undefined token, so `bg-surface-low` is not a wrong colour, it is a silent no-op. Every
+one of those surfaces rendered fully transparent and dropped cream text onto the cream
+body. That single mistake was most of the 73 sub-3:1 text elements found afterwards — not
+73 independent errors. Neither `tsc` nor `eslint` nor `next build` says a word about it.
+
+If text is invisible and the classes look right, check that the token is actually defined
+in `app/globals.css` before assuming the colour is wrong.
+
+**Only three surfaces stay dark**, and the list is exhaustive: the **footer** (with the
+BottomNavBar above it), the **order panel**, and the **Most Ordered card**. The hero scrim
+was a fourth until 2026-08-21, when the hero became a solid red band — see the hero note
+below. Yellow as text remains correct
+*inside* those — the v5 ban is specifically yellow on cream. Everything else is cream or a
+white card. The TopAppBar is deliberately not on this list: a black band pinned across the
+top of every cream page is not an accent, it is a second ground.
+
+**The hero is a red band (2026-08-21).** Brandon shortlisted a reference layout and asked for it on the
+hero *only*: solid `queso-red` ground, content left, the pizza as a circle right, and an SVG wave easing
+into the cream. Red is a **ground** there rather than a fill on cream, which the table above does not
+cover, so both directions are asserted in `scripts/check-contrast.mjs` — cream on red is **5.46:1**,
+yellow on red is **5.23:1**. Yellow is legitimate there; the yellow ban is specifically yellow on *cream*.
+
+This replaced a full-bleed photo with a gradient scrim, and it fixed something the tooling could never
+check: text over a photograph has a contrast ratio that depends on which part of the crust it lands on,
+and the scrim was a *sibling* of the text rather than an ancestor, so computed styles could not see it.
+On a flat field the ratio is fixed. All four pages now probe clean.
+
+**Shape: softened, on a real scale.** v4 shipped one 6px control token on the reasoning that "two is what makes a mixed system read as accidental." That held for an architectural sharp-cornered brand. The founder rejected that brand, so the reasoning goes with it. v5 uses a deliberate scale — chosen once, applied consistently:
+
+- `rounded-sm` (8px) — inputs, small chips, size selectors
+- `rounded-md` (14px) — cards, panels, image containers
+- `rounded-lg` (24px) — hero cards, feature tiles
+- `rounded-full` — pills, category chips, icon buttons, avatars
+- `rounded-control` (12px) — retained so existing pressables soften without touching every file; migrate to the scale as pages are reworked
+
+**"Screams local brand"** is the founder's phrase and the easiest thing to fake. It means the real Chongwe storefront photography used properly, Kwacha pricing shown with confidence, Great East Road and the Access Bank landmark as genuine wayfinding, and WhatsApp-first ordering presented as the feature it is rather than apologised for. It does **not** mean decorative pattern pastiche.
+
+**Typography:** **Comix Loud** (brand display face), **Epilogue** (headlines, 700-800), **Inter** (body/labels).
+
+Comix Loud arrived from Brandon on 2026-08-21 as Queso's primary brand font, superseding the
+unlicensed Garet / Helvetica World / Helvetica Now the brand book named. It is loaded with
+`next/font/local` from `app/fonts/comix-loud.woff2` (converted from the supplied 33 KB TTF; the
+original is in `assets-source/`, and the WOFF2 is 11.8 KB).
+
+**It is scoped to three places, and that scoping is deliberate:** the **logo wordmark**, the **hero
+headline**, and the **"Explore the Menu"** feature heading. Applied to headings generally it
+overwhelmed the page — Brandon's call after seeing it. The reason is measurable rather than a matter
+of taste: at the same font-size Comix Loud renders about **1.5x wider** than Epilogue ("THE TASTE
+THAT" measured 974px at 72px, in a 633px column) and its natural line box is **1.5x its em**.
+
+Two consequences that will bite anyone who uses `font-brand` somewhere new:
+- **Never set leading below 1.5 on it.** 0.95, 1.08, 1.15 and 1.3 were all tried and all made
+  consecutive lines physically overlap. This is the font's own metric, not a style preference.
+- **Size it a step down** from the Epilogue equivalent, and never rely on a hard `<br />` to control
+  wrapping. Use `[text-wrap:balance]`.
+
+Everything else stays Epilogue/Inter. `--font-display` is Epilogue; `--font-brand` is Comix Loud.
+
+**LICENSING — UNRESOLVED, VERIFY BEFORE LAUNCH.** The TTF's own embedded name table reads
+`Copyright © Imagex 2013` and, in the license field, **"Free for personal use."** Queso Pizza is a
+commercial business, so a personal-use grant does not cover this site. Either the client already
+holds a commercial licence from Imagex or one has to be bought. This is the same class of problem as
+the unlicensed Taste of Home stock photo in `assets-source/held-back/` — flagged, not resolved.
+
+`.claude/skills/queso-brand-tokens/SKILL.md` was rewritten to v5 on 2026-08-20 and now agrees with this file. Every version before that date taught the v3/v4 dark-ground doctrine — it instructed the reader that `queso-black` was the base background and to *flag a cream background as a mistake*, which would have reverted the entire rebrand. If a session ever cites that skill against something here, this file wins.
 
 **Motion** (added 2026-07-26, defined in `app/globals.css`): shared `--dur-*` / `--ease-*` tokens; `.queso-enter` (+ `.queso-stagger-1/2/3`) for above-the-fold entrances; `.queso-reveal` for scroll reveals. Reveals use CSS scroll-driven animations (`animation-timeline: view()`) so pages stay static with no JS. Content is **visible by default** and animation layers on only inside `@supports` — never invert this, or unsupporting browsers render blank pages on the low-end Android hardware this site targets. Perceived reveal length is governed by `animation-range`, not `--dur-slow`. A global `prefers-reduced-motion` guard covers the inline Tailwind transitions too.
-**Logo:** dark-version lockup (white mark on black). No literal pizza imagery in iconography.
+**Logotype:** `components/Wordmark.tsx` renders "QUESO PIZZA" in Comix Loud, in brand colours —
+**QUESO red, PIZZA yellow** (Brandon, 2026-08-21). Two things about it are load-bearing:
+
+- On the **cream** header, PIZZA is yellow **with a 2.5px `queso-black` outline**. Plain yellow on
+  cream is **1.04:1** — the banned pairing, invisible. The outline carries the legibility (black on
+  cream is 18.2:1) and suits a comic face. This is the *only* sanctioned yellow-on-cream text, and it
+  is noted as such in `scripts/check-contrast.mjs`. It is not licence to use yellow as text elsewhere.
+- On the **dark** footer, QUESO is **cream, not red** — red on dark is 3.23:1, the v4 constraint that
+  did not disappear, it just moved to the dark accents. Yellow needs no outline there (16.9:1).
+
+The logotype is deliberately small and the mark deliberately large (64x36 in the app bar, 104x59 in
+the footer): the type was overshadowing the mark, and Comix Loud is wide enough that it dominates fast.
+
+**Logo:** `public/images/logo-mark.png` — a red disc with a yellow ring and a black mark, on a **transparent** background (verified alpha, 2026-08-19). It sits on any ground, dark or cream. v4 described this as a "dark-version lockup (white mark on black)", which was simply wrong. No literal pizza imagery elsewhere in iconography.
 **Voice:** confident, warm, local, direct. Tagline: "The taste that stays with you."
 **Footer year:** 2026, not 2024.
 
@@ -94,7 +185,7 @@ See `.claude/skills/whatsapp-order-builder/` before touching this component.
    - "Perfect Pairings" cross-sell strip on /menu: after any item is added, horizontal row of circular photo chips (fries, drinks, sides) with red "+" — one tap adds to order
 
 ## Content & placeholder conventions
-- Real photography only (assets exported from Figma/provided by Brandon). No stock.
+- Real photography only (assets exported from Figma/provided by Brandon). No stock, **and no AI-generated or AI-"enhanced" imagery** — see the v5 photography amendment below.
 - Missing photography (beverages, reviews) → dashed-border + icon placeholder convention, exactly as the design shows — **in development only.** See the v4 amendment below.
 - Menu data only from `lib/menu-data.ts`; site constants (phones, address, hours, socials) only from `lib/site-config.ts`
 
@@ -108,8 +199,9 @@ under five stars attached to no real rating. That is the single clearest reason 
 
 Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), which is
 `process.env.NODE_ENV !== "production"`. The rules:
-- **Nothing real to say → hide the whole module in production.** The GBP reviews blocks on Home and
-  Contact, including their stars. Stars imply a rating that does not exist.
+- **Nothing real to say → hide the whole module in production.** Stars imply a rating, so they only
+  ship once a rating exists. ~~The GBP reviews blocks on Home and Contact.~~ **Resolved 2026-08-21 —
+  see the reviews amendment below.**
 - **Something real to say → keep the content, drop only the scaffolding.** Beverages and the Home
   "Refreshments" tile keep their approved "available in-store" copy without the dashed box or the
   "Placeholder" badge. Hiding them would hide a product the shop actually sells, and dropping the
@@ -121,6 +213,95 @@ Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), whic
 
 This does not license inventing content. Missing descriptions, photography and review data remain
 content blockers on Brandon/Dalitso — see `PHASE-6-LAUNCH.md`.
+
+**v5 amendment (2026-08-21): the reviews are real now — and what that did NOT unlock.**
+
+Queso's Google Business Profile reviews arrived: **5.0 from 4 reviews.** They live in
+`lib/reviews.ts`, which is the single source of truth, and they ship on Home and Contact via
+`components/Reviews.tsx`. `aggregateRating` and `review` are now in the JSON-LD, which the
+structured-data file had explicitly refused for the whole build.
+
+**The rule did not change — the facts did.** The blocks were hidden because five stars over a
+`[PLACEHOLDER]` string is a rating claim with nothing behind it. Now there is something behind it.
+Nothing about the fabrication ban has loosened.
+
+Three constraints carried into `lib/reviews.ts`, and they should survive future edits:
+- **Quote text is verbatim**, including the reviewer's own punctuation. Never trimmed for length or
+  tidied for tone.
+- **Only reviews whose full text is legible in the source are quoted.** Two of the four rated 5 stars
+  but their text was not readable in the capture. They count towards the aggregate — which is what
+  Google itself reports — but they are not quoted, and their text is not guessed at.
+- **The count always ships with the rating.** Four is a small number, and "5.0" alone would flatter
+  it in precisely the way the fabricated-stat rule exists to prevent. Both or neither.
+- **No dates.** The profile showed relative ages ("5 weeks ago"). Converting those to absolute dates
+  would invent precision.
+
+**Two things the profile did NOT license.**
+
+The GBP dashboard shows **"290 customer interactions."** That is almost certainly where the
+founder's unsourced "250+ customers" came from — and it is not a customer count. It is Google's
+tally of profile views, direction taps and call clicks. It must not be rendered as customers, and
+`SITE.tenureLine` stays as it is.
+
+One reviewer is **"Arthur Chipolomoka."** An "Arthur" is also the project-side contact named in the
+design deltas below for verifying hours and the address. If they are the same person, a review from
+someone connected to the business is a credibility problem rather than an asset, and it should come
+down. **Unresolved — ask before treating that quote as independent.**
+
+**v5 amendment (2026-08-20): the photography audit, and why AI-enhanced frames are banned.**
+
+A 34-file photography drop landed on 2026-08-19. Auditing it split the set cleanly in two, and the
+split is *provable* rather than a matter of taste — the method is worth keeping, because this will
+happen again.
+
+**How to tell them apart.** Read the JPEG segment table and the EXIF, not the picture:
+- **Genuine** frames carry `EXIF/APP1` with a camera `Make`/`Model`, plus Lightroom's `Software`
+  tag, an ICC profile and a Photoshop IPTC block. Six did: **Canon PowerShot S3 IS, shot
+  2026-08-04**. Two more had no EXIF but arrived via WhatsApp (which strips it) and match the shop
+  on props — same pink trays, same prep counter.
+- **Generated or re-rendered** frames carry `JFIF/APP0` and nothing else — regenerated pixels keep
+  no camera metadata. Corroborating tells: generator filenames (`..._2K_202608191833`), diffusion
+  output dimensions (1024x1024, 2048x2048), and PNG intermediates (`.png_2K_...`) that no camera
+  produces.
+
+`scripts/build-photos.mjs` regenerates `public/images` from the verified originals in
+`assets-source/photography-2026-08/`; the rest sit in `assets-source/held-back/`, on disk and
+untracked. `assets-source/README.md` records why each was held.
+
+**The rule this establishes.** AI-enhanced product photography is banned on the same footing as
+stock, for three separate reasons — any one of which is sufficient:
+
+1. **It misrepresents the product.** Two frames contradicted their own labels: `Beef_Pizza_OG` shows
+   chicken; `Flavorful_beef_Pizza` shows ham and mushroom. A customer orders off the photo, and the
+   counter absorbs the complaint. This is the same failure as the banned `SARAH M., GOOGLE REVIEWS`
+   quote — an invented claim about a real business.
+2. **It invents facts about the shop.** `Kitchen_Prep.jpg_202608191809.jpeg` is the real
+   `Meal prep.jpg` re-composed, with a person, an apron and a gloved hand hallucinated into a scene
+   that contained none. That is a staff member who does not exist.
+3. **It destroys exactly what the rebrand is for.** The founder asked for a site that "screams local
+   brand." A relit, seamless-black studio render is the *most* generic possible output — it is the
+   international-chain look he objected to, applied to his own photographs. The flash-lit Canon
+   frames of a wrap on a red tray do the job the enhanced versions cannot.
+
+**Corollary — the storefront and interior photography is the strongest asset in this project.** Real
+customers, the red-and-white wall, the menu board, the corrugated roof. Do not desaturate it, do not
+crop the people out, and do not replace it with a product render. Home's story teaser previously
+rendered it `grayscale` until hover; that treatment is removed and should not return.
+
+**Verified-fact discipline extends to numbers.** The founder mentioned "250+ customers" on the
+2026-08-19 call but could not source it, and 250 over four years reads as roughly one a week, which
+undersells the shop badly. Do not estimate it. `SITE.tenureLine` ships
+**"Serving Chongwe since 2022"** instead — derived from the verifiable 4+ years, and it carries the
+same credibility without a fabricated denominator. A real count from the WhatsApp order history or
+the Google Business Profile may replace it; a computed one may not.
+
+**Image weight is now enforced.** `next.config.ts` sets `images.unoptimized`, so `sizes=` does
+nothing and every byte in `public/images` is downloaded at full resolution by a phone on a Zambian
+mobile network. `scripts/check-image-budget.mjs` runs in CI: **1300 KB total, 200 KB per file.**
+The budget rose from ~950 KB when the founder's own photography landed — real local photography
+earns weight in a way stock never did. Raise it again only for photographs that earn it, never to
+unblock a commit. Sizes in `build-photos.mjs` are chosen per *use*: a 64px `FlatItemRow` thumb gets
+a 320px square, not a 2816px original.
 
 ## Explicit boundaries — never build unless instructed
 No cart/checkout, no payments, no login, no CMS, no extra pages, no backend, no analytics yet (GA4 was old-scope; add only if asked).

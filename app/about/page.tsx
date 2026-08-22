@@ -4,7 +4,7 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Our Story — Queso Pizza",
   description:
-    "The story of Dalitso & Sam and a single wood-fired oven in Chongwe, Lusaka Province.",
+    "The story of Dalitso & Sam and a pizza oven in Chongwe, Lusaka Province.",
 };
 
 // The one light-background page: bg-about-bg is the approved design override
@@ -20,8 +20,8 @@ export default function AboutPage() {
           Rooted
         </h1>
         <p className="queso-enter queso-stagger-1 max-w-xl font-body text-lg leading-relaxed text-queso-black/70">
-          We believe in the raw power of fire, dough, and time. This is the
-          story of how a single wood-fired oven changed our lives.
+          We believe in the raw power of heat, dough, and time. This is the
+          story of how a single oven changed our lives.
         </p>
       </section>
 
@@ -70,10 +70,12 @@ export default function AboutPage() {
           &ldquo;Quality isn&apos;t an option. It&apos;s the only
           baseline.&rdquo;
         </blockquote>
-        <div className="relative mt-4 aspect-square w-full">
+        {/* "Grounded in Community" is carried by a photograph of the community,
+            not by another product shot. Taken in the shop on 2026-08-04. */}
+        <div className="relative mt-4 aspect-[4/3] w-full">
           <Image
-            src="/images/pizza-top-down.jpeg"
-            alt="A wood-fired Queso pizza straight from the oven"
+            src="/images/dining-shot.jpeg"
+            alt="Two customers sharing a meal on the red trays at Queso Pizza in Chongwe"
             fill
             sizes="(min-width: 768px) 704px, 100vw"
             className="object-cover"

@@ -38,6 +38,27 @@ jobs:
       # Guard the v4 constitution rule: placeholder scaffolding must never
       # reach a customer. Cheap here, and it fails loudly if someone reverts
       # the SHOW_PLACEHOLDERS gating by accident.
+      # CLAUDE.md v5 inverted the contrast rules when the ground moved from
+      # near-black to cream: red became usable as text, yellow became unusable.
+      # A human reviewing a diff will not spot a 1.1:1 pairing; this will.
+      - name: Assert colour contrast meets WCAG AA
+        run: npm run check:contrast
+
+      # NOT YET WIRED IN: `npm run check:rendered` walks the built pages in a
+      # headless browser and measures what a visitor actually sees. It is the
+      # only check that catches a component applying `text-queso-cream` on the
+      # now-cream ground — check:contrast above validates the palette and
+      # passes clean while 73 elements render at 1.04:1. Add it here at the end
+      # of Phase 3, once Home/Menu/Contact are migrated off the v4 dark-ground
+      # classes; enabling it before then just pins CI red on known work.
+
+      # next.config.ts sets images.unoptimized, so every byte in public/images
+      # is downloaded at full size by a phone on a Zambian mobile network.
+      # A 33 MB photography drop landed in that folder on 2026-08-19; this
+      # would have caught it before the deploy did.
+      - name: Assert the image budget holds
+        run: npm run check:images
+
       - name: Assert no placeholder scaffolding in the export
         run: |
           if grep -rl --include='*.html' --include='*.txt' -e 'PLACEHOLDER' -e 'Photography pending' out/; then

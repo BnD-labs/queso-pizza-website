@@ -1,69 +1,84 @@
 /*
- * Queso Pizza — brand token system (CLAUDE.md v2, design-locked).
+ * Queso Pizza — brand token system (CLAUDE.md v5, rebranded 2026-08-19).
  * Colors are consumed ONLY via these Tailwind theme tokens — never raw hex in JSX.
  *
- * BANNED COLORS — do not reintroduce (old Stitch M3 palette drift from the Figma export):
- *   #FFB4A9 / #E7BDB7 (salmon/rose)  → use queso-cream at ~65% opacity for muted labels,
- *                                       queso-red for accents/active states
- *   #EBEA00 (lime)                   → use queso-yellow
+ * THE GROUND IS CREAM NOW. v4 was a near-black site with cream text; v5 inverts it.
+ * The four brand colours are unchanged — only their roles are. Read the contrast
+ * table in CLAUDE.md before writing a class, because the rules flipped:
+ *   queso-red   was banned as text (2.9:1 on dark) -> now encouraged (5.9:1 on cream)
+ *   queso-yellow was used for totals/active        -> now BANNED as text (1.1:1 on cream)
+ *
+ * BANNED COLORS — never reintroduce (old Stitch M3 palette drift from the Figma export):
+ *   #FFB4A9 / #E7BDB7 (salmon/rose), #EBEA00 (lime)
  */
 @import "tailwindcss";
 
 @theme {
-  /* ——— Locked brand ——— */
+  /* ——— Locked brand — values unchanged from v4 ——— */
   --color-queso-red: #cc1010;
   --color-queso-black: #0f0f0f;
   --color-queso-yellow: #fdfc00;
   --color-queso-cream: #fff8f0;
 
-  /* ——— Dark surface scale (from the final design) ——— */
-  --color-surface-base: #131313; /* page-section base */
-  --color-surface-low: #1c1b1b; /* low-elevation panels */
-  --color-surface: #201f1f; /* default surface */
-  --color-surface-high: #2a2a2a; /* high-elevation cards */
-  --color-surface-footer: #0e0e0e; /* footer / lowest */
+  /* ——— Warm neutral scale, derived from cream. NEVER a grey ramp: a mid-grey on a
+         cream page reads as unconsidered and fights the warmth the rebrand chases. ——— */
+  --color-surface: #ffffff; /* raised cards sitting on the cream ground */
+  --color-surface-warm: #faf1e6; /* alternating rows, subtle fills */
+  --color-surface-sunk: #f2e7d8; /* wells, inputs, pressed states */
+  --color-line: #e6d9c8; /* hairlines and borders */
+  --color-ink-soft: #6b5f54; /* muted body copy — warm, still ≥4.5:1 on cream */
 
-  /* ——— About page light background (approved design override of queso-cream) ——— */
-  --color-about-bg: #e8e1da;
+  /* ——— Dark accents. Demoted from "the default" to "an accent": the footer, a hero
+         scrim, the order panel. Warm-black, not neutral-black. ——— */
+  --color-dark: #17120e;
+  --color-dark-soft: #241d17;
 
   /* ——— APPROVED EXCEPTION: WhatsApp action buttons ONLY (platform recognition). ———
-     Never use for any other element.
-     #25D366 is WhatsApp's actual brand green. The previous #29D51A came from
-     the Figma export and sat noticeably brighter and more lime — which worked
-     against the whole point of the exception, since the colour is here to be
-     recognised as WhatsApp rather than to be a green. Corrected 2026-07-29. */
+     Never use for any other element. Pair with queso-black, NOT white — white on this
+     green measures 1.98:1 and was the worst contrast on the v4 site. Black is 9.66:1
+     and keeps the platform recognition intact. */
   --color-whatsapp-green: #25d366;
 
   /* ——— Shape ———
-     The entire radius scale is removed so no rounded-* utility can ship a corner
-     by accident. Surfaces — cards, image containers, bento tiles, panels, the app
-     bar, the footer — stay sharp 90°; that is the brand.
-
-     ONE exception, added 2026-07-29 (Brandon): interactive controls get a small
-     radius via `rounded-control`. Things you press are softened; things you read
-     stay architectural. Do not introduce further radius tokens — a second value
-     is what makes a mixed system read as accidental rather than designed.
-
-     `rounded-full` (a fixed value, not a theme token) remains available — permitted
-     ONLY for the map pin dot and the Perfect Pairings chips. */
+     v4 shipped a single 6px token and deleted the rest of the scale, reasoning that
+     "two is what makes a mixed system read as accidental." That held for an
+     architectural sharp-cornered brand. The founder rejected that brand on 2026-08-19,
+     so the reasoning goes with it. This is a deliberate scale, chosen once. */
+  /* Clear Tailwind's default radius scale first, so only the values chosen below
+     exist. Without this, rounded-xl/2xl/3xl silently remain available and the
+     "chosen once" system quietly becomes seven values nobody picked. */
   --radius-*: initial;
-  --radius-control: 0.375rem; /* 6px — buttons, selectors, steppers, pills */
+  --radius-sm: 0.5rem; /* 8px  — inputs, small chips, size selectors */
+  --radius-md: 0.875rem; /* 14px — cards, panels, image containers */
+  --radius-lg: 1.5rem; /* 24px — hero cards, feature tiles */
+  /* Retained so existing pressables soften without touching every file at once;
+     migrate call sites to the scale above as each page is reworked. */
+  --radius-control: 0.75rem; /* 12px */
 
   /* ——— Typography (wired to next/font variables set in app/layout.tsx) ——— */
   --font-display: var(--font-epilogue); /* headlines, 700–800 */
+
+  /* Comix Loud, the brand display face (supplied 2026-08-21), is deliberately
+     NOT the general heading font. Brandon's call after seeing it applied
+     everywhere: it is a wide, tall comic face — ~1.5x Epilogue's width at the
+     same size, with a natural line box 1.5x its em — so at heading sizes it
+     overwhelmed the page and forced awkward wraps. Scoped to three places where
+     it reads as branding rather than as body structure: the logo wordmark, the
+     hero headline, and the "Explore the Menu" feature heading.
+     See the licensing note in app/layout.tsx before launch. */
+  --font-brand: var(--font-comix);
   --font-body: var(--font-inter); /* body / labels */
 }
 
 body {
-  background: var(--color-queso-black);
-  color: var(--color-queso-cream);
+  background: var(--color-queso-cream);
+  color: var(--color-queso-black);
   font-family: var(--font-body);
 }
 
 /* ═══ Motion system ═══════════════════════════════════════════════════════
+ * Unchanged from v4 — the founder objected to colour and shape, not motion.
  * Shared durations/easings so every transition in the build feels related.
- * Interaction states are written inline with Tailwind (matching the rest of
- * the codebase); only the reusable entrance choreography lives here.
  * ═════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -74,10 +89,12 @@ body {
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Keyboard focus. Yellow reads clearly on both the dark surfaces and the
-   cream story card, and it is brand rather than the browser default blue. */
+/* Keyboard focus. Red, not v4's yellow: yellow on a cream ground is effectively
+   invisible (≈1.1:1), which would have silently removed the focus indicator for
+   keyboard users the moment the ground flipped. Red measures ≈5.9:1 on cream and
+   is brand rather than the browser default blue. */
 :focus-visible {
-  outline: 2px solid var(--color-queso-yellow);
+  outline: 2px solid var(--color-queso-red);
   outline-offset: 3px;
 }
 

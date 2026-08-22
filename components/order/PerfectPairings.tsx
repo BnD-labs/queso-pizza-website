@@ -20,7 +20,7 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
 
   return (
     <section className="queso-enter mx-auto max-w-7xl pb-16">
-      <p className="pb-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-cream/70">
+      <p className="pb-4 font-body text-sm font-bold uppercase tracking-[0.1em] text-queso-red">
         Perfect Pairings
       </p>
       <div className="flex gap-5 overflow-x-auto pb-2">
@@ -44,11 +44,11 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
                     className="rounded-full object-cover"
                   />
                 ) : (
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-surface-high font-display text-lg font-bold text-queso-cream/70">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-surface-sunk font-display text-lg font-bold text-ink-soft">
                     {item.name.charAt(0)}
                   </span>
                 )}
-                <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center bg-queso-red text-white">
+                <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-queso-red text-queso-cream">
                   {qty > 0 ? (
                     <span className="font-body text-[10px] font-bold">
                       {qty}
@@ -58,7 +58,7 @@ export function PerfectPairings({ items }: { items: PairingItem[] }) {
                   )}
                 </span>
               </span>
-              <span className="font-body text-[11px] leading-tight text-queso-cream/80">
+              <span className="font-body text-[11px] leading-tight text-ink-soft">
                 {item.name}
                 <br />
                 <span className="font-bold text-queso-cream">K{item.price}</span>

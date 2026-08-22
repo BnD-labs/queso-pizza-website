@@ -2,17 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import {
   SITE,
-  SHOW_PLACEHOLDERS,
   formatPhone,
   formatTime,
 } from "@/lib/site-config";
-import { Placeholder } from "@/components/Placeholder";
 import { MapEmbed } from "@/components/MapEmbed";
+import { Reviews } from "@/components/Reviews";
 import {
   ClockIcon,
   PhoneIcon,
-  ReviewsIcon,
-  StarIcon,
 } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -25,16 +22,16 @@ export default function ContactPage() {
     <div className="px-5">
       {/* ——— Intro ——— */}
       <section className="mx-auto flex max-w-7xl flex-col gap-6 py-20 md:py-28">
-        <h1 className="queso-enter font-display text-5xl font-extrabold tracking-tight text-queso-cream lg:text-6xl">
+        <h1 className="queso-enter font-display text-5xl font-extrabold tracking-tight text-queso-black lg:text-6xl">
           Find Us
         </h1>
-        <p className="queso-enter queso-stagger-1 max-w-xl font-body text-base leading-relaxed text-queso-cream/65">
+        <p className="queso-enter queso-stagger-1 max-w-xl font-body text-base leading-relaxed text-ink-soft">
           Experience artisanal oven baked pizza right in the heart of the city.
           We craft our heritage-driven pizzas locally, zero mass production.
         </p>
-        <div className="queso-enter queso-stagger-2 flex w-fit items-center gap-3 bg-queso-red px-4 py-3">
-          <PhoneIcon className="h-4 w-4 shrink-0 text-white" />
-          <p className="font-body text-sm font-bold text-white">
+        <div className="queso-enter queso-stagger-2 flex w-fit items-center gap-3 rounded-md bg-queso-red px-4 py-3">
+          <PhoneIcon className="h-4 w-4 shrink-0 text-queso-cream" />
+          <p className="font-body text-sm font-bold text-queso-cream">
             Delivery Available — {formatPhone(SITE.phones.delivery1)} /{" "}
             {formatPhone(SITE.phones.delivery2)}
           </p>
@@ -46,7 +43,7 @@ export default function ContactPage() {
              each of these was a narrow max-w-md block stranded against a
              mostly empty 1280px row. */}
       <section className="queso-reveal mx-auto grid max-w-7xl gap-10 pb-20 md:grid-cols-2 md:items-start md:gap-14 md:pb-28">
-        <div className="relative aspect-[4/5] w-full border border-queso-cream/10">
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md border border-line">
           <Image
             src="/images/store-front.jpg"
             alt="The red-and-white Queso Pizza storefront on Great East Road"
@@ -62,19 +59,20 @@ export default function ContactPage() {
             <div className="flex items-center gap-2">
               {/* map pin dot: one of the two approved circular exceptions */}
               <span className="flex h-2.5 w-2.5 rounded-full bg-queso-red" />
-              <h2 className="font-display text-2xl font-bold text-queso-cream">
+              <h2 className="font-display text-2xl font-bold text-queso-black">
                 Location
               </h2>
             </div>
             <div className="flex flex-col gap-1">
-              <p className="font-body text-base font-bold text-queso-cream">
+              <p className="font-body text-base font-bold text-queso-black">
                 {SITE.address.area}
               </p>
-              <p className="font-body text-base text-queso-cream/65">
+              <p className="font-body text-base text-ink-soft">
                 {SITE.address.road}
               </p>
-              {/* UNCONFIRMED landmark — italic placeholder styling per design delta 4 */}
-              <p className="pt-2 font-body text-sm italic text-queso-cream/50">
+              {/* Landmark confirmed 2026-08-19 — the italic placeholder styling
+                  from design delta 4 comes off with the UNCONFIRMED marker. */}
+              <p className="pt-2 font-body text-sm text-ink-soft">
                 {SITE.address.plusCode}, Chongwe — {SITE.address.landmark}
               </p>
             </div>
@@ -84,7 +82,7 @@ export default function ContactPage() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <ClockIcon className="h-4 w-4 text-queso-red" />
-              <h2 className="font-display text-2xl font-bold text-queso-cream">
+              <h2 className="font-display text-2xl font-bold text-queso-black">
                 Hours
               </h2>
             </div>
@@ -92,12 +90,12 @@ export default function ContactPage() {
               {[SITE.hours.weekdays, SITE.hours.weekend].map((row) => (
                 <div
                   key={row.label}
-                  className="flex items-baseline justify-between gap-4 border-b border-queso-cream/10 pb-4"
+                  className="flex items-baseline justify-between gap-4 border-b border-line pb-4"
                 >
-                  <p className="font-body text-base text-queso-cream/65">
+                  <p className="font-body text-base text-ink-soft">
                     {row.label}
                   </p>
-                  <p className="font-body text-base font-bold text-queso-cream">
+                  <p className="font-body text-base font-bold text-queso-black">
                     {formatTime(row.open)} - {formatTime(row.close)}
                   </p>
                 </div>
@@ -109,33 +107,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ——— Customer Voice — GBP reviews placeholder. Hidden in production for
-             the same reason as the Home block: there is no approved copy behind
-             it, and the stars imply a rating that does not exist yet. ——— */}
-      {SHOW_PLACEHOLDERS ? (
-      <section className="queso-reveal mx-auto flex max-w-7xl flex-col gap-6 pb-28 md:pb-36">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-cream">
-            Customer Voice
-          </h2>
-          <div
-            className="flex gap-0.5"
-            role="img"
-            aria-label="Five star rating placeholder"
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <StarIcon key={i} className="h-3.5 w-3.5 text-queso-yellow" />
-            ))}
-          </div>
-        </div>
-        <Placeholder
-          icon={<ReviewsIcon className="h-8 w-8" />}
-          title="Google Business Profile Reviews"
-          body="[PLACEHOLDER: This section is reserved for the live Google Business Profile reviews embed module.]"
-          className="w-full"
-        />
-      </section>
-      ) : null}
+      {/* ——— Customer Voice — REAL Google Business Profile reviews.
+             Was gated behind SHOW_PLACEHOLDERS for the same reason as the Home
+             block; the real profile data landed 2026-08-21. See lib/reviews.ts. ——— */}
+      <Reviews
+        title="Customer Voice"
+        className="mx-auto w-full max-w-7xl pb-28 md:pb-36"
+      />
     </div>
   );
 }
