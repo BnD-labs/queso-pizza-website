@@ -56,6 +56,11 @@ const JOBS = [
   // shows these at ~33vw and the budget has no room to spare.
   { src: "Chicken_&_Mushroom-1.jpg_202608191820.jpeg", out: "chicken-mushroom.jpeg", w: 900, h: 675, pos: "centre" },
 
+  // Home's "Craft Wraps" bento tile, Brandon 2026-08-21. Same source as the
+  // chicken-tornado menu thumb but rendered far larger — the tile is ~400px
+  // square on desktop, so the 320px thumb would have been upscaled.
+  { src: "Chicken_Tornado.jpg_202608191715.jpeg", out: "wraps-tornado.jpeg", w: 700, h: 700, pos: "centre" },
+
   // Beverages: 4:5 portrait band. This retires the Beverages placeholder —
   // the fridge shot is the evidence behind "available in-store".
   { src: "Bevereage_shot.jpg_202608191730.jpeg", out: "beverages-fridge.jpeg", w: 760, h: 950, pos: "centre" },

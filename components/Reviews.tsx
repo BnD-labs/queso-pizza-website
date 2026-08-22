@@ -29,32 +29,6 @@ function Stars({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
-/** Compact rating badge — rating, stars, count. Used in the hero. */
-export function RatingBadge({ tone = "light" }: { tone?: "light" | "onRed" }) {
-  const star = tone === "onRed" ? "text-queso-yellow" : "text-queso-red";
-  const value = tone === "onRed" ? "text-queso-cream" : "text-queso-black";
-  const meta = tone === "onRed" ? "text-queso-cream/80" : "text-ink-soft";
-  return (
-    <div className="flex items-center gap-2.5">
-      <span
-        className="flex gap-0.5"
-        role="img"
-        aria-label={`Rated ${RATING_DISPLAY} out of 5 from ${REVIEWS.count} Google reviews`}
-      >
-        {Array.from({ length: 5 }).map((_, i) => (
-          <StarIcon key={i} className={`h-4 w-4 ${star}`} />
-        ))}
-      </span>
-      <span className={`font-body text-sm font-bold ${value}`}>
-        {RATING_DISPLAY}
-      </span>
-      <span className={`font-body text-sm ${meta}`} aria-hidden>
-        · {REVIEWS.count} Google reviews
-      </span>
-    </div>
-  );
-}
-
 /** Full reviews section — heading, aggregate, and the quotable reviews. */
 export function Reviews({
   title = "What Chongwe says",

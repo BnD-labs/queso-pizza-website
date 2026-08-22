@@ -7,7 +7,7 @@ import {
   formatTime,
 } from "@/lib/site-config";
 import { MostOrderedCard } from "@/components/MostOrderedCard";
-import { Reviews, RatingBadge } from "@/components/Reviews";
+import { Reviews } from "@/components/Reviews";
 import { MapEmbed } from "@/components/MapEmbed";
 import {
   ArrowRightIcon,
@@ -32,8 +32,10 @@ const BENTO_CARDS = [
     heading: "text-xl md:text-3xl",
   },
   {
+    // The chicken tornado, same source as the menu thumb. Replaces
+    // wraps-platter.jpeg, which is no longer built.
     title: "Craft Wraps",
-    image: "/images/wraps-platter.jpeg",
+    image: "/images/wraps-tornado.jpeg",
     tile: "md:col-span-2 h-[280px] md:h-[400px]",
     heading: "text-xl",
   },
@@ -102,8 +104,13 @@ export default function Home() {
                 leading-[1.5] is not a stylistic choice, it is the font's own
                 metric: measured in the browser, one line of Comix Loud occupies
                 1.5x its font-size. Anything tighter and consecutive lines
-                physically overlap, which 0.95, 1.08, 1.15 and 1.3 all did. */}
-            <h1 className="queso-enter queso-stagger-1 font-brand text-3xl font-extrabold leading-[1.5] tracking-tight text-queso-cream [text-wrap:balance] sm:text-4xl lg:text-5xl">
+                physically overlap, which 0.95, 1.08, 1.15 and 1.3 all did.
+
+                Tracking is POSITIVE for the same family of reason. This carried
+                `tracking-tight` (-0.025em) inherited from the Epilogue styling,
+                which on a face this wide jammed the glyphs together. Comix Loud
+                needs air between letters, not less of it. */}
+            <h1 className="queso-enter queso-stagger-1 font-brand text-3xl font-extrabold leading-[1.5] tracking-[0.035em] text-queso-cream [text-wrap:balance] sm:text-4xl lg:text-5xl">
               THE TASTE THAT STAYS WITH YOU
             </h1>
             <p className="queso-enter queso-stagger-2 max-w-md font-body text-base leading-relaxed text-queso-cream/85">
@@ -118,9 +125,6 @@ export default function Home() {
               >
                 Order Now
               </Link>
-              {/* Real 5.0 from the Google Business Profile — see lib/reviews.ts.
-                  The count ships with it deliberately. */}
-              <RatingBadge tone="onRed" />
             </div>
           </div>
 
@@ -293,7 +297,7 @@ export default function Home() {
              most weight on the page ——— */}
       <section className="bg-surface-warm px-5 py-24 md:py-36">
         <div className="mx-auto flex max-w-7xl flex-col gap-10">
-          <h2 className="queso-reveal font-brand text-3xl font-extrabold leading-[1.25] tracking-tight text-queso-black sm:text-4xl lg:text-5xl">
+          <h2 className="queso-reveal font-brand text-3xl font-extrabold leading-[1.25] tracking-[0.025em] text-queso-black sm:text-4xl lg:text-5xl">
             Explore the Menu
           </h2>
           <div className="queso-reveal flex flex-col gap-2 md:grid md:grid-cols-6">
