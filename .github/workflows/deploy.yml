@@ -59,6 +59,13 @@ jobs:
       - name: Assert the image budget holds
         run: npm run check:images
 
+      # public/maintenance.html is hand-written and standalone, so it cannot
+      # import the phone numbers from lib/site-config.ts. It is also the page
+      # nobody looks at until the site is down, which is exactly when a stale
+      # number does the most damage. This asserts it still matches the config.
+      - name: Assert the maintenance page matches site-config
+        run: npm run check:maintenance
+
       - name: Assert no placeholder scaffolding in the export
         run: |
           if grep -rl --include='*.html' --include='*.txt' -e 'PLACEHOLDER' -e 'Photography pending' out/; then

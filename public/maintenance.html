@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Never index the maintenance page itself. The 503 the Worker wraps it in
+         is what tells crawlers the outage is temporary; this is belt and braces
+         for the window where the page is reachable directly at /maintenance
+         with maintenance switched off (/maintenance.html redirects there). -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Queso Pizza — back shortly</title>
+
+    <!--
+      STANDALONE BY DESIGN. This is deliberately a hand-written file in public/
+      rather than a Next route, for two reasons:
+
+      1. A Next route inherits app/layout.tsx, which means the TopAppBar, the
+         Footer and the sticky BottomNavBar. Every nav link in that chrome
+         points at a route that is returning 503 during maintenance, so the
+         page would advertise four dead links.
+      2. CLAUDE.md locks the site at exactly four pages. This is an error
+         surface like 404.html, not a fifth page.
+
+      The cost of standing alone is that brand values are inlined rather than
+      read from app/globals.css and lib/site-config.ts. The colours are static
+      and locked by the constitution, so those cannot drift. The PHONE NUMBERS
+      can, and they are the whole point of this page — so scripts/check-maintenance.mjs
+      asserts they still match lib/site-config.ts, and runs in CI.
+
+      Fonts are a system stack on purpose: Epilogue, Inter and Comix Loud are
+      loaded by next/font under content-hashed filenames that this file has no
+      stable way to reference.
+    -->
+    <style>
+      :root {
+        --queso-red: #cc1010;
+        --queso-black: #0f0f0f;
+        --queso-cream: #fff8f0;
+        --surface: #ffffff;
+        --line: #e6d9c8;
+        --ink-soft: #6b5f54;
+        --whatsapp-green: #25d366;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 2rem 1.25rem 3rem;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--queso-cream);
+        color: var(--queso-black);
+        font-family:
+          "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 30rem;
+        text-align: center;
+      }
+
+      /* logo-mark.png is 320x180 — a 16:9 canvas with the disc centred in
+         transparent padding, NOT a square image. Forcing it into a square box
+         squeezes the disc into an ellipse. Same 16:9 the TopAppBar (64x36) and
+         Footer (104x59) use; object-fit is belt and braces if it is ever
+         re-cropped. */
+      .mark {
+        width: 144px;
+        height: 81px;
+        object-fit: contain;
+        margin: 0 auto 1.75rem;
+        display: block;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.75rem;
+        color: var(--queso-red);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        text-wrap: balance;
+      }
+
+      .lede {
+        margin: 0 auto 2rem;
+        max-width: 24rem;
+        color: var(--ink-soft);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .lede strong {
+        color: var(--queso-black);
+        font-weight: 700;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.625rem;
+        padding: 0.9375rem 1.25rem;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.12s ease;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      /* Black on WhatsApp green, never white — white measures 1.98:1 on this
+         green and was the worst contrast on the old site. Black is 9.66:1 and
+         keeps the platform recognition intact. */
+      .btn-whatsapp {
+        background: var(--whatsapp-green);
+        color: var(--queso-black);
+      }
+
+      .btn-call {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        color: var(--queso-black);
+      }
+
+      .btn-call span {
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      .icon {
+        width: 1.125rem;
+        height: 1.125rem;
+        flex: none;
+      }
+
+      .foot {
+        margin: 2.5rem 0 0;
+        color: var(--ink-soft);
+        font-size: 0.8125rem;
+        line-height: 1.6;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .btn {
+          transition: none;
+        }
+        .btn:active {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <img
+        class="mark"
+        src="/images/logo-mark.png"
+        alt="Queso Pizza"
+        width="144"
+        height="81"
+      />
+
+      <p class="eyebrow">Back shortly</p>
+      <h1>We&rsquo;re updating the site</h1>
+      <p class="lede">
+        The website is down for a short spell of maintenance.
+        <strong>The shop is open and taking orders as normal</strong> &mdash;
+        send yours straight to WhatsApp, or give us a ring.
+      </p>
+
+      <div class="actions">
+        <a class="btn btn-whatsapp" href="https://wa.me/260976056200">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.010-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/>
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23a8.18 8.18 0 0 1 5.82 2.42 8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23z"/>
+          </svg>
+          Order on WhatsApp
+        </a>
+
+        <a class="btn btn-call" href="tel:+260976056200">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          Call <span>(+260) 97 6056 200</span>
+        </a>
+
+        <a class="btn btn-call" href="tel:+260979818919">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          Call <span>(+260) 97 9818 919</span>
+        </a>
+      </div>
+
+      <p class="foot">
+        Great East Road, Chongwe &middot; next to Access Bank<br />
+        The taste that stays with you.
+      </p>
+    </main>
+  </body>
+</html>

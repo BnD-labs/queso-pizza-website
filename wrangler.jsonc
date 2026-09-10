@@ -1,5 +1,5 @@
 {
-  // Static-asset Worker for the Next.js static export (output: "export").
+  // Worker serving the Next.js static export (output: "export").
   //
   // This file exists to STOP `wrangler deploy` from running its auto-config.
   // Without it, wrangler detects "Next.js", assumes output dir ".next", and
@@ -7,19 +7,66 @@
   // for .next/standalone/.next/server/pages-manifest.json, a file that only
   // exists for output: "standalone". We ship static HTML; there is no server.
   //
-  // Deliberately NO "main" field: this is an assets-only Worker. Cloudflare
-  // serves out/ straight from the edge, no runtime and no bundling step.
   // Pinned so a token with access to more than one account cannot deploy to
   // the wrong one. This is the client account (Quesofoods22@gmail.com);
   // account IDs are not secrets, they appear in every dashboard URL.
   "account_id": "95655eb34cf0e2367f3adbc9e10f9b34",
   "name": "queso-pizza-website",
   "compatibility_date": "2026-07-26",
+
+  // This WAS an assets-only Worker with no "main" — Cloudflare served out/
+  // straight from the edge with no runtime at all. The script added on
+  // 2026-09-09 does exactly one thing: check the MAINTENANCE variable below.
+  // With it "off" the script hands the request to the assets binding
+  // unchanged, which is the same bytes the assets-only Worker served.
+  "main": "./worker/index.ts",
+
+  // ——— THE MAINTENANCE SWITCH ———
+  // "off" = the site is live. "on" = every page returns 503 + Retry-After with
+  // public/maintenance.html, which keeps the WhatsApp order link and both
+  // delivery numbers live. This one line is the whole toggle.
+  //
+  //   durable  : edit this value, commit, push to main — CI deploys it, and it
+  //              stays until the value is changed back
+  //   immediate: flip it in the dashboard (Worker → Settings → Variables) with
+  //              no build. Faster, but the NEXT push to main reverts it to
+  //              whatever this file says. Fine for a short window, wrong for
+  //              anything planned.
+  //
+  // See `npm run maintenance:check` and PHASE-6-LAUNCH.md.
+  "vars": {
+    "MAINTENANCE": "off"
+  },
+
   "assets": {
     "directory": "./out",
     // Serves the exported out/404.html on unmatched paths. Do NOT switch this
     // to "single-page-application" — that returns index.html with a 200 for
     // every bad URL, putting the homepage on bogus paths and misleading crawlers.
-    "not_found_handling": "404-page"
+    // The assets binding applies this to its own fetches too, so the Worker's
+    // pass-through preserves it rather than bypassing it.
+    "not_found_handling": "404-page",
+
+    // Lets worker/index.ts reach the export as env.ASSETS.
+    "binding": "ASSETS",
+
+    // Which requests reach the Worker BEFORE asset serving. Without this the
+    // Worker is never invoked for a path that matches a file, and maintenance
+    // mode could not intercept a single page.
+    //
+    // This is the list of the four real pages rather than `true` (= every
+    // request) on purpose. Requests are only billable when the Worker script
+    // is invoked, and `true` would put every image, font and JS chunk through
+    // the runtime forever to support a switch used a handful of times a year.
+    // Listing the pages covers 100% of what a visitor navigates to.
+    //
+    // trailingSlash: true in next.config.ts, so these are the canonical URLs.
+    // "/menu" without the slash is not listed and does not need to be: asset
+    // serving redirects it to "/menu/", which is listed.
+    //
+    // KNOWN AND ACCEPTED GAP: during maintenance a direct hit on a
+    // sub-resource (/images/pizza-closeup.jpeg) still returns 200. Nobody
+    // navigates to those, and every indexable page returns 503.
+    "run_worker_first": ["/", "/menu/", "/about/", "/contact/"]
   }
 }

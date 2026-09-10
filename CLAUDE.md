@@ -21,6 +21,7 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 - Next.js (App Router) + TypeScript + TailwindCSS + React
 - No database. Fully static/client-rendered. Do not add Supabase/Firebase/any backend.
 - Hosting: **Cloudflare Worker serving static assets** (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`. NOT Cloudflare Pages — the client account no longer exposes a Pages creation flow. `wrangler.jsonc` is load-bearing: without it `wrangler deploy` auto-detects Next.js, assumes an SSR build, and fails. See `PHASE-6-LAUNCH.md`.
+  - **The Worker gained a script on 2026-09-09** (`worker/index.ts`), so it is no longer assets-only. It does exactly one thing: read the `MAINTENANCE` var in `wrangler.jsonc`. Set to `"off"` it hands the request to the assets binding untouched; set to `"on"` every page returns **503 + `Retry-After`** with `public/maintenance.html`. Still no SSR, no backend, no framework runtime — do not treat the `main` field as licence to add server code.
 - Mobile-first (390px design frames). Desktop = responsive Tailwind breakpoints applied sensibly to the same layouts; no bespoke desktop design exists.
 
 ## Brand system — v5 (rebranded 2026-08-19)

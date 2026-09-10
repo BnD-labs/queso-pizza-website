@@ -11,6 +11,8 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:images": "node scripts/check-image-budget.mjs",
     "check:rendered": "node scripts/check-rendered-contrast.mjs",
+    "check:maintenance": "node scripts/check-maintenance.mjs",
+    "maintenance:preview": "wrangler dev --var MAINTENANCE:on",
     "photos": "node scripts/build-photos.mjs"
   },
   "dependencies": {

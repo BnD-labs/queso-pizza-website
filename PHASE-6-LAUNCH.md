@@ -61,18 +61,49 @@ Local sanity check before pushing: `npm run build`, then `npm run preview` to se
 the export from `out/`. (`next start` does not work under `output: "export"`, so the
 old `start` script was replaced with `preview`.)
 
-## Maintenance mode — built, parked (2026-09-10)
+## Maintenance mode (added 2026-09-09)
 
-A 503 maintenance switch is built and tested on branch `maintenance-mode`, and it is
-**not merged, on purpose.** It works by giving the Worker a script that runs on every
-page view. The site as deployed is assets-only, and Cloudflare only counts a request as
-billable when a Worker script runs. Queso is not paying for any web maintenance for
-now, so the site stays assets-only and the switch stays on the branch.
+Taking the site down is **one line in `wrangler.jsonc`**:
 
-If that changes, the branch has everything: the `MAINTENANCE` var, the Worker, the
-standalone maintenance page that keeps WhatsApp and both delivery numbers live, a CI
-check that its numbers match `lib/site-config.ts`, and the full operating notes.
-Rebase it onto `main` and re-run its checks before merging.
+```jsonc
+"vars": { "MAINTENANCE": "off" }   // "on" = site down
+```
+
+With it `"on"`, `/`, `/menu/`, `/about/` and `/contact/` return **503 with
+`Retry-After: 3600`** and serve `public/maintenance.html`, which keeps the WhatsApp
+order link and both delivery numbers live. The shop keeps taking orders; only the
+website is down.
+
+**Two ways to flip it, and they are not equivalent:**
+
+| | How | Reverts when |
+|---|---|---|
+| **Durable** (planned work) | Edit the line, commit, push to `main` — CI deploys it | You change it back |
+| **Immediate** (unplanned) | Cloudflare dashboard → Worker → Settings → Variables | The **next push to `main`**, silently, back to whatever the file says |
+
+The dashboard route needs no build and takes seconds, which is why it exists — but
+a teammate merging a PR will lift maintenance without knowing they did. Use it for
+short windows only, and change the file too if the window is not short.
+
+**Preview it before you flip it:** `npm run maintenance:preview` runs the real
+Worker locally with maintenance on. The page is also reachable at
+`/maintenance` (no `.html`) on production at any time — it is `noindex`.
+
+**Why 503 and not just undeploying the Worker.** A 503 with `Retry-After` is the
+only response that tells a crawler the outage is temporary; a 200 maintenance page
+invites Google to replace the real pages in the index with it, and a 404 says they
+are gone. Undeploying is worse still: the custom domains for the apex and `www` are
+bound to this Worker inside the client's account, on a Cloudflare Registrar domain,
+and re-binding is not something to attempt under time pressure.
+
+**Things that are true and worth knowing:**
+- Sub-resources (`/images/*`, JS, fonts) still return 200 during maintenance. This
+  is deliberate — `run_worker_first` lists only the four pages, so normal traffic
+  does not pay a Worker invocation for every asset. The maintenance page needs
+  `/images/logo-mark.png` to render, so this is load-bearing, not just a gap.
+- `/menu` without the trailing slash 307s to `/menu/` and then 503s. Verified.
+- `public/maintenance.html` is standalone and cannot import `lib/site-config.ts`,
+  so `npm run check:maintenance` asserts its phone numbers still match. It runs in CI.
 
 ## Step 2 — Content confirmations (run in parallel with Step 1)
 
