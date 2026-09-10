@@ -1,4 +1,11 @@
-import { PIZZAS, SHAWARMA, FRIES, type PizzaSize } from "@/lib/menu-data";
+import {
+  PIZZAS,
+  SHAWARMA,
+  FRIES,
+  BEVERAGES,
+  ALL_FLAT_ITEMS,
+  type PizzaSize,
+} from "@/lib/menu-data";
 import { ITEM_DESCRIPTIONS } from "@/lib/menu-content";
 import { SITE, MAPS_SEARCH_URL } from "@/lib/site-config";
 import { REVIEWS } from "@/lib/reviews";
@@ -34,7 +41,9 @@ const SIZE_NAMES: Record<PizzaSize, string> = {
 
 const CURRENCY = "ZMW";
 
-const flatPrices = [...SHAWARMA, ...FRIES].map((i) => i.price);
+// Includes beverages since 2026-09-09, which moves priceRange's floor to the
+// K8 water. That is the real cheapest thing on the menu, so it belongs there.
+const flatPrices = ALL_FLAT_ITEMS.map((i) => i.price);
 const pizzaPrices = PIZZAS.flatMap((p) => SIZES.map((s) => p.prices[s]));
 const allPrices = [...flatPrices, ...pizzaPrices];
 
@@ -148,6 +157,13 @@ const RESTAURANT = {
         "@type": "MenuSection",
         name: "Fries",
         hasMenuItem: FRIES.map((i) => menuItem(i.id, i.name, [offer(i.price)])),
+      },
+      {
+        "@type": "MenuSection",
+        name: "Beverages",
+        hasMenuItem: BEVERAGES.map((i) =>
+          menuItem(i.id, i.name, [offer(i.price)]),
+        ),
       },
     ],
   },

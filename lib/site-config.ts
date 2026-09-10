@@ -50,11 +50,18 @@ export const SITE = {
   since: 2022,
   tenureLine: "Serving Chongwe since 2022",
 
-  // CONFIRMED by Brandon, 2026-07-14: Mon–Fri 8am–8pm, Sat–Sun 8am–7pm.
-  // Displayed as two rows: Mon–Fri and Sat–Sun.
+  // CONFIRMED by Brandon, 2026-09-09: Mon–Fri 8am–7pm, Sat–Sun 8am–6pm.
+  // Supersedes the 2026-07-14 figures (weekdays to 8pm, weekend to 7pm) —
+  // both closing times moved an hour earlier. Displayed as two rows: Mon–Fri
+  // and Sat–Sun, and fed to openingHoursSpecification in the JSON-LD.
+  //
+  // The Google Business Profile carries the same hours (checked 2026-09-10).
+  // The two are separate systems and nothing syncs them: if the hours change
+  // again, change them here AND on the profile, or Google is handed two
+  // different answers about when the shop is open.
   hours: {
-    weekdays: { label: "Mon – Fri", open: "08:00", close: "20:00" },
-    weekend: { label: "Sat – Sun", open: "08:00", close: "19:00" },
+    weekdays: { label: "Mon – Fri", open: "08:00", close: "19:00" },
+    weekend: { label: "Sat – Sun", open: "08:00", close: "18:00" },
   },
 } as const;
 

@@ -61,6 +61,19 @@ Local sanity check before pushing: `npm run build`, then `npm run preview` to se
 the export from `out/`. (`next start` does not work under `output: "export"`, so the
 old `start` script was replaced with `preview`.)
 
+## Maintenance mode — built, parked (2026-09-10)
+
+A 503 maintenance switch is built and tested on branch `maintenance-mode`, and it is
+**not merged, on purpose.** It works by giving the Worker a script that runs on every
+page view. The site as deployed is assets-only, and Cloudflare only counts a request as
+billable when a Worker script runs. Queso is not paying for any web maintenance for
+now, so the site stays assets-only and the switch stays on the branch.
+
+If that changes, the branch has everything: the `MAINTENANCE` var, the Worker, the
+standalone maintenance page that keeps WhatsApp and both delivery numbers live, a CI
+check that its numbers match `lib/site-config.ts`, and the full operating notes.
+Rebase it onto `main` and re-run its checks before merging.
+
 ## Step 2 — Content confirmations (run in parallel with Step 1)
 
 These are the `UNCONFIRMED` markers still live in the code. Each one blocks launch.
@@ -77,9 +90,17 @@ These are the `UNCONFIRMED` markers still live in the code. Each one blocks laun
 Items 2 and 3 currently both default to `+260976056200`. They are separate fields
 by design — confirm whether they are genuinely the same number.
 
-**Not blockers unless data arrives:** Extra Toppings pricing and the Beverages menu
-ship as spec'd placeholders per CLAUDE.md. They only become work if Dalitso supplies
-numbers. Ask once, then close them out either way.
+**Not blockers unless data arrives:** Extra Toppings pricing ships as the spec'd
+"Pricing available in-store" line per CLAUDE.md. It only becomes work if Dalitso
+supplies numbers. Ask once, then close it out either way.
+
+~~the Beverages menu~~ **CLOSED 2026-09-09 (Brandon):** drink pricing supplied and
+wired into `lib/menu-data.ts`. Beverages are now an ordinary orderable category —
+priced rows, in the WhatsApp order text, and in the Menu JSON-LD. Settled on
+2026-09-10: Fruticana stays **one line** at one price (flavours are not listed
+separately), and drinks stay **out of Perfect Pairings** until per-bottle photographs
+exist. The new hours were checked against the Google Business Profile the same day
+and match.
 
 ## Step 3 — Verify on the preview URL
 

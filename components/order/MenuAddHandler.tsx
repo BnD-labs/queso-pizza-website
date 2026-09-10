@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { PIZZAS, SHAWARMA, FRIES, type PizzaSize } from "@/lib/menu-data";
+import { PIZZAS, ALL_FLAT_ITEMS, type PizzaSize } from "@/lib/menu-data";
 import { useOrder } from "./OrderProvider";
 
 const VALID_SIZES: PizzaSize[] = ["S", "M", "L", "XL"];
@@ -29,7 +29,7 @@ export function MenuAddHandler() {
         : "S"; // card default size per CLAUDE.md
       add(pizza.id, pizza.name, pizza.prices[size], size);
     } else {
-      const flat = [...SHAWARMA, ...FRIES].find((i) => i.id === id);
+      const flat = ALL_FLAT_ITEMS.find((i) => i.id === id);
       if (flat) add(flat.id, flat.name, flat.price);
     }
 

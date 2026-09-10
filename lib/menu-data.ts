@@ -62,6 +62,31 @@ export const EXTRA_CHEESE: Record<PizzaSize, number> = { S: 10, M: 15, L: 20, XL
 // Never display a number for extra toppings until real pricing is provided.
 export const EXTRA_TOPPINGS_CONFIRMED = false;
 
-// Beverages: NO verified data exists. Render the flagged placeholder module.
-// Do not invent drink names or prices.
-export const BEVERAGES: FlatItem[] = [];
+// Beverages: pricing CONFIRMED by Brandon, 2026-09-09. This array was
+// deliberately empty for the whole build — no verified drink data existed, and
+// CLAUDE.md bans inventing names or prices — so the menu rendered an unpriced
+// fridge photograph instead. The photograph stays; the prices are now real.
+//
+// Water is one product in three bottle sizes. It is modelled as three flat
+// items rather than one sized item because the size scale here is S/M/L/XL, a
+// pizza concept — bending it to fit millilitres would put the wrong labels on
+// the selector and the wrong text in the WhatsApp order.
+export const BEVERAGES: FlatItem[] = [
+  { id: "coke", name: "Coke", price: 15 },
+  { id: "fanta", name: "Fanta", price: 15 },
+  { id: "fruticana", name: "Fruticana", price: 12 },
+  { id: "water-1l", name: "Vatra Water 1 L", price: 15 },
+  { id: "water-750ml", name: "Vatra Water 750 ml", price: 10 },
+  { id: "water-500ml", name: "Vatra Water 500 ml", price: 8 },
+];
+
+/**
+ * Every flat-priced (non-pizza) item, in menu order.
+ *
+ * Three separate places rebuilt this list as `[...SHAWARMA, ...FRIES]`, so
+ * adding a category meant three chances to miss one — and missing one fails
+ * silently rather than loudly: reviveOrder() drops ids it cannot resolve, so a
+ * forgotten category would lose the customer's drinks on a tab reload without
+ * an error anywhere. Import this instead of respreading the categories.
+ */
+export const ALL_FLAT_ITEMS: FlatItem[] = [...SHAWARMA, ...FRIES, ...BEVERAGES];

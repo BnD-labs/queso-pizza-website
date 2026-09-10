@@ -157,11 +157,11 @@ On `/menu` the sticky BottomNavBar hides itself (IntersectionObserver on `#order
 ALL menu items, prices, and sizes live in `lib/menu-data.ts` (provided — do not modify values without explicit instruction). The Figma mockup's displayed pizza prices (K85/K100/K80) are WRONG — the data file is authoritative. Card default price = Small size. Price updates live with the S/M/L/XL selector.
 
 Data facts:
-- Pizza: 6 classic + 4 special items, all sized S/M/L/XL
+- Pizza: 6 classic + 3 special items, all sized S/M/L/XL ("All In One" was removed 2026-08-20; see `lib/menu-data.ts`)
 - Special pizzas get a yellow "SPECIAL" badge
 - Shawarma (4 items) and Fries (4 items): flat-priced, no size selector
 - Extra Cheese: S K10 / M K15 / L K20 / XL K25. Extra Toppings: no pricing yet — render "Pricing available in-store", never a number
-- Beverages: NO real data — render the category as the flagged placeholder module from the design
+- Beverages (6 items): flat-priced and orderable like Shawarma and Fries — real pricing since 2026-09-09 (values live in `lib/menu-data.ts`, not here). Vatra water is three flat items, one per bottle size, because S/M/L/XL is a pizza scale. **Fruticana is one line**, every flavour at one price — do not split it by flavour (decided 2026-09-10).
 - Delivery is real: (+260) 97 6056 200 and (+260) 97 9818 919 — delivery badge on Home hero and Contact
 
 ## Order Builder Spec (`/menu`) — core feature
@@ -182,11 +182,11 @@ See `.claude/skills/whatsapp-order-builder/` before touching this component.
 8. Layout, spacing, hierarchy and motion reworked beyond the Figma under the 2026-07-26 full-latitude decision. These deltas are now a floor, not a ceiling: matching the Figma is no longer the goal.
 9. TWO ADDITIVE COMPONENTS not in the final mockup, build from spec in Phase 3:
    - Floating "Most Ordered" card overlapping the Home hero: small dark elevated card, item photo thumb, name, yellow "MOST ORDERED" badge, price, red quick-add → deep-links to /menu with that item pre-added
-   - "Perfect Pairings" cross-sell strip on /menu: after any item is added, horizontal row of circular photo chips (fries, drinks, sides) with red "+" — one tap adds to order
+   - "Perfect Pairings" cross-sell strip on /menu: after any item is added, horizontal row of circular photo chips (fries, drinks, sides) with red "+" — one tap adds to order. **Drinks are held out** until per-bottle photographs exist: the only drinks photo is the whole fridge, which is the wrong picture on any single drink (decided 2026-09-10).
 
 ## Content & placeholder conventions
 - Real photography only (assets exported from Figma/provided by Brandon). No stock, **and no AI-generated or AI-"enhanced" imagery** — see the v5 photography amendment below.
-- Missing photography (beverages, reviews) → dashed-border + icon placeholder convention, exactly as the design shows — **in development only.** See the v4 amendment below.
+- Missing photography → dashed-border + icon placeholder convention, exactly as the design shows — **in development only.** See the v4 amendment below.
 - Menu data only from `lib/menu-data.ts`; site constants (phones, address, hours, socials) only from `lib/site-config.ts`
 
 **v4 amendment (2026-08-18, Brandon): placeholders are an internal-review tool, not a production state.**
@@ -202,10 +202,13 @@ Gate placeholder scaffolding on `SHOW_PLACEHOLDERS` (`lib/site-config.ts`), whic
 - **Nothing real to say → hide the whole module in production.** Stars imply a rating, so they only
   ship once a rating exists. ~~The GBP reviews blocks on Home and Contact.~~ **Resolved 2026-08-21 —
   see the reviews amendment below.**
-- **Something real to say → keep the content, drop only the scaffolding.** Beverages and the Home
-  "Refreshments" tile keep their approved "available in-store" copy without the dashed box or the
-  "Placeholder" badge. Hiding them would hide a product the shop actually sells, and dropping the
-  Refreshments tile would also unbalance the bento grid.
+- **Something real to say → keep the content, drop only the scaffolding.** This is how Beverages and
+  the Home "Refreshments" tile shipped before drink prices existed: approved "available in-store"
+  copy, no dashed box, no "Placeholder" badge. Hiding them would have hidden a product the shop
+  actually sells, and dropping the tile would have unbalanced the bento grid. **Beverages has since
+  graduated past this rule (2026-09-09):** real prices arrived, so the section renders priced,
+  orderable rows and the tile leads with the cheapest drink price, computed from `BEVERAGES`.
+  Never restore the in-store copy over real prices.
 - **Missing item photography → render a text-forward card**, not an empty box. The pizza grid uses
   `md:items-start` so a photoless card sizes to its content; stretched to a photo card's height it
   leaves a dead void, which is worse than the placeholder it replaced.

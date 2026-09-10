@@ -15,6 +15,10 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "shawarma-platter":
     "Sliced shawarma served with fries, salad, and signature dips.",
   "chicken-tornado": "Our spicy, rolled specialty with a punch of flavor.",
+  // Brandon, 2026-09-09: one price covers every Fruticana flavour. Stated here
+  // rather than folded into the item name so the WhatsApp order line stays
+  // short for whoever reads it at the counter.
+  fruticana: "All flavours, one price.",
 };
 
 // Photo-to-item mapping — only items where the photograph defensibly shows

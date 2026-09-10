@@ -14,7 +14,7 @@
 // Chrome frequently discards the backgrounded tab. Returning "to finish the
 // order" then found it empty. Single-visit stays single-visit.
 
-import { PIZZAS, SHAWARMA, FRIES, type PizzaSize } from "./menu-data";
+import { PIZZAS, ALL_FLAT_ITEMS, type PizzaSize } from "./menu-data";
 
 export interface OrderLine {
   /** Unique line key: flat items use the item id, pizzas use `id:size`. */
@@ -135,7 +135,7 @@ export const ORDER_SENT_STORAGE_KEY = "queso.order.sent.v1";
 
 const SIZES: readonly PizzaSize[] = ["S", "M", "L", "XL"];
 const PIZZA_BY_ID = new Map(PIZZAS.map((p) => [p.id, p]));
-const FLAT_BY_ID = new Map([...SHAWARMA, ...FRIES].map((i) => [i.id, i]));
+const FLAT_BY_ID = new Map(ALL_FLAT_ITEMS.map((i) => [i.id, i]));
 
 /** Guards against a hand-edited payload turning into an absurd order. */
 const MAX_QTY = 99;

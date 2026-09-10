@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Image from "next/image";
-import { PIZZAS, SHAWARMA, FRIES, EXTRA_CHEESE } from "@/lib/menu-data";
+import {
+  PIZZAS,
+  SHAWARMA,
+  FRIES,
+  BEVERAGES,
+  EXTRA_CHEESE,
+} from "@/lib/menu-data";
 import { ITEM_DESCRIPTIONS, ITEM_IMAGES, MENU_CATEGORIES } from "@/lib/menu-content";
 import { MenuCategoryNav } from "@/components/MenuCategoryNav";
 import { PizzaCard } from "@/components/order/PizzaCard";
@@ -16,8 +22,11 @@ export const metadata: Metadata = {
     "Oven-baked pizza, shawarma, and fries in Chongwe. Build your order and send it on WhatsApp.",
 };
 
-// Cross-sell strip content: fries + a shawarma as sides. Beverages are
-// excluded — no verified drink data exists (CLAUDE.md: never invent it).
+// Cross-sell strip content: fries + a shawarma as sides. Beverages now have
+// real pricing (2026-09-09) and would be the natural third leg of this strip,
+// but the chips are photographic and no per-drink photograph exists — only the
+// fridge as a whole. A Coke chip showing a fridge is the wrong picture on the
+// wrong item, so drinks stay out until there are bottle shots.
 const PAIRINGS = [...FRIES, SHAWARMA[0]].map((item) => ({
   id: item.id,
   name: item.name,
@@ -147,33 +156,47 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* ——— Beverages — flagged placeholder, no invented data ——— */}
-      <section id="beverages" className="mx-auto max-w-7xl scroll-mt-24 pb-28 md:pb-36">
-        <div className="queso-reveal flex items-baseline gap-3 pb-10">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
-            Beverages
-          </h2>
-        </div>
-        {/* Beverages carried the dashed placeholder for the whole build because
-            no photograph existed. One does now — the shop's own fridge, shot
-            2026-08-19 — so the scaffolding is retired rather than gated.
+      {/* ——— Beverages ———
+             Priced and orderable since 2026-09-09. For the whole build before
+             that this section was a photograph and one generic sentence,
+             because no drink data existed to render. It is now an ordinary
+             menu category: the drinks go into the order and onto the WhatsApp
+             message like anything else.
 
-            The copy stays as approved and deliberately generic: the photo shows
-            what is stocked today, and the sentence stays true when the stock
-            rotates. There is still no price data, so no prices are implied. */}
-        <div className="queso-reveal grid gap-6 overflow-hidden rounded-md border border-line bg-surface sm:grid-cols-[minmax(0,240px)_1fr] sm:items-center">
-          <div className="relative aspect-[4/5] w-full">
+             Rows use showThumb={false}, matching Fries — there are no
+             per-drink photographs, and a column of identical dashed camera
+             boxes reads worse than no column at all. The fridge shot carries
+             the section's imagery on its own.
+
+             md:items-start so the photo keeps its own aspect ratio instead of
+             stretching to match the taller list beside it — and md:sticky so it
+             travels down with the rows rather than leaving two thirds of the
+             left column as bare cream, which is what a static 4/5 photo next to
+             six rows actually looks like. ——— */}
+      <section id="beverages" className="mx-auto max-w-7xl scroll-mt-24 pb-28 md:pb-36">
+        <h2 className="queso-reveal pb-10 font-display text-3xl font-extrabold tracking-tight text-queso-black sm:text-4xl">
+          Beverages
+        </h2>
+        <div className="queso-reveal grid gap-6 md:grid-cols-[minmax(0,260px)_1fr] md:items-start">
+          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-md border border-line md:sticky md:top-24 md:aspect-[4/5] md:self-start">
             <Image
               src="/images/beverages-fridge.jpeg"
               alt="The chilled drinks fridge at Queso Pizza, stocked with juices, soft drinks and bottled water"
               fill
-              sizes="(min-width: 640px) 240px, 100vw"
+              sizes="(min-width: 768px) 260px, 100vw"
               className="object-cover"
             />
           </div>
-          <p className="px-5 pb-5 font-body text-sm leading-relaxed text-ink-soft sm:py-5 sm:pl-0 sm:pr-8">
-            Variety of sodas, juices and water available in-store.
-          </p>
+          <div className="flex flex-col gap-2">
+            {BEVERAGES.map((item) => (
+              <FlatItemRow
+                key={item.id}
+                item={item}
+                description={ITEM_DESCRIPTIONS[item.id]}
+                showThumb={false}
+              />
+            ))}
+          </div>
         </div>
       </section>
 

@@ -6,6 +6,7 @@ import {
   formatPhone,
   formatTime,
 } from "@/lib/site-config";
+import { BEVERAGES } from "@/lib/menu-data";
 import { MostOrderedCard } from "@/components/MostOrderedCard";
 import { Reviews } from "@/components/Reviews";
 import { MapEmbed } from "@/components/MapEmbed";
@@ -54,7 +55,11 @@ const BENTO_CARDS = [
     image: "/images/beverages-fridge.jpeg",
     tile: "md:col-span-2 h-[250px]",
     heading: "text-lg",
-    sub: "Available in-store",
+    // Read "Available in-store" while the drinks had no prices. Real pricing
+    // landed 2026-09-09, and CLAUDE.md asks for Kwacha shown with confidence,
+    // so the tile leads with the entry price instead. Derived from BEVERAGES
+    // so it cannot drift away from the menu.
+    sub: `From K${Math.min(...BEVERAGES.map((b) => b.price))}`,
   },
 ];
 
