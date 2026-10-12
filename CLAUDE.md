@@ -20,7 +20,7 @@ A 4-page, mobile-first marketing + ordering site for Queso Pizza, a fast-food re
 ## Tech stack
 - Next.js (App Router) + TypeScript + TailwindCSS + React
 - No database. Fully static/client-rendered. Do not add Supabase/Firebase/any backend.
-- Hosting: **Cloudflare Worker serving static assets** (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`. NOT Cloudflare Pages — the client account no longer exposes a Pages creation flow. `wrangler.jsonc` is load-bearing: without it `wrangler deploy` auto-detects Next.js, assumes an SSR build, and fails. See `PHASE-6-LAUNCH.md`.
+- Hosting (as of 2026-10-12): **Vercel**, team QUESO PIZZA, project queso-pizza-website, auto-deploys from GitHub BnD-labs/queso-pizza-website `main`; quesopizza.com DNS stays at Cloudflare (CNAMEs, DNS only). Previous hosting: **Cloudflare Worker serving static assets** (static export, `output: "export"`). DNS: Cloudflare. Domain: `quesopizza.com`. NOT Cloudflare Pages — the client account no longer exposes a Pages creation flow. `wrangler.jsonc` is load-bearing: without it `wrangler deploy` auto-detects Next.js, assumes an SSR build, and fails. See `PHASE-6-LAUNCH.md`.
 - Mobile-first (390px design frames). Desktop = responsive Tailwind breakpoints applied sensibly to the same layouts; no bespoke desktop design exists.
 
 ## Brand system — v5 (rebranded 2026-08-19)
@@ -307,7 +307,7 @@ unblock a commit. Sizes in `build-photos.mjs` are chosen per *use*: a 64px `Flat
 a 320px square, not a 2816px original.
 
 ## Explicit boundaries — never build unless instructed
-No cart/checkout, no payments, no login, no CMS, no extra pages, no backend, no analytics yet (GA4 was old-scope; add only if asked).
+No cart/checkout, no payments, no login, no CMS, no extra pages, no backend, analytics = GA4 only, via components/GoogleAnalytics.tsx and the NEXT_PUBLIC_GA_ID env var (added 2026-10-12).
 
 ## Process
 Work phase-by-phase per the implementation plan; stop and confirm at each phase gate. Commit per phase. QC against the Web Projects QC Checklist before anything is called done.

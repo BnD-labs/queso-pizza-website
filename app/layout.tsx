@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { BottomNavBar } from "@/components/BottomNavBar";
 import { StructuredData } from "@/components/StructuredData";
 import { OrderProvider } from "@/components/order/OrderProvider";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 /**
  * Comix Loud — Queso's brand display face, supplied by Brandon 2026-08-21.
@@ -98,6 +99,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <StructuredData />
+        <GoogleAnalytics />
         <OrderProvider>
           <TopAppBar />
           <div className="flex flex-1 flex-col pb-20 pt-16">
